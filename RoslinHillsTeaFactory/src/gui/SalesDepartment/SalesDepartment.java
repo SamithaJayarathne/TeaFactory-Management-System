@@ -423,7 +423,9 @@ public class SalesDepartment extends javax.swing.JPanel {
         jPanel10.add(customer);
         SwingUtilities.updateComponentTreeUI(jPanel10);
     }//GEN-LAST:event_jToggleButton3ActionPerformed
-
+    private JPanel getJpanel() {
+        return jPanel10;
+    }
     private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
         jLabel9.setOpaque(false);
         jLabel9.setBorder(null);
@@ -445,10 +447,14 @@ public class SalesDepartment extends javax.swing.JPanel {
         jToggleButton6.setSelected(false);
         jToggleButton7.setSelected(false);
 
-        Order order = new Order();
+        Order order = new Order();  // Ensure Order extends JPanel
+        order.setSalesDepartment(this);
         jPanel10.removeAll();
         jPanel10.add(order);
-        SwingUtilities.updateComponentTreeUI(jPanel10);
+        jPanel10.revalidate();
+        jPanel10.repaint();
+
+
     }//GEN-LAST:event_jToggleButton4ActionPerformed
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
@@ -552,13 +558,13 @@ public class SalesDepartment extends javax.swing.JPanel {
         jToggleButton5.setSelected(false);
         jToggleButton6.setSelected(false);
         jToggleButton2.setSelected(false);
-        
-         Analysis analysis = new Analysis();
+
+        Analysis analysis = new Analysis();
         jPanel10.removeAll();
         jPanel10.add(analysis);
         SwingUtilities.updateComponentTreeUI(jPanel10);
-        
-        
+
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton1MouseEntered

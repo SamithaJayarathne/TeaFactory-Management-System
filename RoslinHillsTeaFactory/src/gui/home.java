@@ -3,6 +3,7 @@ package gui;
 import gui.HRDeapartment.HRDepartment;
 
 import com.formdev.flatlaf.IntelliJTheme;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import gui.HRDeapartment.Attendance;
 import gui.HRDeapartment.Employees;
 import gui.HRDeapartment.LeaveManagement;
@@ -12,6 +13,8 @@ import gui.TestDepartment.QualityControlDepartment;
 import gui.TestDepartment.QulityDashboard;
 
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +27,12 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class home extends javax.swing.JFrame {
+
+    private ProductionDepartment productionDepartmentInstance;
 
     public home() {
         initComponents();
@@ -39,6 +45,8 @@ public class home extends javax.swing.JFrame {
 
         setUserRestrictions();
         loadDefault();
+
+        chichi();
 
     }
 
@@ -720,8 +728,7 @@ public class home extends javax.swing.JFrame {
         if (jLabel5.isEnabled()) {
 
             jPanel7.removeAll();
-            ProductionDepartment production = new ProductionDepartment();
-            jPanel7.add(production);
+            jPanel7.add(productionDepartmentInstance);
             SwingUtilities.updateComponentTreeUI(jPanel7);
 
         }
@@ -731,7 +738,7 @@ public class home extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     public static void main(String args[]) {
-        IntelliJTheme.setup(home.class.getResourceAsStream("/themes/GitHub.theme.json"));
+//        IntelliJTheme.setup(home.class.getResourceAsStream("/themes/GitHub.theme.json"));
 //        FlatMacLightLaf.setup();
 //        FlatMacDarkLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -790,4 +797,28 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+
+    private void chichi() {
+        if (productionDepartmentInstance == null) {
+            productionDepartmentInstance = new ProductionDepartment();
+        }
+
+        // Fix: Ensure the window listener checks the OngoingProcessTracker correctly
+        // Update: Ensure the window listener checks the OngoingProcessTracker correctly and prevents closing
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Check if any child panel has ongoing processes
+                if (OngoingProcessTracker.hasOngoingProcess()) {
+                    JOptionPane.showMessageDialog(home.this, "There are ongoing processes", "Warning", JOptionPane.WARNING_MESSAGE);
+                    // Prevent the window from closing
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                } else {
+                    // Allow the window to close
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    System.exit(0);
+                }
+            }
+        });
+    }
 }
