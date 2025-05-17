@@ -49,7 +49,7 @@ public class HRDashboard extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 670));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Analysis 1");
+        jButton1.setText("Analytics – Part 1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -57,7 +57,7 @@ public class HRDashboard extends javax.swing.JPanel {
         });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setText("Analysis 2");
+        jButton2.setText("Analytics – Part 2");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

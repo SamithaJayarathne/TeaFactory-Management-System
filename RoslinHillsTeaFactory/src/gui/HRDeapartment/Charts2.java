@@ -1,5 +1,7 @@
 package gui.HRDeapartment;
 
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import model.MySQL;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -140,9 +143,9 @@ public class Charts2 extends javax.swing.JPanel {
 
     private void loadMonthlyOvertimeTrendsChart() {
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        String query = """
+    String query = """
         SELECT 
             DATE_FORMAT(date, '%Y-%m') AS Month,
             SUM(working_hours) AS TotalOvertimeHours
@@ -156,57 +159,68 @@ public class Charts2 extends javax.swing.JPanel {
             DATE_FORMAT(date, '%Y-%m');
     """;
 
-        try {
-            ResultSet rs = MySQL.executeSearch(query);
+    try {
+        ResultSet rs = MySQL.executeSearch(query);
 
-            while (rs.next()) {
-                String month = rs.getString("Month");
-                double totalOvertimeHours = rs.getDouble("TotalOvertimeHours");
-
-                // Add data to dataset
-                dataset.setValue(totalOvertimeHours, "Overtime Hours", month);
-            }
-
-            JFreeChart lineChart = ChartFactory.createLineChart(
-                    "Monthly Overtime Trends",
-                    "Month",
-                    "Total Overtime Hours",
-                    dataset,
-                    PlotOrientation.VERTICAL,
-                    false, // Legend not needed
-                    true,
-                    false
-            );
-
-            // Customize chart appearance
-            CategoryPlot plot = lineChart.getCategoryPlot();
-            plot.setRangeGridlinePaint(new Color(0x4F82C0)); // CG Blue for gridlines
-            plot.setBackgroundPaint(Color.WHITE); // White background
-
-            // Customize line
-            LineAndShapeRenderer renderer = new LineAndShapeRenderer();
-            renderer.setSeriesPaint(0, new Color(0x99B7D7)); // Carolina Blue for line
-            plot.setRenderer(renderer);
-
-            // Create a chart panel and add to the Swing component
-            ChartPanel chartPanel = new ChartPanel(lineChart);
-            chartPanel.setPreferredSize(new Dimension(800, 600));
-
-            // Add the chart to the JPanel (replace jPanel6 with your panel)
-            jPanel5.removeAll();
-            jPanel5.add(chartPanel);
-            jPanel5.validate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (rs.next()) {
+            String month = rs.getString("Month");
+            double totalOvertimeHours = rs.getDouble("TotalOvertimeHours");
+            dataset.setValue(totalOvertimeHours, "Overtime Hours", month);
         }
+
+        JFreeChart lineChart = ChartFactory.createLineChart(
+            "Monthly Overtime Trends",
+            "Month",
+            "Total Overtime Hours",
+            dataset,
+            PlotOrientation.VERTICAL,
+            false, // Legend not needed
+            true,
+            false
+        );
+
+        // === Customize plot ===
+        CategoryPlot plot = lineChart.getCategoryPlot();
+        plot.setRangeGridlinePaint(new Color(0x4F82C0)); // CG Blue gridlines
+        plot.setBackgroundPaint(new Color(0xF9FAFB)); // Light background
+
+        // === Customize line and points ===
+        LineAndShapeRenderer renderer = new LineAndShapeRenderer(true, true); // lines and dots
+        renderer.setSeriesPaint(0, new Color(0x99B7D7)); // Carolina Blue
+        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        plot.setRenderer(renderer);
+
+        // === Font styling ===
+        Font axisFont = new Font("Segoe UI", Font.PLAIN, 12);
+        Font titleFont = new Font("Segoe UI", Font.BOLD, 16);
+        plot.getDomainAxis().setTickLabelFont(axisFont);
+        plot.getRangeAxis().setTickLabelFont(axisFont);
+        lineChart.getTitle().setFont(titleFont);
+
+        // === Chart panel setup ===
+        ChartPanel chartPanel = new ChartPanel(lineChart);
+        chartPanel.setPreferredSize(new Dimension(820, 500));
+        chartPanel.setBackground(Color.WHITE);
+        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        // === Add to panel ===
+        jPanel5.removeAll();
+        jPanel5.setLayout(new BorderLayout());
+        jPanel5.add(chartPanel, BorderLayout.CENTER);
+        jPanel5.revalidate();
+        jPanel5.repaint();
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 
     private void loadLeaveStatisticsChart() {
 
-        DefaultPieDataset dataset = new DefaultPieDataset();
+    DefaultPieDataset dataset = new DefaultPieDataset();
 
-        String query = """
+    String query = """
         SELECT 
             lt.name AS LeaveType,
             COUNT(l.id) AS TotalLeaves
@@ -220,51 +234,60 @@ public class Charts2 extends javax.swing.JPanel {
             TotalLeaves DESC;
     """;
 
-        try {
-            ResultSet rs = MySQL.executeSearch(query);
+    try {
+        ResultSet rs = MySQL.executeSearch(query);
 
-            while (rs.next()) {
-                String leaveType = rs.getString("LeaveType");
-                int totalLeaves = rs.getInt("TotalLeaves");
-
-                dataset.setValue(leaveType, totalLeaves);
-            }
-
-            JFreeChart pieChart = ChartFactory.createPieChart(
-                    "Leave Statistics",
-                    dataset,
-                    true, // Show legend
-                    true, // Use tooltips
-                    false // No URLs
-            );
-
-            // Customize chart appearance
-            PiePlot plot = (PiePlot) pieChart.getPlot();
-            plot.setBackgroundPaint(Color.WHITE);
-            plot.setCircular(true); // Ensure the pie chart is circular
-            plot.setLabelFont(new Font("Arial", Font.PLAIN, 12));
-            plot.setLabelGap(0.02);
-            plot.setOutlinePaint(null);
-
-            // Customize section colors (optional)
-            plot.setSectionPaint("Sick Leave", new Color(0x4F82C0)); // CG Blue
-            plot.setSectionPaint("Casual Leave", new Color(0x99B7D7)); // Carolina Blue
-            plot.setSectionPaint("Maternity Leave", new Color(0xFFD700)); // Gold
-            plot.setSectionPaint("Paternity Leave", new Color(0xFFA07A)); // Light Salmon
-
-            // Create a panel for the chart
-            ChartPanel chartPanel = new ChartPanel(pieChart);
-            chartPanel.setPreferredSize(new Dimension(800, 600));
-
-            // Add the chart to the JPanel
-            jPanel6.removeAll();
-            jPanel6.add(chartPanel);
-            jPanel6.validate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (rs.next()) {
+            String leaveType = rs.getString("LeaveType");
+            int totalLeaves = rs.getInt("TotalLeaves");
+            dataset.setValue(leaveType, totalLeaves);
         }
+
+        JFreeChart pieChart = ChartFactory.createPieChart(
+            "Leave Statistics",
+            dataset,
+            true,
+            true,
+            false
+        );
+
+        // Customize plot
+        PiePlot plot = (PiePlot) pieChart.getPlot();
+        plot.setBackgroundPaint(new Color(0xF9FAFB)); // Light background
+        plot.setOutlineVisible(false);
+        plot.setCircular(true);
+        plot.setLabelFont(new Font("Segoe UI", Font.PLAIN, 13));
+        plot.setLabelGap(0.02);
+        plot.setInteriorGap(0.04);
+
+        // Set custom colors (modify/add as needed)
+        plot.setSectionPaint("Sick Leave", new Color(0x4F82C0));      // CG Blue
+        plot.setSectionPaint("Casual Leave", new Color(0x99B7D7));    // Carolina Blue
+        plot.setSectionPaint("Maternity Leave", new Color(0xFFD700)); // Gold
+        plot.setSectionPaint("Paternity Leave", new Color(0xFFA07A)); // Light Salmon
+        plot.setSectionPaint("Other", new Color(0xD9D9D9));           // Neutral grey for unexpected values
+
+        // Chart title font
+        pieChart.getTitle().setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+        // Chart panel
+        ChartPanel chartPanel = new ChartPanel(pieChart);
+        chartPanel.setPreferredSize(new Dimension(820, 500));
+        chartPanel.setBackground(Color.WHITE);
+        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        // Add to UI
+        jPanel6.removeAll();
+        jPanel6.setLayout(new BorderLayout());
+        jPanel6.add(chartPanel, BorderLayout.CENTER);
+        jPanel6.revalidate();
+        jPanel6.repaint();
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
