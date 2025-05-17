@@ -592,7 +592,7 @@ public class CustomerFeedback extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String CustomerNic = jTextField1.getText();
         String CustomerName = jTextField2.getText();
-        String rating = jLabel1.getText();
+        String rating = jLabel11.getText();
         String comment = jTextArea1.getText();
 
         if (CustomerNic.isEmpty()) {
