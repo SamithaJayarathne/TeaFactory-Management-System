@@ -88,7 +88,11 @@ public class Charts2 extends javax.swing.JPanel {
                     jLabel2.setText("0");
                 }
 
-                jLabel7.setText("LKR : " + executeSearch.getString("fullamount"));
+                if (executeSearch.getString("fullamount") == null) {
+                    jLabel7.setText("0");
+                } else {
+                    jLabel7.setText("LKR : " + executeSearch.getString("fullamount"));
+                }
 
             }
 
@@ -317,7 +321,7 @@ public class Charts2 extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("0");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("0");
 

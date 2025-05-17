@@ -124,23 +124,26 @@ public class All_Order extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("ORDER");
+        jLabel1.setText("ORDERS");
 
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);
             }
         });
 
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField2KeyReleased(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Sort:");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel2.setText("SORT :");
 
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer Nic ASC", "Customer Nic DESC", "Order ID ASC", "Order ID DESC", "Date ASC", "Date DESC", "Total Amount ASC", "Total Amount DESC" }));
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -148,7 +151,10 @@ public class All_Order extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Reset All");
+        jButton2.setBackground(new java.awt.Color(251, 97, 7));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("RESET ALL");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

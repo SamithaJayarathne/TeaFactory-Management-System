@@ -14,8 +14,14 @@ import java.util.Random;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -44,7 +50,6 @@ public class BatchRegistration extends javax.swing.JPanel {
         loadProductionProcesses();
         loadMachines();
         loadTeaBatch();
-//        createLineChart();
         loadCategoryChart();
     }
 
@@ -60,11 +65,19 @@ public class BatchRegistration extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+            for (int i = 0; i < jTable1.getColumnCount(); i++) {
+                jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
             while (rs.next()) {
+                String unit = rs.getString("unit.name");
+                String qty = rs.getString("qty");
                 Vector<String> vector = new Vector();
                 vector.add(String.valueOf(rs.getString("id")));
-                vector.add(rs.getString("qty"));
-                vector.add(rs.getString("unit.name"));
+                vector.add(qty + " " + unit);
                 vector.add(rs.getString("added_date"));
                 vector.add(rs.getString("grades.name"));
 
@@ -105,9 +118,8 @@ public class BatchRegistration extends javax.swing.JPanel {
         try {
 
             Vector<String> vector = new Vector<>();
-            vector.add("Not Assigned");
 
-            ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `production_process`");
+            ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `production_status`");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
@@ -148,10 +160,17 @@ public class BatchRegistration extends javax.swing.JPanel {
             ResultSet rs = MySQL.executeSearch("SELECT * FROM `tea_batch`"
                     + "INNER JOIN `grades` ON `tea_batch`.`grades_id`=`grades`.`id` "
                     + "INNER JOIN `machine` ON `tea_batch`.`machine_id`=`machine`.`id` "
-                    + "INNER JOIN `production_process` ON `tea_batch`.`production_process_id`=`production_process`.`id` ");
+                    + "INNER JOIN `production_status` ON `tea_batch`.`production_status_id`=`production_status`.`id` ");
 
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+            for (int i = 0; i < jTable2.getColumnCount(); i++) {
+                jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
 
             while (rs.next()) {
                 Vector<String> vector = new Vector();
@@ -160,7 +179,7 @@ public class BatchRegistration extends javax.swing.JPanel {
                 vector.add(rs.getString("qty_start"));
                 vector.add(rs.getString("grades.name"));
                 vector.add(rs.getString("machine.name"));
-                vector.add(rs.getString("production_process.name"));
+                vector.add(rs.getString("production_status.name"));
 
                 model.addRow(vector);
             }
@@ -171,57 +190,6 @@ public class BatchRegistration extends javax.swing.JPanel {
 
     }
 
-    public void createLineChart() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        String query = "SELECT * FROM `tea_batch`"
-                + "INNER JOIN `raw_materials_stock` ON `raw_materials_stock`.`id` = `tea_batch`.`raw_materials_stock_id`"
-                + "INNER JOIN `grades` ON `grades`.`id` = `tea_batch`.`grades_id`";
-
-        try {
-            ResultSet rs = MySQL.executeSearch(query);  // Assuming MySQL.executeSearch(query) works
-
-            while (rs.next()) {
-                int count = rs.getInt("qty");  // Retrieve quantity from the database
-                String name = rs.getString("grades.name");  // Retrieve medicine name from the database
-
-                // Add values to the dataset for the line chart
-                dataset.setValue(count, "start_qty", name);  // Rows (y-axis value), Columns (x-axis category)
-            }
-
-            // Create a line chart
-            JFreeChart lineChart = ChartFactory.createLineChart(
-                    "Batch Distribution", // Chart title
-                    "Medicine", // Category axis label (x-axis)
-                    "Quantity", // Value axis label (y-axis)
-                    dataset, // Dataset
-                    org.jfree.chart.plot.PlotOrientation.VERTICAL, // Orientation
-                    true, // Include legend
-                    true, // Tooltips
-                    false // URLs
-            );
-
-            // Customize the line chart (optional)
-            CategoryPlot plot = lineChart.getCategoryPlot();
-            LineAndShapeRenderer renderer = new LineAndShapeRenderer();
-            renderer.setSeriesPaint(0, new Color(79, 129, 189));  // Customize color for the line
-            plot.setRenderer(renderer);  // Set the renderer to use lines instead of bars
-            plot.setRangeGridlinePaint(Color.BLACK);  // Set gridline color
-
-            // Add chart to panel
-            ChartPanel chartPanel = new ChartPanel(lineChart);
-            chartPanel.setPreferredSize(new Dimension(800, 600));
-
-            // Clear and add the chart to the GUI panel (jPanel1)
-            jPanel1.removeAll();
-            jPanel1.add(chartPanel);
-            jPanel1.validate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     private void loadCategoryChart() {
         // Create dataset for the bar chart
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -231,14 +199,14 @@ public class BatchRegistration extends javax.swing.JPanel {
                 + "INNER JOIN `grades` ON `grades`.`id` = `tea_batch`.`grades_id`";
 
         try {
-            ResultSet rs = MySQL.executeSearch(query);  // Assuming MySQL.executeSearch(query) works
+            ResultSet rs = MySQL.executeSearch(query);
 
             while (rs.next()) {
-                int count = rs.getInt("qty");  // Retrieve book count from database
+                int avai_qty = rs.getInt("qty");  // Retrieve book count from database
                 String name = rs.getString("grades.name");  // Retrieve category name from database
 
                 // Add values to the dataset for the bar chart
-                dataset.setValue(count, "Available Quantity", name);  // Rows (y-axis value), Columns (x-axis category)
+                dataset.setValue(avai_qty, "Available Quantity", name);  // Rows (y-axis value), Columns (x-axis category)
             }
 
             // Create a bar chart
@@ -297,6 +265,13 @@ public class BatchRegistration extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jButton14 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Select Raw Material Stock");
@@ -306,11 +281,11 @@ public class BatchRegistration extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Stock ID", "Quantity", "Measuring Unit", "Date Added", "Grade"
+                "Stock ID", "Quantity", "Date Added", "Grade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -323,7 +298,6 @@ public class BatchRegistration extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jLabel2.setText("Batch ID");
@@ -371,47 +345,93 @@ public class BatchRegistration extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(102, 255, 255));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jButton2.setText("Genarate Report");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setText("to");
+
+        jLabel16.setText("From");
+
+        jButton7.setText("Filter");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton14.setText("Veiw all");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(34, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(191, 191, 191))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(125, 125, 125)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel4)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(375, 375, 375)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel2)
+                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(125, 125, 125)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel3)
+                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(375, 375, 375)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel5)
+                                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(194, 194, 194))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9)
+                                        .addComponent(jButton7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton14)))))))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -426,7 +446,7 @@ public class BatchRegistration extends javax.swing.JPanel {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(43, 43, 43)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel5)
@@ -436,12 +456,25 @@ public class BatchRegistration extends javax.swing.JPanel {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(51, 51, 51)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButton7)
+                                .addComponent(jButton14))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(jLabel15)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -449,57 +482,145 @@ public class BatchRegistration extends javax.swing.JPanel {
 
         int row = jTable1.getSelectedRow();
         String batch_id = jTextField1.getText();
-        String qty = jTextField2.getText();
+        String quty = jTextField2.getText();
         String process = String.valueOf(jComboBox1.getSelectedItem());
         String machine = String.valueOf(jComboBox2.getSelectedItem());
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Select tea leaves Stock first", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (qty.isEmpty()) {
+        } else if (quty.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Add Quantity", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Integer.parseInt(qty) > 250) {
+        } else if (Integer.parseInt(quty) > 250) {
             JOptionPane.showMessageDialog(this, "Quantity should be less than 250", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Integer.parseInt(qty) % 50 != 0) {
+        } else if (Integer.parseInt(quty) % 50 != 0) {
             JOptionPane.showMessageDialog(this, "Invalid, Quantity should be a Multiple of 50", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
 
-            String raw_id = String.valueOf(jTable1.getValueAt(row, 0));
-            String grade = String.valueOf(jTable1.getValueAt(row, 4));
-            Double existing_stock = Double.parseDouble(String.valueOf(jTable1.getValueAt(row, 1)));
             try {
+                String raw_id = String.valueOf(jTable1.getValueAt(row, 0));
+                String grade = String.valueOf(jTable1.getValueAt(row, 3));
+                ResultSet res = MySQL.executeSearch("SELECT `qty` FROM `raw_materials_stock` WHERE `id` = '" + raw_id + "'");
 
-//                ResultSet rs = MySQL.executeSearch("SELECT `grades`.`id` FROM `grades`"
-//                        + "INNER JOIN `raw_materials_stock` ON `raw_materials_stock`.`grades_id`=`grades`.`id` WHERE `raw_materials_stock`.`id` = '" + raw_id + "'");
                 ResultSet rs = MySQL.executeSearch("SELECT * FROM `grades`");
 
                 while (rs.next()) {
-//                    int grades = rs.getInt("grades.id");
                     gradeMap.put(rs.getString("name"), rs.getString("id"));
                 }
 
-                MySQL.executeIUD("INSERT INTO `tea_batch`(`id`,`production_date`,`qty_start`,`raw_materials_stock_id`,`grades_id`,`machine_id`,`production_process_id`)"
-                        + "VALUES('" + batch_id + "','" + date + "','" + qty + "','" + raw_id + "','" + gradeMap.get(grade) + "','" + machineMap.get(machine) + "','" + processMap.get(process) + "')");
+                MySQL.executeIUD("INSERT INTO `tea_batch`(`id`,`production_date`,`qty_start`,`raw_materials_stock_id`,`grades_id`,`machine_id`,`production_status_id`)"
+                        + "VALUES('" + batch_id + "','" + date + "','" + quty + "','" + raw_id + "','" + gradeMap.get(grade) + "','" + machineMap.get(machine) + "','" + processMap.get(process) + "')");
 
-                Double new_stock = existing_stock - Double.parseDouble(qty);
-                MySQL.executeIUD("UPDATE `raw_materials_stock` SET `qty` = '" + new_stock + "' WHERE `id` = '" + raw_id + "'");
+                if (res.next()) {
+                    Double existing_stock = Double.valueOf(String.valueOf(res.getString("qty")));
+                    Double new_stock = existing_stock - Double.parseDouble(quty);
+                    MySQL.executeIUD("UPDATE `raw_materials_stock` SET `qty` = '" + new_stock + "' WHERE `id` = '" + raw_id + "'");
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+        batchID();
         loadTeaBatch();
         loadRawMaterialStock();
+        loadCategoryChart();
+        jTextField2.setText("");
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        try {
+            String path = "src//reports//batchReport.jasper";
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", date);
+            params.put("Parameter2", time);
+
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        try {
+
+            if (jDateChooser1.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Select a Start Date", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (jDateChooser2.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Select a End Date", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String stdate = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
+            String eddate = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser2.getDate());
+
+            ResultSet rs = MySQL.executeSearch("SELECT * FROM `tea_batch`"
+                    + "INNER JOIN `grades` ON `tea_batch`.`grades_id`=`grades`.`id` "
+                    + "INNER JOIN `machine` ON `tea_batch`.`machine_id`=`machine`.`id` "
+                    + "INNER JOIN `production_status` ON `tea_batch`.`production_status_id`=`production_status`.`id` "
+                    + "WHERE `production_date` BETWEEN '" + stdate + "' AND '" + eddate + "' ORDER BY `tea_batch`.`id` DESC");
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            model.setRowCount(0);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+            for (int i = 0; i < jTable2.getColumnCount(); i++) {
+                jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
+            while (rs.next()) {
+                Vector<String> vector = new Vector();
+                vector.add(rs.getString("id"));
+                vector.add(rs.getString("production_date"));
+                vector.add(rs.getString("qty_start"));
+                vector.add(rs.getString("grades.name"));
+                vector.add(rs.getString("machine.name"));
+                vector.add(rs.getString("production_status.name"));
+
+                model.addRow(vector);
+            }
+
+            jDateChooser1.setDate(null);
+            jDateChooser2.setDate(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        loadTeaBatch();
+    }//GEN-LAST:event_jButton14ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

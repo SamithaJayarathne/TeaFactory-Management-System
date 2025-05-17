@@ -1,5 +1,6 @@
 package gui;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.IntelliJTheme;
 import javax.swing.JFrame;
 
@@ -238,8 +239,8 @@ public class FirstWindow extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        IntelliJTheme.setup(home.class
-                .getResourceAsStream("/themes/GitHub.theme.json"));
+        IntelliJTheme.setup(home.class.getResourceAsStream("/themes/GitHub.theme.json"));
+//        FlatDarkLaf.setup();
         //</editor-fold>
 
         /* Create and display the form */

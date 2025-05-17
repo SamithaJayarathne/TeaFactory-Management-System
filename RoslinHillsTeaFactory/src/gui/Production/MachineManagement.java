@@ -4,6 +4,10 @@
  */
 package Production;
 
+import gui.Production.MachineDetails;
+import gui.Production.MachineMaintenance;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Kavindu Anupama
@@ -15,6 +19,10 @@ public class MachineManagement extends javax.swing.JPanel {
      */
     public MachineManagement() {
         initComponents();
+        MachineDetails md = new MachineDetails();
+        jPanel2.removeAll();
+        jPanel2.add(md);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
     }
 
     /**
@@ -26,19 +34,74 @@ public class MachineManagement extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jPanel2 = new javax.swing.JPanel();
+
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+
+        jToggleButton1.setBackground(new java.awt.Color(0, 204, 0));
+        jToggleButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jToggleButton1.setText("Machine Details");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jToggleButton1);
+
+        jToggleButton2.setBackground(new java.awt.Color(0, 204, 0));
+        jToggleButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jToggleButton2.setText("Machine Maintenance");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jToggleButton2);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1267, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 821, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 669, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        MachineDetails md = new MachineDetails();
+        jPanel2.removeAll();
+        jPanel2.add(md);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        MachineMaintenance mm = new MachineMaintenance();
+        jPanel2.removeAll();
+        jPanel2.add(mm);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
 }

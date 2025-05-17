@@ -6,11 +6,13 @@ public class MySQL {
     
     private static java.sql.Connection connection;
     
+    private MySQL(){}
+    
     private static void createConnection() throws Exception{
     
         if(connection == null){
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "apsi1016");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
         }
         
     }

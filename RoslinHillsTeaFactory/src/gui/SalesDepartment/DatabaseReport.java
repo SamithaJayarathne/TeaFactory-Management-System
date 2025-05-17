@@ -335,7 +335,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -370,8 +370,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
-
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
 
@@ -406,7 +405,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -442,7 +441,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -477,7 +476,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -511,7 +510,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -545,7 +544,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -580,7 +579,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -615,7 +614,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -650,7 +649,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -685,7 +684,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -720,7 +719,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -755,7 +754,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -789,7 +788,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
@@ -823,7 +822,7 @@ public class DatabaseReport extends javax.swing.JPanel {
             HashMap<String, Object> parameters = new HashMap<>();
 
             // Establish database connection
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "Kavinda1.");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
             // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);

@@ -3,6 +3,7 @@ package gui;
 import gui.HRDeapartment.HRDepartment;
 
 import com.formdev.flatlaf.IntelliJTheme;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import gui.HRDeapartment.Attendance;
 import gui.HRDeapartment.Employees;
 import gui.HRDeapartment.LeaveManagement;
@@ -12,6 +13,8 @@ import gui.TestDepartment.QualityControlDepartment;
 import gui.TestDepartment.QulityDashboard;
 
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +27,12 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class home extends javax.swing.JFrame {
+
+    private ProductionDepartment productionDepartmentInstance;
 
     public home() {
         initComponents();
@@ -39,6 +45,8 @@ public class home extends javax.swing.JFrame {
 
         setUserRestrictions();
         loadDefault();
+
+        chichi();
 
     }
 
@@ -170,6 +178,7 @@ public class home extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -385,6 +394,18 @@ public class home extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 19)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8-close.gif"))); // NOI18N
+        jLabel12.setText("Sign Out");
+        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel12.setIconTextGap(20);
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -392,18 +413,24 @@ public class home extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jToggleButton1))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jToggleButton1))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 9, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -423,7 +450,9 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
         );
 
@@ -720,8 +749,7 @@ public class home extends javax.swing.JFrame {
         if (jLabel5.isEnabled()) {
 
             jPanel7.removeAll();
-            ProductionDepartment production = new ProductionDepartment();
-            jPanel7.add(production);
+            jPanel7.add(productionDepartmentInstance);
             SwingUtilities.updateComponentTreeUI(jPanel7);
 
         }
@@ -730,8 +758,16 @@ public class home extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jLabel5MouseClicked
 
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+      
+        FirstWindow fw = new FirstWindow();
+        fw.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_jLabel12MouseClicked
+
     public static void main(String args[]) {
-        IntelliJTheme.setup(home.class.getResourceAsStream("/themes/GitHub.theme.json"));
+//        IntelliJTheme.setup(home.class.getResourceAsStream("/themes/GitHub.theme.json"));
 //        FlatMacLightLaf.setup();
 //        FlatMacDarkLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -745,6 +781,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
@@ -790,4 +827,28 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+
+    private void chichi() {
+        if (productionDepartmentInstance == null) {
+            productionDepartmentInstance = new ProductionDepartment();
+        }
+
+        // Fix: Ensure the window listener checks the OngoingProcessTracker correctly
+        // Update: Ensure the window listener checks the OngoingProcessTracker correctly and prevents closing
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Check if any child panel has ongoing processes
+                if (OngoingProcessTracker.hasOngoingProcess()) {
+                    JOptionPane.showMessageDialog(home.this, "There are ongoing processes", "Warning", JOptionPane.WARNING_MESSAGE);
+                    // Prevent the window from closing
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                } else {
+                    // Allow the window to close
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    System.exit(0);
+                }
+            }
+        });
+    }
 }
