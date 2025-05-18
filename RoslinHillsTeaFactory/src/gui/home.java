@@ -12,6 +12,7 @@ import gui.SalesDepartment.SalesDepartment;
 import gui.TestDepartment.QualityControlDepartment;
 import gui.TestDepartment.QulityDashboard;
 import gui.backup.BackupAndRestore;
+import gui.finance.FinanceDashboard;
 
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -63,7 +64,7 @@ public class home extends javax.swing.JFrame {
     private void setUserRestrictions() {
         String department = LoggedUser.getDepartment();
 
-        JLabel[] labels = {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6};
+        JLabel[] labels = {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel9};
 
         for (JLabel label : labels) {
             label.setEnabled(false);
@@ -684,6 +685,11 @@ public class home extends javax.swing.JFrame {
 
         if (jLabel2.isEnabled()) {
 
+            jPanel7.removeAll();
+            FinanceDashboard fd = new FinanceDashboard();
+            jPanel7.add(fd);
+            SwingUtilities.updateComponentTreeUI(jPanel7);
+
         }
 
     }//GEN-LAST:event_jLabel2MouseClicked
@@ -775,15 +781,15 @@ public class home extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-      
+
         FirstWindow fw = new FirstWindow();
         fw.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-       
+
         if (jLabel3.isEnabled()) {
             jPanel7.removeAll();
             BackupAndRestore b = new BackupAndRestore();
