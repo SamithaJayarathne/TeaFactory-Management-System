@@ -73,6 +73,10 @@ public class SignInWindow extends javax.swing.JFrame {
 
             icon = this.getClass().getResourceAsStream("/resources/research1.png");
 
+        } else if (id == 8) {
+
+            icon = this.getClass().getResourceAsStream("/resources/finance1.png");
+
         }
 
         if (icon != null) {
@@ -208,10 +212,12 @@ public class SignInWindow extends javax.swing.JFrame {
                         + "ON `departments`.`id`=`employees`.`departments_id` WHERE `users`.`username`='" + username + "' AND `users`.`password`='" + password + "'");
 
                 if (usersRs.next()) {
+                    
+                    System.out.println(SelectedDepartmentForSignin.getName());
 
                     String department = usersRs.getString("departments.name");
 
-                    System.out.println(SelectedDepartmentForSignin.getName());
+                   
 
                     if (SelectedDepartmentForSignin.getName().equals(department)) {
 
