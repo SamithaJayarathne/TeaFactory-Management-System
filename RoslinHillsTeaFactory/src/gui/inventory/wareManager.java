@@ -4,6 +4,7 @@
  */
 package gui.inventory;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import gui.home;
 import gui.inventory.warehouse;
 import java.sql.ResultSet;
@@ -15,7 +16,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 
 /**
  *
@@ -35,6 +35,35 @@ public class wareManager extends javax.swing.JPanel {
         loadcity();
         loadgender();
         loadManager();
+        loadRoundComponents();
+
+    }
+
+    private void loadRoundComponents() {
+
+        jTextField1.putClientProperty("JComponent.roundRect", true);
+        jTextField1.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        jTextField2.putClientProperty("JComponent.roundRect", true);
+        jTextField2.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        jTextField3.putClientProperty("JComponent.roundRect", true);
+        jTextField3.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+
+        jTextField4.putClientProperty("JComponent.roundRect", true);
+        jTextField4.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        jTextField5.putClientProperty("JComponent.roundRect", true);
+        jTextField5.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        jTextField6.putClientProperty("JComponent.roundRect", true);
+        jTextField6.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        jTextField7.putClientProperty("JComponent.roundRect", true);
+        jTextField7.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        jTextField8.putClientProperty("JComponent.roundRect", true);
+        jTextField8.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+
+        jComboBox2.putClientProperty("JComponent.roundRect", true);
+        jComboBox3.putClientProperty("JComponent.roundRect", true);
+        jComboBox5.putClientProperty("JComponent.roundRect", true);
+        jComboBox6.putClientProperty("JComponent.roundRect", true);
+
         jButton1.putClientProperty("JButton.buttonType", "roundRect");
         jButton2.putClientProperty("JButton.buttonType", "roundRect");
         jButton3.putClientProperty("JButton.buttonType", "roundRect");
@@ -213,54 +242,71 @@ public class wareManager extends javax.swing.JPanel {
         jButton10 = new javax.swing.JButton();
         jComboBox6 = new javax.swing.JComboBox<>();
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel1.setText("Personal Details ");
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel7.setText("Email :");
 
+        jTextField5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel2.setText("First Name : ");
 
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel3.setText("NIC :");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextField3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel4.setText("Contact Details");
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel5.setText("Mobile :");
 
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel6.setText("Gender ");
 
+        jComboBox2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel8.setText("Last Name : ");
 
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel9.setText("City");
 
+        jComboBox3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Register");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,6 +314,8 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Update");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,6 +323,8 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
+        jButton3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Delete");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,6 +332,8 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
+        jButton4.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setText("clear");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,6 +341,8 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
+        jButton5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 0, 0));
         jButton5.setText("View the Managers");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -296,42 +350,53 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel11.setText("WareHouse Manager Registaion");
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel12.setText("WareHouse Registaion");
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel13.setText("Name : ");
 
+        jTextField6.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel14.setText("Address : ");
 
+        jTextField7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);
             }
         });
 
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel15.setText("capacity : ");
 
+        jTextField8.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField8ActionPerformed(evt);
             }
         });
 
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel16.setText("Manager");
 
+        jComboBox5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel17.setText("City");
 
+        jButton6.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(0, 0, 0));
         jButton6.setText("Register");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -339,6 +404,8 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
+        jButton7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(0, 0, 0));
         jButton7.setText("Update");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -346,13 +413,17 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
-        jButton8.setText("View the Managers");
+        jButton8.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(0, 0, 0));
+        jButton8.setText("View the Warehouses");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
 
+        jButton9.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(0, 0, 0));
         jButton9.setText("Delete");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,6 +431,8 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
+        jButton10.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(0, 0, 0));
         jButton10.setText("clear");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,6 +440,7 @@ public class wareManager extends javax.swing.JPanel {
             }
         });
 
+        jComboBox6.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -454,7 +528,7 @@ public class wareManager extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton8)
                     .addComponent(jButton10))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -483,28 +557,33 @@ public class wareManager extends javax.swing.JPanel {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel5))
-                            .addGap(307, 307, 307))
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel5))
+                                    .addGap(307, 307, 307)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(36, 36, 36)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(66, 66, 66))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -514,9 +593,9 @@ public class wareManager extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(122, 122, 122)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -529,8 +608,9 @@ public class wareManager extends javax.swing.JPanel {
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
                         .addComponent(jLabel4)
-                        .addGap(21, 21, 21)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
@@ -647,7 +727,8 @@ public class wareManager extends javax.swing.JPanel {
                             + mobile + "','"
                             + email + "','"
                             + loadmanager.get(gender) + "','"
-                            + loadcity.get(city) + "')");
+                            + loadcity.get(city) + "')"
+                            + loadgender.get(gender) + "')");
                     JOptionPane.showMessageDialog(this, "Success Fully Added", "Warning", JOptionPane.WARNING_MESSAGE);
                     reset();
 
@@ -662,6 +743,9 @@ public class wareManager extends javax.swing.JPanel {
                             + format.format(currentDate) + "',"
                             + departmentId + ","
                             + statusId + ")");
+                    model.MySQL.executeIUD("INSERT INTO inventory_history(`Date`,`dees`) VALUES('"
+                            + format.format(currentDate) + "',"
+                            + title + ")");
 
                     JOptionPane.showMessageDialog(this, "Notification", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -741,6 +825,9 @@ public class wareManager extends javax.swing.JPanel {
                             + format.format(currentDate) + "',"
                             + departmentId + ","
                             + statusId + ")");
+                    model.MySQL.executeIUD("INSERT INTO inventory_history(`Date`,`dees`) VALUES('"
+                            + format.format(currentDate) + "',"
+                            + title + ")");
 
                     JOptionPane.showMessageDialog(this, "Notification", "Info", JOptionPane.INFORMATION_MESSAGE);
 
@@ -825,6 +912,10 @@ public class wareManager extends javax.swing.JPanel {
                             + departmentId + ","
                             + statusId + ")");
 
+                    model.MySQL.executeIUD("INSERT INTO inventory_history(`Date`,`dees`) VALUES('"
+                            + format.format(currentDate) + "',"
+                            + title + ")");
+
                     JOptionPane.showMessageDialog(this, "Notification", "Info", JOptionPane.INFORMATION_MESSAGE);
 
                 }
@@ -897,7 +988,9 @@ public class wareManager extends javax.swing.JPanel {
                             + format.format(currentDate) + "',"
                             + departmentId + ","
                             + statusId + ")");
-
+                    model.MySQL.executeIUD("INSERT INTO inventory_history(`Date`,`dees`) VALUES('"
+                            + format.format(currentDate) + "',"
+                            + title + ")");
                     JOptionPane.showMessageDialog(this, "Notification", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
 
@@ -954,6 +1047,9 @@ public class wareManager extends javax.swing.JPanel {
                             + format.format(currentDate) + "',"
                             + departmentId + ","
                             + statusId + ")");
+                    model.MySQL.executeIUD("INSERT INTO inventory_history(`Date`,`dees`) VALUES('"
+                            + format.format(currentDate) + "',"
+                            + title + ")");
 
                     JOptionPane.showMessageDialog(this, "Notification", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -1007,6 +1103,10 @@ public class wareManager extends javax.swing.JPanel {
                             + format.format(currentDate) + "',"
                             + departmentId + ","
                             + statusId + ")");
+
+                    model.MySQL.executeIUD("INSERT INTO inventory_history(`Date`,`dees`) VALUES('"
+                            + format.format(currentDate) + "',"
+                            + title + ")");
 
                     JOptionPane.showMessageDialog(this, "Notification", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }

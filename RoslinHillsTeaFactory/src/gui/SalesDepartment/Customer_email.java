@@ -23,6 +23,8 @@ public class Customer_email extends javax.swing.JDialog {
         design();
         loadCustomer(jTextField1.getText());
         jTextField2.setEnabled(false);
+        All_Order order = new All_Order();
+       order.tableCenter(jTable1, jLabel1);
     }
     String query;
 
@@ -104,8 +106,9 @@ public class Customer_email extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("ADD Email");
+        jLabel1.setText("Add Email");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel2.setText("Enter Customer NIC:");
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +117,7 @@ public class Customer_email extends javax.swing.JDialog {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel3.setText("Enter Customer Email:");
 
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +126,9 @@ public class Customer_email extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(51, 51, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add Email");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +136,9 @@ public class Customer_email extends javax.swing.JDialog {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setBackground(new java.awt.Color(255, 102, 0));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Clear All");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,11 +174,11 @@ public class Customer_email extends javax.swing.JDialog {
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(260, 260, 260)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(204, 204, 204)
+                        .addComponent(jLabel1)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

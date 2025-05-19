@@ -9,6 +9,8 @@ import gui.HRDeapartment.Employees;
 import gui.HRDeapartment.LeaveManagement;
 import gui.Production.ProductionDepartment;
 import gui.SalesDepartment.SalesDepartment;
+import gui.SalesDepartment.SalesDepartment2;
+import gui.SalesDepartment.SalesDepartmentNew;
 import gui.TestDepartment.QualityControlDepartment;
 import gui.TestDepartment.QulityDashboard;
 import gui.backup.BackupAndRestore;
@@ -38,6 +40,7 @@ public class home extends javax.swing.JFrame {
 
     public home() {
         initComponents();
+
         jToggleButton1.setContentAreaFilled(false); // Removes the background fill
         jToggleButton1.setOpaque(false); // Make the button non-opaque
         jToggleButton1.setBorderPainted(false); // Optionally remove the border
@@ -698,7 +701,7 @@ public class home extends javax.swing.JFrame {
 
         if (jLabel3.isEnabled()) {
             jPanel7.removeAll();
-            SalesDepartment sales = new SalesDepartment();
+            SalesDepartmentNew sales = new SalesDepartmentNew();
             jPanel7.add(sales);
             SwingUtilities.updateComponentTreeUI(jPanel7);
 
@@ -866,7 +869,6 @@ public class home extends javax.swing.JFrame {
         if (productionDepartmentInstance == null) {
             productionDepartmentInstance = new ProductionDepartment();
         }
-
         // Fix: Ensure the window listener checks the OngoingProcessTracker correctly
         // Update: Ensure the window listener checks the OngoingProcessTracker correctly and prevents closing
         addWindowListener(new WindowAdapter() {

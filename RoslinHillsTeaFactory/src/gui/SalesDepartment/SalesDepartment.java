@@ -94,14 +94,15 @@ public class SalesDepartment extends javax.swing.JPanel {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setPreferredSize(new java.awt.Dimension(1250, 572));
+        setPreferredSize(new java.awt.Dimension(1295, 572));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(95, 189, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(1250, 30));
+        jPanel3.setPreferredSize(new java.awt.Dimension(1295, 30));
         jPanel3.setLayout(new java.awt.GridLayout(1, 7));
 
         jToggleButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -124,7 +125,7 @@ public class SalesDepartment extends javax.swing.JPanel {
 
         jToggleButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jToggleButton3.setForeground(new java.awt.Color(0, 0, 0));
-        jToggleButton3.setText("CUSTOMER MANAGEMENT");
+        jToggleButton3.setText("CUSTOMER ");
         jToggleButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jToggleButton3MouseEntered(evt);
@@ -142,7 +143,7 @@ public class SalesDepartment extends javax.swing.JPanel {
 
         jToggleButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jToggleButton4.setForeground(new java.awt.Color(0, 0, 0));
-        jToggleButton4.setText("ORDER MANAGEMENT");
+        jToggleButton4.setText("ORDER ");
         jToggleButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jToggleButton4MouseEntered(evt);
@@ -255,23 +256,14 @@ public class SalesDepartment extends javax.swing.JPanel {
         jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
         jPanel10.setPreferredSize(new java.awt.Dimension(1250, 585));
-        jPanel10.setLayout(new java.awt.CardLayout());
+        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
         jPanel8.add(jPanel10, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel8, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(jPanel2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1295, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
-        );
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1323, 572));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton2MouseEntered
@@ -448,7 +440,7 @@ public class SalesDepartment extends javax.swing.JPanel {
         jToggleButton7.setSelected(false);
 
         Order order = new Order();  // Ensure Order extends JPanel
-        order.setSalesDepartment(this);
+//        order.setSalesDepartmentNew(this);
         jPanel10.removeAll();
         jPanel10.add(order);
         jPanel10.revalidate();

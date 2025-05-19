@@ -10,6 +10,10 @@ public class QualityControlDepartment extends javax.swing.JPanel {
 
     public QualityControlDepartment() {
         initComponents();
+        QulityDashboard qd = new QulityDashboard();
+        jPanel10.removeAll();
+        jPanel10.add(qd);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
 
     }
     

@@ -5,7 +5,7 @@
 package gui.Production;
 
 import javax.swing.SwingUtilities;
-import gui.Production.Witheringgg;
+
 
 /**
  *
@@ -27,6 +27,9 @@ public class BatchTracking extends javax.swing.JPanel {
         rollingPanelInstance = new Rolling();
         oxidationPanelInstance = new Oxidation();
         dryingPanelInstance = new Drying();
+        jPanel2.removeAll();
+        jPanel2.add(witheringPanelInstance);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
     }
 
     /**

@@ -781,7 +781,7 @@ public class Withering extends javax.swing.JPanel {
                     return;
                 }
 
-                MySQL.executeIUD("INSERT INTO `rolling` (`tea_batch_id`, `start_time`, `end_time`, `temperature_level`, `humidity_level`,`processed_date`, `production_status_id`)"
+                MySQL.executeIUD("INSERT INTO `withering` (`tea_batch_id`, `start_time`, `end_time`, `temperature_level`, `humidity_level`,`processed_date`, `production_status_id`)"
                         + "VALUES ('" + batch + "','" + startTime + "','" + endTime + "','" + temperature + "','" + humidity + "','" + date + "','2')");
 
                 MySQL.executeIUD("UPDATE `tea_batch` SET `production_status_id` = '3' WHERE `id` = '" + batch + "'");

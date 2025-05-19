@@ -51,7 +51,6 @@ public class inventory_dash extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -67,11 +66,13 @@ public class inventory_dash extends javax.swing.JPanel {
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel3.setBackground(new java.awt.Color(95, 189, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(1250, 30));
         jPanel3.setLayout(new java.awt.GridLayout(1, 7));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setBackground(new java.awt.Color(86, 86, 86));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Dashboard");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -87,7 +88,9 @@ public class inventory_dash extends javax.swing.JPanel {
         });
         jPanel3.add(jLabel1);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setBackground(new java.awt.Color(86, 86, 86));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Supplier");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -103,7 +106,9 @@ public class inventory_dash extends javax.swing.JPanel {
         });
         jPanel3.add(jLabel2);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setBackground(new java.awt.Color(86, 86, 86));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Raw Materials");
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -119,7 +124,8 @@ public class inventory_dash extends javax.swing.JPanel {
         });
         jPanel3.add(jLabel3);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("WearHouse");
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -135,10 +141,15 @@ public class inventory_dash extends javax.swing.JPanel {
         });
         jPanel3.add(jLabel4);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setBackground(new java.awt.Color(86, 86, 86));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Oder");
+        jLabel5.setText("Order");
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel5MouseEntered(evt);
             }
@@ -148,10 +159,15 @@ public class inventory_dash extends javax.swing.JPanel {
         });
         jPanel3.add(jLabel5);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setBackground(new java.awt.Color(86, 86, 86));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("History");
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel6MouseEntered(evt);
             }
@@ -160,19 +176,6 @@ public class inventory_dash extends javax.swing.JPanel {
             }
         });
         jPanel3.add(jLabel6);
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Payroll Management");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel7MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel7MouseExited(evt);
-            }
-        });
-        jPanel3.add(jLabel7);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
@@ -196,7 +199,7 @@ public class inventory_dash extends javax.swing.JPanel {
         jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
         jPanel10.setLayout(new java.awt.CardLayout());
-        jPanel8.add(jPanel10, java.awt.BorderLayout.CENTER);
+        jPanel8.add(jPanel10, java.awt.BorderLayout.PAGE_END);
 
         jPanel2.add(jPanel8, java.awt.BorderLayout.CENTER);
 
@@ -223,8 +226,8 @@ public class inventory_dash extends javax.swing.JPanel {
 
     private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
         jLabel8.setOpaque(true);
-        jLabel8.setBackground(new Color(0, 204, 51));
-        Border border = BorderFactory.createLineBorder(new Color(225, 252, 204), 1);
+        jLabel8.setBackground(new Color(0, 102, 255));
+        Border border = BorderFactory.createLineBorder(new Color(0, 102, 255), 1);
         jLabel8.setBorder(border);
     }//GEN-LAST:event_jLabel1MouseEntered
 
@@ -242,8 +245,8 @@ public class inventory_dash extends javax.swing.JPanel {
 
     private void jLabel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseEntered
         jLabel9.setOpaque(true);
-        jLabel9.setBackground(new Color(0, 204, 51));
-        Border border = BorderFactory.createLineBorder(new Color(225, 252, 204), 1);
+        jLabel9.setBackground(new Color(0, 102, 255));
+        Border border = BorderFactory.createLineBorder(new Color(0, 102, 255), 1);
         jLabel9.setBorder(border);
     }//GEN-LAST:event_jLabel2MouseEntered
 
@@ -254,8 +257,8 @@ public class inventory_dash extends javax.swing.JPanel {
 
     private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
         jLabel10.setOpaque(true);
-        jLabel10.setBackground(new Color(0, 204, 51));
-        Border border = BorderFactory.createLineBorder(new Color(225, 252, 204), 1);
+        jLabel10.setBackground(new Color(0, 102, 255));
+        Border border = BorderFactory.createLineBorder(new Color(0, 102, 255), 1);
         jLabel10.setBorder(border);
     }//GEN-LAST:event_jLabel3MouseEntered
 
@@ -266,8 +269,8 @@ public class inventory_dash extends javax.swing.JPanel {
 
     private void jLabel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseEntered
         jLabel11.setOpaque(true);
-        jLabel11.setBackground(new Color(0, 204, 51));
-        Border border = BorderFactory.createLineBorder(new Color(225, 252, 204), 1);
+        jLabel11.setBackground(new Color(0, 102, 255));
+        Border border = BorderFactory.createLineBorder(new Color(0, 102, 255), 1);
         jLabel11.setBorder(border);
     }//GEN-LAST:event_jLabel4MouseEntered
 
@@ -278,8 +281,8 @@ public class inventory_dash extends javax.swing.JPanel {
 
     private void jLabel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseEntered
         jLabel12.setOpaque(true);
-        jLabel12.setBackground(new Color(0, 204, 51));
-        Border border = BorderFactory.createLineBorder(new Color(225, 252, 204), 1);
+        jLabel12.setBackground(new Color(0, 102, 255));
+        Border border = BorderFactory.createLineBorder(new Color(0, 102, 255), 1);
         jLabel12.setBorder(border);
     }//GEN-LAST:event_jLabel5MouseEntered
 
@@ -290,8 +293,8 @@ public class inventory_dash extends javax.swing.JPanel {
 
     private void jLabel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseEntered
         jLabel13.setOpaque(true);
-        jLabel13.setBackground(new Color(0, 204, 51));
-        Border border = BorderFactory.createLineBorder(new Color(225, 252, 204), 1);
+        jLabel13.setBackground(new Color(0, 102, 255));
+        Border border = BorderFactory.createLineBorder(new Color(0, 102, 255), 1);
         jLabel13.setBorder(border);
     }//GEN-LAST:event_jLabel6MouseEntered
 
@@ -299,18 +302,6 @@ public class inventory_dash extends javax.swing.JPanel {
         jLabel13.setOpaque(false);
         jLabel13.setBorder(null);
     }//GEN-LAST:event_jLabel6MouseExited
-
-    private void jLabel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseEntered
-        jLabel14.setOpaque(true);
-        jLabel14.setBackground(new Color(0, 204, 51));
-        Border border = BorderFactory.createLineBorder(new Color(225, 252, 204), 1);
-        jLabel14.setBorder(border);
-    }//GEN-LAST:event_jLabel7MouseEntered
-
-    private void jLabel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseExited
-        jLabel14.setOpaque(false);
-        jLabel14.setBorder(null);
-    }//GEN-LAST:event_jLabel7MouseExited
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         Raw_material raw = new Raw_material();
@@ -326,6 +317,20 @@ public class inventory_dash extends javax.swing.JPanel {
         SwingUtilities.updateComponentTreeUI(jPanel10);
     }//GEN-LAST:event_jLabel4MouseClicked
 
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        grn grn = new grn();
+        jPanel10.removeAll();
+        jPanel10.add(grn);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        oderhistory his = new oderhistory();
+        jPanel10.removeAll();
+        jPanel10.add(his);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
+    }//GEN-LAST:event_jLabel6MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -339,7 +344,6 @@ public class inventory_dash extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
