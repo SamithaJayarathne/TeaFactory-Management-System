@@ -26,6 +26,7 @@ public class ManageProducts extends javax.swing.JPanel {
         initComponents();
         loadProductionProcesses();
         loadProducts();
+        productStock();
     }
 
     private void loadProductionProcesses() {
@@ -72,6 +73,42 @@ public class ManageProducts extends javax.swing.JPanel {
                 vector.add(rs.getString("title"));
                 vector.add(rs.getString("description"));
                 vector.add(rs.getString("product_category.name"));
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+ 
+    private void productStock() {
+
+        try {
+
+            ResultSet rs = MySQL.executeSearch("SELECT * FROM `product_stock` "
+                    + "INNER JOIN `products` ON `products`.`id` = `product_stock`.`products_id` "
+                    + "INNER JOIN `product_category` ON `product_category`.`id` = `products`.`product_category_id`");
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            model.setRowCount(0);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+            for (int i = 0; i < jTable2.getColumnCount(); i++) {
+                jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
+            while (rs.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(rs.getString("id"));
+                vector.add(rs.getString("products.title"));
+                vector.add(rs.getString("product_category.name"));
+                vector.add(rs.getString("price"));
+                vector.add(rs.getString("qty"));
+                vector.add(rs.getString("mfd"));
+                vector.add(rs.getString("exp"));
                 model.addRow(vector);
             }
 
@@ -169,17 +206,17 @@ public class ManageProducts extends javax.swing.JPanel {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Product ID", "Product Name", "Product Description", "Product Category", "Price", "Quantity", "Manufacture Date", "Expiration Date"
+                "Product ID", "Product Name", "Product Category", "Price", "Quantity", "Manufacture Date", "Expiration Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -195,7 +232,6 @@ public class ManageProducts extends javax.swing.JPanel {
             jTable2.getColumnModel().getColumn(4).setResizable(false);
             jTable2.getColumnModel().getColumn(5).setResizable(false);
             jTable2.getColumnModel().getColumn(6).setResizable(false);
-            jTable2.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

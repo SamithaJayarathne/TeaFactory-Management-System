@@ -45,11 +45,10 @@ public class QualityControlReport extends javax.swing.JPanel {
 
         try {
 
-            ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `quality_control`"
-                    + "INNER JOIN `employees` ON `quality_control`.`employees_nic` = `employees`.`nic`"
-                    + "INNER JOIN `tea_batch` ON `quality_control`.`tea_batch_id` = `tea_batch`.`id`"
-                    + "INNER JOIN `quality_status` ON `quality_control`.`quality_status_id` = `quality_status`.`id`"
-                    + "INNER JOIN `action_taken` ON `quality_control`.`action_taken_id` = `action_taken`.`id`");
+            ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `quality_control`\n" +
+"INNER JOIN `employees` ON `quality_control`.`employees_nic` = `employees`.`nic`\n" +
+"INNER JOIN `quality_status` ON `quality_control`.`quality_status_id` = `quality_status`.`id`\n" +
+"INNER JOIN `action_taken` ON `quality_control`.`action_taken_id` = `action_taken`.`id`");
 
             DefaultTableModel model = (DefaultTableModel) batchTable.getModel();
             model.setRowCount(0);
@@ -290,7 +289,7 @@ public class QualityControlReport extends javax.swing.JPanel {
                 String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                 
                 //view or print report
-                InputStream path = this.getClass().getResourceAsStream("/reports/BatchReport.jasper");
+                InputStream path = this.getClass().getResourceAsStream("/reports/Quality/BatchReport.jasper");
 
                 HashMap<String, Object> params = new HashMap<>();
                 params.put("Parameter1", dateTime);
@@ -312,7 +311,7 @@ public class QualityControlReport extends javax.swing.JPanel {
         try {
                 
                 //view or print report
-                InputStream path = this.getClass().getResourceAsStream("/reports/ProductReport.jasper");
+                InputStream path = this.getClass().getResourceAsStream("/reports/Quality/ProductReport.jasper");
 
                 HashMap<String, Object> params = new HashMap<>();
 

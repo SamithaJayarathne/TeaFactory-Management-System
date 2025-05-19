@@ -6,8 +6,12 @@ package gui.Production;
 
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -20,7 +24,7 @@ import model.MySQL;
  * @author Kavindu Anupama
  */
 public class ManageProductStock extends javax.swing.JPanel {
-    
+
     private static HashMap<String, String> productcatMap = new HashMap();
 
     /**
@@ -31,8 +35,16 @@ public class ManageProductStock extends javax.swing.JPanel {
         loadQualityBatches();
         loadPackagingStock();
         loadProductCategory();
+        productStock();
     }
-    
+
+    private String generateProductID() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = dateFormat.format(new Date());
+        int random = new Random().nextInt(9000) + 1000; // Random 4-digit number (1000-9999)
+        return "PROD-" + timestamp + "-" + random;
+    }
+
     private void loadProductCategory() {
 
         try {
@@ -40,11 +52,11 @@ public class ManageProductStock extends javax.swing.JPanel {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `product_category`");
+            ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `products`");
 
             while (resultSet.next()) {
-                vector.add(resultSet.getString("name"));
-                productcatMap.put(resultSet.getString("name"), resultSet.getString("id"));
+                vector.add(resultSet.getString("title"));
+                productcatMap.put(resultSet.getString("title"), resultSet.getString("id"));
             }
 
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
@@ -53,7 +65,7 @@ public class ManageProductStock extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     private void loadQualityBatches() {
 
         try {
@@ -85,7 +97,43 @@ public class ManageProductStock extends javax.swing.JPanel {
         }
 
     }
-    
+
+    private void productStock() {
+
+        try {
+
+            ResultSet rs = MySQL.executeSearch("SELECT * FROM `product_stock` "
+                    + "INNER JOIN `products` ON `products`.`id` = `product_stock`.`products_id` "
+                    + "INNER JOIN `product_category` ON `product_category`.`id` = `products`.`product_category_id`");
+
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            model.setRowCount(0);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+            for (int i = 0; i < jTable3.getColumnCount(); i++) {
+                jTable3.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
+            while (rs.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(rs.getString("id"));
+                vector.add(rs.getString("products.title"));
+                vector.add(rs.getString("product_category.name"));
+                vector.add(rs.getString("price"));
+                vector.add(rs.getString("qty"));
+                vector.add(rs.getString("mfd"));
+                vector.add(rs.getString("exp"));
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void loadPackagingStock() {
 
         try {
@@ -116,7 +164,7 @@ public class ManageProductStock extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     /**
@@ -147,7 +195,7 @@ public class ManageProductStock extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        jTable3 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -212,7 +260,7 @@ public class ManageProductStock extends javax.swing.JPanel {
 
         jLabel8.setText("Enter Quantity");
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -231,7 +279,7 @@ public class ManageProductStock extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable4);
+        jScrollPane3.setViewportView(jTable3);
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setText("Add Product");
@@ -337,53 +385,105 @@ public class ManageProductStock extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-//        String price_per_unit = jTextField1.getText();
-//        String stk_qty = jTextField2.getText();
-//        String added_date = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser3.getDate());
-//        String mfd = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
-//        String exp = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser2.getDate());
-//        String pro_category = String.valueOf(jComboBox1.getSelectedItem());
-//
-//        if (jTable1.getSelectedRow() == -1) {
-//            JOptionPane.showMessageDialog(this, "Please Select a Row From Processed Batch Table", "Warning", JOptionPane.WARNING_MESSAGE);
-//        } else if (jTable2.getSelectedRow() == -1) {
-//            JOptionPane.showMessageDialog(this, "Please Select a Row From Packaging Material Table", "Warning", JOptionPane.WARNING_MESSAGE);
-//        } else if (pro_category.equals("Select")) {
-//            JOptionPane.showMessageDialog(this, "Please Select Product Category", "Warning", JOptionPane.WARNING_MESSAGE);
-//        } else if (id.matches(".*[a-zA-Z].*")) {
-//            JOptionPane.showMessageDialog(this, "This ID has Letters, The ID should be Integers", "Warning", JOptionPane.WARNING_MESSAGE);
-//        } else if (pro_name.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter Product Description", "Warning", JOptionPane.WARNING_MESSAGE);
-//        } else if (pro_des.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter Product Description", "Warning", JOptionPane.WARNING_MESSAGE);
-//        } else if (pro_category.equals("Select")) {
-//            JOptionPane.showMessageDialog(this, "Please select Product Category", "Warning", JOptionPane.WARNING_MESSAGE);
-//        } else {
-//
-//            try {
-//
-//                ResultSet rs = MySQL.executeSearch("SELECT * FROM `products` WHERE `id` = '" + id + "'");
-//                while (rs.next()) {
-//                    if (id.equals(rs.getString("id"))) {
-//                        JOptionPane.showMessageDialog(this, "This ID is Already Given", "Warning", JOptionPane.WARNING_MESSAGE);
-//                    }
-//                }
-//
-//                ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `products` WHERE `title` = '" + pro_name + "' AND `product_category_id` = '" + productcatMap.get(pro_category) + "'");
-//
-//                if (resultSet.next()) {
-//                    JOptionPane.showMessageDialog(this, "Product already added", "Warning", JOptionPane.WARNING_MESSAGE);
-//                } else {
-//                    MySQL.executeIUD("INSERT INTO `products`(`id`,`title`,`description`,`product_category_id`) VALUES('" + id + "','" + pro_name + "','" + pro_des + "','" + productcatMap.get(pro_category) + "')");
-//
-//                    JOptionPane.showMessageDialog(this, "New product added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-//                }
-//                
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+        String price_per_unit = jTextField1.getText();
+        String stk_qty = jTextField2.getText();
+        String products = String.valueOf(jComboBox1.getSelectedItem());
+
+        if (jTable1.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a Row From Processed Batch Table", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (jTable2.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a Row From Packaging Material Table", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (products.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Product Type", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (price_per_unit.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter Price Per Unit", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (stk_qty.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter Stock Quantity", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            if (jDateChooser1.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Please select Manufacture Date", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (jDateChooser2.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Please select Expiration Date", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (jDateChooser3.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Adding Date", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int productQty;
+            productQty = Integer.parseInt(stk_qty);
+            String materialName = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 1);
+            Matcher matcher = Pattern.compile("\\d+").matcher(materialName);
+            if (!matcher.find()) {
+                JOptionPane.showMessageDialog(this, "Material name must include grams (e.g., 'Bottle 250g').", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int gramsPerUnit = Integer.parseInt(matcher.group());
+
+            // Get tea batch quantity (kg) - GUARANTEED non-null per your note
+            String batchId = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            double batchQtyKg = Double.parseDouble((String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+
+            // Calculate required tea in kg
+            double requiredTeaKg = (productQty * gramsPerUnit) / 1000.0;
+            if (batchQtyKg < requiredTeaKg) {
+                JOptionPane.showMessageDialog(this,
+                        String.format("Not enough tea! Available: %.2f kg, Needed: %.2f kg", batchQtyKg, requiredTeaKg),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            // Get packaging material stock (handle commas in qty)
+            String materialId = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
+            String materialQtyStr = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 2);
+            double materialQty;
+            materialQty = Double.parseDouble(materialQtyStr);
+
+            if (materialQty < productQty) {
+                JOptionPane.showMessageDialog(this,
+                        String.format("Not enough packaging! Available: %d units, Needed: %d units", materialQty, productQty),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            try {
+
+                // Deduct tea batch
+                double newBatchQty = batchQtyKg - requiredTeaKg;
+                MySQL.executeIUD("UPDATE tea_batch SET qty_end = " + newBatchQty + " WHERE id = '" + batchId + "'");
+
+                // Deduct packaging material
+                double newMaterialQty = materialQty - productQty;
+                MySQL.executeIUD("UPDATE raw_materials_stock SET qty = " + newMaterialQty + " WHERE id = '" + materialId + "'");
+
+                String added_date = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser3.getDate());
+                String mfd = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
+                String exp = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser2.getDate());
+                String productId = generateProductID();
+
+                MySQL.executeIUD("INSERT INTO `product_stock`(`id`,`price`,`qty`,`mfd`,`exp`,`added_date`,`products_id`) "
+                        + "VALUES('" + productId + "','" + price_per_unit + "','" + stk_qty + "','" + mfd + "','" + exp + "','" + added_date + "','" + productcatMap.get(products) + "')");
+
+                // Refresh GUI tables
+                loadQualityBatches();
+                loadPackagingStock();
+                productStock();
+                reset();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -406,8 +506,22 @@ public class ManageProductStock extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+private void reset() {
+
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jDateChooser1.setDate(null);
+        jDateChooser2.setDate(null);
+        jDateChooser3.setDate(null);
+        jTable1.clearSelection();
+        jTable2.clearSelection();
+        jTable3.clearSelection();
+        jComboBox1.setSelectedIndex(0);
+
+    }
 }

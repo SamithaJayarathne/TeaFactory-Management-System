@@ -21,6 +21,11 @@ public class ProductionDepartment extends javax.swing.JPanel {
         initComponents();
         batchTrackingPanelInstance = new BatchTracking();
         toggleButtonBachground();
+        
+        DashBoard dash = new DashBoard();
+        jPanel10.removeAll();
+        jPanel10.add(dash);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
 
     }
 
