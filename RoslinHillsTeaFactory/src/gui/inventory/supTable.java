@@ -4,16 +4,12 @@
  */
 package gui.inventory;
 
-import com.formdev.flatlaf.FlatClientProperties;
 import gui.inventory.supplier;
 import java.sql.ResultSet;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import model.MySQL;
 
 
 /**
@@ -32,72 +28,6 @@ public class supTable extends javax.swing.JDialog {
         initComponents();
         supplier();
         this.sup = (supplier)panel;
-        loadRoundComponents();
-    }
-     static String query;
-    private void loadsearch() {
-        // Start building the base query
-        query = "SELECT * FROM `suppliers` INNER JOIN city ON suppliers.city_id = city.id ";
-
-        
-        
-        boolean whereAdded = false;
-        
-        try {
-            // Check if jTextField1 has a value (avoiding null or empty checks)
-            
-            if (jTextField1.getText().trim() != null) {
-                if (!query.contains("WHERE")) {
-                    query += " WHERE";
-                } else {
-                    query += " AND";
-                }
-                query += " `suppliers`.`name` LIKE '%" + jTextField1.getText().trim() + "%'";
-                whereAdded = true;
-            }
-            if (jTextField2.getText().trim() != null) {
-                if (!query.contains("WHERE")) {
-                    query += " WHERE";
-                } else {
-                    query += " AND";
-                }
-                query += " `suppliers`.`material` LIKE '%" + jTextField2.getText().trim() + "%'";
-                whereAdded = true;
-            }
-          
-            ResultSet resultSet = MySQL.executeSearch(query);
-            
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
-            
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-               vector.add(resultSet.getString("nic"));
-                vector.add(resultSet.getString("name"));
-                vector.add(resultSet.getString("mobile"));
-                vector.add(resultSet.getString("email"));
-                vector.add(resultSet.getString("city.name"));
-                 vector.add(resultSet.getString("material"));
-                
-                model.addRow(vector);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(supplier.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-     private void loadRoundComponents() {
-
-        jTextField1.putClientProperty("JComponent.roundRect", true);
-        jTextField1.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
-         jTextField2.putClientProperty("JComponent.roundRect", true);
-        jTextField2.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
-        
-
-      
-        jButton2.putClientProperty("JButton.buttonType", "roundRect");
-        
-
     }
     
      private void supplier() {
@@ -117,7 +47,7 @@ public class supTable extends javax.swing.JDialog {
                 vector.add(resultSet.getString("mobile"));
                 vector.add(resultSet.getString("email"));
                 vector.add(resultSet.getString("city.name"));
-                 vector.add(resultSet.getString("material"));
+
 
                 model.addRow(vector);
             }
@@ -139,27 +69,21 @@ public class supTable extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jScrollPane1.setForeground(new java.awt.Color(0, 0, 0));
-
-        jTable1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Supplier Nic", "Name", "Mobile", "Email", "City", "Material"
+                "Manager Nic", "Name", "Mobile", "Email", "City"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -174,15 +98,17 @@ public class supTable extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Reset Table");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,62 +116,36 @@ public class supTable extends javax.swing.JDialog {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel5.setText("Material       :");
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField2KeyReleased(evt);
-            }
-        });
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel6.setText("Supplier Name       :");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(26, 26, 26)
-                    .addComponent(jLabel6)
-                    .addContainerGap(689, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38)))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(49, 49, 49)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(322, Short.MAX_VALUE)))
+                .addGap(62, 62, 62))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -258,7 +158,7 @@ public class supTable extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 66, Short.MAX_VALUE))
         );
 
         pack();
@@ -277,17 +177,56 @@ public class supTable extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String search = jTextField1.getText();
+        
+        if (search.isEmpty()) {
+             JOptionPane.showMessageDialog(this, "Please try again ", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+       
+        String query = "SELECT * FROM `suppliers` INNER JOIN city ON suppliers.city_id = city.id  WHERE suppliers.name LIKE '%" + search + "%' OR suppliers.mobile LIKE '%" + search + "%' OR suppliers.email LIKE '%" + search + "%' OR suppliers.nic LIKE '%" + search + "%'";
+
+       
+        ResultSet resultSet = model.MySQL.executeSearch(query);
+
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);  
+
+        
+        boolean dataFound = false;
+
+       
+        while (resultSet.next()) {
+            Vector<String> row = new Vector<>();
+            row.add(resultSet.getString("nic")); 
+            row.add(resultSet.getString("name"));
+            row.add(resultSet.getString("mobile"));
+            row.add(resultSet.getString("email"));
+            row.add(resultSet.getString("city.name"));
+     
+
+           
+            model.addRow(row);
+            dataFound = true;  
+        }
+
+      
+        if (!dataFound) {
+            JOptionPane.showMessageDialog(this, "No matching records found", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error searching data", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         supplier();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        loadsearch();
-    }//GEN-LAST:event_jTextField1KeyReleased
-
-    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
-        loadsearch();
-    }//GEN-LAST:event_jTextField2KeyReleased
 
     /**
      * @param args the command line arguments
@@ -295,13 +234,11 @@ public class supTable extends javax.swing.JDialog {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

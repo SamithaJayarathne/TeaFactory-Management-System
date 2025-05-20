@@ -196,7 +196,7 @@ public class SignInWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String username = jTextField1.getText();
+         String username = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
         SelectedDepartmentForSignin selectedDepartment = new SelectedDepartmentForSignin();
 
@@ -224,6 +224,7 @@ public class SignInWindow extends javax.swing.JFrame {
                         LoggedUser.setFname(usersRs.getString("employees.fname"));
                         LoggedUser.setLname(usersRs.getString("employees.lname"));
                         LoggedUser.setDepartment(usersRs.getString("departments.name"));
+                        LoggedUser.setNic(usersRs.getString("employees.nic"));
 
                         home home = new home();
                         this.dispose();

@@ -579,9 +579,10 @@ HashMap<String, model.OrderItem> order_Map = new HashMap<>();
                     double qty = rs2.getDouble("order_item.qty");
                     double unitprice = rs2.getDouble("order_item.unit_price");
                     double OrderItemTotal = rs2.getDouble("order_item.total");
-                    int productId = rs2.getInt("order_item.product_stock_id");
+                    String productId = rs2.getString("order_item.product_stock_id");
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+                    MySQL.executeIUD("UPDATE `order` SET `payment_status_id` = '2' AND `order_status_id` = '2'");
 //                    for (model.OrderItem orderItem : order_Map.values()) {
 //                          Double qty1 = orderItem.getQty();
 //                          Double unitPrice1 = orderItem.getUnitPrice();

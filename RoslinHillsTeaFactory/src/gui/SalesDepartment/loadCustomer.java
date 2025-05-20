@@ -339,7 +339,7 @@ public class loadCustomer extends javax.swing.JDialog {
             if (Cm != null) {
             
         if (evt.getClickCount() == 2) {
-            Cm.getfname().setText(String.valueOf(jTable1.getValueAt(row, 1)));
+            Cm.getfname().setText(String.valueOf(jTable1.getValueAt(row, 0)));
             Cm.getlname().setText(String.valueOf(jTable1.getValueAt(row, 1)));
             Cm.getnic().setText(String.valueOf(jTable1.getValueAt(row, 2)));
             Cm.getmobile().setText(String.valueOf(jTable1.getValueAt(row, 4)));

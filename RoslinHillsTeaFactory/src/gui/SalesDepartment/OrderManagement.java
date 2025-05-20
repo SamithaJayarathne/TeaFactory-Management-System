@@ -47,7 +47,6 @@ public class OrderManagement extends javax.swing.JPanel {
     HashMap<String, OrderItem> order_Map = new HashMap<>();
 
 //    public Order OR;
-
     public OrderManagement() {
         initComponents();
         design();
@@ -56,10 +55,10 @@ public class OrderManagement extends javax.swing.JPanel {
 
         }
         All_Order order = new All_Order();
-       order.tableCenter(jTable1, jLabel1);
+        order.tableCenter(jTable1, jLabel1);
 
     }
-    
+
     String id;
 
     public String setID(String id) {
@@ -143,6 +142,7 @@ public class OrderManagement extends javax.swing.JPanel {
     public JTextField getProductId() {
         return jTextField4;
     }
+
     public JTable getTable() {
         return jTable1;
     }
@@ -509,54 +509,101 @@ public class OrderManagement extends javax.swing.JPanel {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
 
         String orderId = jTextField5.getText();
+        String customerNic = jTextField1.getText();
+        String productId = jTextField4.getText();
         String productName = jTextField2.getText();
-        String qty = jFormattedTextField2.getText();
-        String AvailableQty = jFormattedTextField1.getText();
-        
-        if (orderId.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "OrderId and Customer NIC is Empty", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (productName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Select Product", "Error", JOptionPane.ERROR_MESSAGE);
+        String productCategory = jTextField3.getText();
+        String qtyText = jFormattedTextField2.getText();
+        String availableQtyText = jFormattedTextField1.getText();
+        String unitPriceText = jFormattedTextField4.getText();
 
-        } else if (productName.isEmpty()) {
+// --- Basic Validations ---
+        if (orderId.isEmpty() || customerNic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "OrderId or Customer NIC is Empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (productName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Select Product", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (qty.isEmpty()) {
+            return;
+        }
+        if (qtyText.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter Quantity", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (Double.parseDouble(qty) > Double.parseDouble(AvailableQty)) {
-            JOptionPane.showMessageDialog(this, "Enter Valid Quantity", "Error", JOptionPane.ERROR_MESSAGE);
-       
-        }else {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrderId(jTextField5.getText());
-            orderItem.setCustomerNic(jTextField1.getText());
-            orderItem.setQty(Double.parseDouble(jFormattedTextField2.getText()));
-            orderItem.setCustomerNic(jTextField1.getText());
-            orderItem.setCustomerNic(jTextField1.getText());
-            orderItem.setproductId(jTextField4.getText());
-            orderItem.setProductName(jTextField2.getText());
-            orderItem.setProductCategory(jTextField3.getText());
-            orderItem.setUnitPrice(Double.parseDouble(jFormattedTextField4.getText()));
-            if (order_Map.get(jTextField4.getText()) == null) {
-                order_Map.put(jTextField4.getText(), orderItem);
-                loadTable();
-            } else {
-                OrderItem find = order_Map.get(jTextField4.getText());
-
-                if (find.getUnitPrice() == Double.parseDouble(jFormattedTextField4.getText())) {
-                    find.setQty(find.getQty() + Double.parseDouble(jFormattedTextField2.getText()));
-                    if (orderItem.getQty() > Double.parseDouble(AvailableQty)) {
-                        JOptionPane.showMessageDialog(this, "Enter Valid Quantity", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    loadTable();
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Order Item Already Exist", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+            return;
         }
 
 
+        double qty;
+        double availableQty;
+        double unitPrice;
+
+        try {
+            qty = Double.parseDouble(qtyText);
+            availableQty = Double.parseDouble(availableQtyText);
+            unitPrice = Double.parseDouble(unitPriceText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid number format in quantity or price", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        if (qty > availableQty || qty <= 0) {
+            JOptionPane.showMessageDialog(this, "Enter Valid Quantity", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        OrderItem existingItem = order_Map.get(productId);
+
+        if (existingItem != null) {
+            if (existingItem.getUnitPrice() == unitPrice) {
+                double newQty = existingItem.getQty() + qty;
+                if (newQty > availableQty) {
+                    JOptionPane.showMessageDialog(this, "Total quantity exceeds available stock", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                existingItem.setQty(newQty);
+            } else {
+                JOptionPane.showMessageDialog(this, "Order item already exists with a different unit price", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrderId(orderId);
+            orderItem.setCustomerNic(customerNic);
+            orderItem.setQty(qty);
+            orderItem.setproductId(productId);
+            orderItem.setProductName(productName);
+            orderItem.setProductCategory(productCategory);
+            orderItem.setUnitPrice(unitPrice);
+            order_Map.put(productId, orderItem);
+        }
+
+// --- Reload Table After Adding/Updating ---
+        loadTable();
+
+
     }//GEN-LAST:event_jButton7ActionPerformed
+    public void diductqty() {
+        String availableqty = jFormattedTextField1.getText();
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            try {
+
+                String productId = String.valueOf(jTable1.getValueAt(i, 0));
+                String qty = String.valueOf(jTable1.getValueAt(i, 4));
+
+                ResultSet rs = MySQL.executeSearch("SELECT * FROM `product_stock` WHERE `id` = '" + productId + "'");
+                if (rs.next()) {
+                    System.out.println(rs.getDouble("qty"));
+                    double newqty = rs.getDouble("qty") - Double.parseDouble(qty);
+                    MySQL.executeIUD("UPDATE `product_stock` SET `qty` = '" + newqty + "' WHERE `id` = '" + productId + "'");
+                }
+
+//               
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void laodOrderItem() {
         System.out.println("ok");
@@ -584,7 +631,7 @@ public class OrderManagement extends javax.swing.JPanel {
     }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
+        diductqty();
         String orderId = jTextField5.getText();
 
         String total = jFormattedTextField3.getText();
@@ -700,7 +747,7 @@ public class OrderManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
 

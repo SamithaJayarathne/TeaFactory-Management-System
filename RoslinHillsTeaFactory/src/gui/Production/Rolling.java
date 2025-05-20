@@ -9,6 +9,7 @@ import gui.OngoingProcessTracker;
 import gui.home;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JButton;
@@ -808,7 +809,7 @@ public class Rolling extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
         try {
-            String path = "src//reports//rolling.jasper";
+            InputStream path = this.getClass().getResourceAsStream("/reports/Production/rolling.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
 

@@ -244,7 +244,8 @@ public class AdvacePayment extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        OrderManagement om = new OrderManagement();
+        om.diductqty();
         String orderId = AP.getOrderId().getText();
 
 //        Double tot = AP.getTot();
@@ -291,7 +292,7 @@ public class AdvacePayment extends javax.swing.JDialog {
                 } else {
                     
                    JOptionPane.showMessageDialog(this, "Advance payment is Invalid", "warning", JOptionPane.WARNING_MESSAGE);
-                    reset();
+                 
                 }
                
                 

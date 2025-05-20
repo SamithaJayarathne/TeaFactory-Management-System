@@ -6,6 +6,7 @@ package gui.Production;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.InputStream;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.sql.ResultSet;
@@ -592,7 +593,7 @@ public class MachineMaintenance extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         try {
-            String path = "src//reports//machine_maintenance.jasper";
+            InputStream path = this.getClass().getResourceAsStream("/reports/Production/machine_maintenance.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
 
