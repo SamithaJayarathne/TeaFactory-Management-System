@@ -45,28 +45,28 @@ public class SalesDashboard extends javax.swing.JPanel {
             
             ResultSet rs3 = MySQL.executeSearch("SELECT COUNT(*) AS total_rows FROM `return`");
             if (rs3.next()) {  // Move to the first row of the ResultSet
-                int totalRows = rs2.getInt("total_rows");  // Retrieve the count value
+                int totalRows = rs3.getInt("total_rows");  // Retrieve the count value
                 jLabel6.setText(String.valueOf(totalRows));  // Set the count value as text in the JLabel
             }
 //            jPanel10.putClientProperty(FlatClientProperties.STYLE, "arc: 30");
             
             ResultSet rs4 = MySQL.executeSearch("SELECT COUNT(*) AS total_rows FROM `customer` WHERE `customer_status_id` = '1'");
             if (rs4.next()) {  // Move to the first row of the ResultSet
-                int totalRows = rs2.getInt("total_rows");  // Retrieve the count value
+                int totalRows = rs4.getInt("total_rows");  // Retrieve the count value
                 jLabel8.setText(String.valueOf(totalRows));  // Set the count value as text in the JLabel
             }
 //            jPanel11.putClientProperty(FlatClientProperties.STYLE, "arc: 30");
             
             ResultSet rs5 = MySQL.executeSearch("SELECT COUNT(*) AS total_rows FROM `customer` WHERE `customer_status_id` = '2'");
             if (rs5.next()) {  // Move to the first row of the ResultSet
-                int totalRows = rs2.getInt("total_rows");  // Retrieve the count value
+                int totalRows = rs5.getInt("total_rows");  // Retrieve the count value
                 jLabel10.setText(String.valueOf(totalRows));  // Set the count value as text in the JLabel
             }
 //            jPanel12.putClientProperty(FlatClientProperties.STYLE, "arc: 30");
             
             ResultSet rs6 = MySQL.executeSearch("SELECT COUNT(*) AS total_rows FROM `feedback` ");
             if (rs6.next()) {  // Move to the first row of the ResultSet
-                int totalRows = rs2.getInt("total_rows");  // Retrieve the count value
+                int totalRows = rs6.getInt("total_rows");  // Retrieve the count value
                 jLabel12.setText(String.valueOf(totalRows));  // Set the count value as text in the JLabel
             }
 //            jPanel13.putClientProperty(FlatClientProperties.STYLE, "arc: 30");

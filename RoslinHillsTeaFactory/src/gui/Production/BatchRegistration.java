@@ -6,6 +6,8 @@ package gui.Production;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Paint;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,10 +27,13 @@ import net.sf.jasperreports.view.JasperViewer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -190,56 +195,116 @@ public class BatchRegistration extends javax.swing.JPanel {
 
     }
 
+//    private void loadCategoryChart() {
+//        // Create dataset for the bar chart
+//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//
+//        String query = "SELECT * FROM `tea_batch`"
+//                + "INNER JOIN `raw_materials_stock` ON `raw_materials_stock`.`id` = `tea_batch`.`raw_materials_stock_id`"
+//                + "INNER JOIN `grades` ON `grades`.`id` = `tea_batch`.`grades_id`";
+//
+//        try {
+//            ResultSet rs = MySQL.executeSearch(query);
+//
+//            while (rs.next()) {
+//                int avai_qty = rs.getInt("qty");  // Retrieve book count from database
+//                String name = rs.getString("grades.name");  // Retrieve category name from database
+//
+//                // Add values to the dataset for the bar chart
+//                dataset.setValue(avai_qty, "Available Quantity", name);  // Rows (y-axis value), Columns (x-axis category)
+//            }
+//
+//            // Create a bar chart
+//            JFreeChart barChart = ChartFactory.createBarChart(
+//                    "Remaining Stock Based On Grade", // Chart title
+//                    "Tea Leaf Grade", // Category axis label (x-axis)
+//                    "Quantity", // Value axis label (y-axis)
+//                    dataset, // Dataset
+//                    org.jfree.chart.plot.PlotOrientation.VERTICAL, // Orientation
+//                    true, // Include legend
+//                    true, // Tooltips
+//                    false // URLs
+//            );
+//
+//            // Customize the bar chart (optional)
+//            CategoryPlot plot = barChart.getCategoryPlot();
+//            BarRenderer renderer = (BarRenderer) plot.getRenderer();
+//            renderer.setSeriesPaint(0, new Color(79, 129, 189));  // Customize color for bars
+//            plot.setRangeGridlinePaint(Color.BLACK);  // Set gridline color
+//
+//            // Add chart to panel
+//            ChartPanel chartPanel = new ChartPanel(barChart);
+//            chartPanel.setPreferredSize(new Dimension(400, 600));
+//
+//            // Clear and add the chart to the GUI panel (jPanel1)
+//            jPanel1.removeAll();
+//            jPanel1.add(chartPanel);
+//            jPanel1.validate();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+    
+    
     private void loadCategoryChart() {
-        // Create dataset for the bar chart
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    // Create dataset for the pie chart
+    DefaultPieDataset dataset = new DefaultPieDataset();
 
-        String query = "SELECT * FROM `tea_batch`"
-                + "INNER JOIN `raw_materials_stock` ON `raw_materials_stock`.`id` = `tea_batch`.`raw_materials_stock_id`"
-                + "INNER JOIN `grades` ON `grades`.`id` = `tea_batch`.`grades_id`";
+    String query = "SELECT grades.name, SUM(tea_batch.qty_start) as total_qty "
+                 + "FROM tea_batch "
+                 + "INNER JOIN raw_materials_stock ON raw_materials_stock.id = tea_batch.raw_materials_stock_id "
+                 + "INNER JOIN grades ON grades.id = tea_batch.grades_id "
+                 + "GROUP BY grades.name";
 
-        try {
-            ResultSet rs = MySQL.executeSearch(query);
+    try {
+        ResultSet rs = MySQL.executeSearch(query);
 
-            while (rs.next()) {
-                int avai_qty = rs.getInt("qty");  // Retrieve book count from database
-                String name = rs.getString("grades.name");  // Retrieve category name from database
-
-                // Add values to the dataset for the bar chart
-                dataset.setValue(avai_qty, "Available Quantity", name);  // Rows (y-axis value), Columns (x-axis category)
-            }
-
-            // Create a bar chart
-            JFreeChart barChart = ChartFactory.createBarChart(
-                    "Remaining Stock Based On Grade", // Chart title
-                    "Tea Leaf Grade", // Category axis label (x-axis)
-                    "Quantity", // Value axis label (y-axis)
-                    dataset, // Dataset
-                    org.jfree.chart.plot.PlotOrientation.VERTICAL, // Orientation
-                    true, // Include legend
-                    true, // Tooltips
-                    false // URLs
-            );
-
-            // Customize the bar chart (optional)
-            CategoryPlot plot = barChart.getCategoryPlot();
-            BarRenderer renderer = (BarRenderer) plot.getRenderer();
-            renderer.setSeriesPaint(0, new Color(79, 129, 189));  // Customize color for bars
-            plot.setRangeGridlinePaint(Color.BLACK);  // Set gridline color
-
-            // Add chart to panel
-            ChartPanel chartPanel = new ChartPanel(barChart);
-            chartPanel.setPreferredSize(new Dimension(400, 600));
-
-            // Clear and add the chart to the GUI panel (jPanel1)
-            jPanel1.removeAll();
-            jPanel1.add(chartPanel);
-            jPanel1.validate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (rs.next()) {
+            int totalQty = rs.getInt("total_qty");
+            String gradeName = rs.getString("name");
+            dataset.setValue(gradeName, totalQty);
         }
+
+        // Create pie chart
+        JFreeChart pieChart = ChartFactory.createPieChart(
+            "Stock Distribution by Tea Grade", // Chart title
+            dataset, // Dataset
+            true, // Include legend
+            true, // Tooltips
+            false // URLs
+        );
+
+        // Customize the pie chart
+        PiePlot plot = (PiePlot) pieChart.getPlot();
+        plot.setSectionOutlinesVisible(false);
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}: {1} ({2})"));
+        
+        // Apply custom color scheme
+        Paint[] colors = {
+            new Color(79, 129, 189),  // Blue
+            new Color(155, 187, 89),  // Green
+            new Color(192, 80, 77),   // Red
+            new Color(128, 100, 162), // Purple
+            new Color(247, 150, 70)   // Orange
+        };
+        for(int i=0; i<dataset.getItemCount(); i++){
+            plot.setSectionPaint(dataset.getKey(i), colors[i % colors.length]);
+        }
+
+        // Add chart to panel
+        ChartPanel chartPanel = new ChartPanel(pieChart);
+        chartPanel.setPreferredSize(new Dimension(600, 400));
+
+        // Update GUI panel
+        jPanel1.removeAll();
+        jPanel1.add(chartPanel);
+        jPanel1.validate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -381,13 +446,13 @@ public class BatchRegistration extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(34, Short.MAX_VALUE)
+                        .addContainerGap(46, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
@@ -422,7 +487,7 @@ public class BatchRegistration extends javax.swing.JPanel {
                                         .addComponent(jButton7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton14)))))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,7 +539,7 @@ public class BatchRegistration extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -533,7 +598,7 @@ public class BatchRegistration extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
         try {
-            String path = "src//reports//batchReport.jasper";
+            InputStream path = this.getClass().getResourceAsStream("/reports/Production/batchReport.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
 

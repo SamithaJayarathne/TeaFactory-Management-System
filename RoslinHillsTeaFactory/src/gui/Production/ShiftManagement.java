@@ -4,6 +4,7 @@
  */
 package gui.Production;
 
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -575,7 +576,7 @@ public class ShiftManagement extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
         try {
-            String path = "src//reports//workerShifts.jasper";
+            InputStream path = this.getClass().getResourceAsStream("/reports/Production/workerShift.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
             String time = new SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
 

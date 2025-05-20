@@ -1,6 +1,10 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package gui.Production;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
@@ -332,7 +336,7 @@ public class MachineDetails extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
          try {
-            String path = "/reports/Production/machineDetails.jasper";
+            InputStream path = this.getClass().getResourceAsStream("/reports/Production/machineDetails.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
 

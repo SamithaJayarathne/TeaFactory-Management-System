@@ -9,6 +9,8 @@ import gui.OngoingProcessTracker;
 import gui.home;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JButton;
@@ -804,7 +806,11 @@ public class Withering extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
         try {
-            String path = "src//reports//withering.jasper";
+            InputStream path = this.getClass().getResourceAsStream("/reports/Production/withering.jasper");
+            if (path == null) {
+                throw new FileNotFoundException("Could not find the report file.");
+            }
+
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
 
@@ -820,6 +826,7 @@ public class Withering extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }//GEN-LAST:event_jButton4ActionPerformed
 

@@ -1,0 +1,78 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="withering" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="46ed3d17-f64d-4fee-9d92-cba187ac0a26">
+	<parameter name="Parameter1" class="java.lang.String"/>
+	<parameter name="Parameter2" class="java.lang.String"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="COLUMN_0" class="java.lang.String"/>
+	<field name="COLUMN_1" class="java.lang.String"/>
+	<field name="COLUMN_2" class="java.lang.String"/>
+	<field name="COLUMN_3" class="java.lang.String"/>
+	<background splitType="Stretch"/>
+	<title height="167" splitType="Stretch">
+		<element kind="staticText" uuid="291d61e4-c470-41ba-aca4-a0068678b952" mode="Transparent" x="157" y="50" width="240" height="30" forecolor="#080808" fontSize="20.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Roslin Hills Tea Factory]]></text>
+		</element>
+		<element kind="staticText" uuid="af493a29-f86b-42d2-9997-f0dc8316892a" x="173" y="80" width="208" height="20" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[No 278, Galaha, Peradeniya, Kandy]]></text>
+		</element>
+		<element kind="staticText" uuid="e7df935c-a1bf-4fc0-9a39-c94068714eb7" x="187" y="100" width="180" height="20" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[0812481260 / 0812409816]]></text>
+		</element>
+		<element kind="staticText" uuid="b8b1d9ea-3ef8-4cd5-bf67-cf9386761611" mode="Opaque" x="180" y="120" width="190" height="30" forecolor="#0A0A0A" backcolor="#9FB2FC" fontSize="16.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Tea Batch Report]]></text>
+		</element>
+	</title>
+	<pageHeader height="84" splitType="Stretch">
+		<element kind="textField" uuid="32f15d38-9a37-4d76-8729-060b680a8f56" x="75" y="0" width="159" height="26" markup="styled" fontSize="14.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<expression><![CDATA[$P{Parameter1}]]></expression>
+		</element>
+		<element kind="staticText" uuid="f1ccde4c-4bc7-42d5-b23b-bd198bf562dd" x="5" y="0" width="70" height="27" markup="styled" fontSize="14.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Date :]]></text>
+		</element>
+		<element kind="textField" uuid="977631b1-ad1c-413e-997c-b3a3f5a3f4f5" x="75" y="26" width="159" height="26" markup="styled" fontSize="14.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<expression><![CDATA[$P{Parameter2}]]></expression>
+		</element>
+		<element kind="staticText" uuid="bfc6e501-0719-4560-a6a9-1419361c7479" x="5" y="26" width="70" height="27" markup="styled" fontSize="14.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Time :]]></text>
+		</element>
+	</pageHeader>
+	<columnHeader height="67" splitType="Stretch">
+		<element kind="staticText" uuid="cd824aac-ef48-4927-9383-dea52941b047" mode="Opaque" x="406" y="37" width="126" height="30" backcolor="#9FB2FC" markup="styled" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Grade]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="470d4c49-e7cf-43e3-a060-9b4656e31d13"/>
+		</element>
+		<element kind="staticText" uuid="30d87721-a1f8-44f1-acb3-73a5585d7877" mode="Opaque" x="286" y="37" width="120" height="30" backcolor="#9FB2FC" markup="styled" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Quantity]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c5188224-2eb5-462d-8e69-68a209c8c08f"/>
+		</element>
+		<element kind="staticText" uuid="dea28224-083e-4be1-9c9f-78fb4c625bc9" mode="Opaque" x="162" y="37" width="124" height="30" backcolor="#9FB2FC" markup="styled" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Produced Date]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0d44715f-e88b-4801-ab50-ccdc72b6644f"/>
+		</element>
+		<element kind="staticText" uuid="28b584af-9194-456d-890b-b5fdfd9b9705" mode="Opaque" x="16" y="37" width="146" height="30" backcolor="#9FB2FC" markup="styled" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Batch ID]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8836a074-9920-4085-8f77-3d78c841502d"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<element kind="textField" uuid="f69ca623-283e-4930-bae3-b86a5d481fa8" x="16" y="0" width="146" height="30" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{COLUMN_0}]]></expression>
+			</element>
+			<element kind="textField" uuid="c3c845d9-e6cd-4a1d-a2a1-aebce20269d5" x="162" y="0" width="124" height="30" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{COLUMN_1}]]></expression>
+			</element>
+			<element kind="textField" uuid="04ca8916-5eec-46f2-84fa-3ad990ffd2c4" x="286" y="0" width="120" height="30" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{COLUMN_2}]]></expression>
+			</element>
+			<element kind="textField" uuid="fe63f737-ef9b-4b30-9e65-f0a9e00ba36c" x="406" y="0" width="126" height="30" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{COLUMN_3}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="43" splitType="Stretch">
+		<element kind="staticText" uuid="4cb8ea28-7df6-45ea-ade8-034cc40eac55" x="110" y="13" width="334" height="30" fontSize="12.0" italic="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Software Developed By Apexrio Software Developers]]></text>
+		</element>
+	</pageFooter>
+</jasperReport>

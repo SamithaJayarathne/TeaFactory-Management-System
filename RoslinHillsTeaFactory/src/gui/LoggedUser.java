@@ -10,6 +10,9 @@ public class LoggedUser {
     private static String lname;
     private static String email;
     private static String department;
+    private static String nic;
+    
+    
 
     /**
      * @return the fname
@@ -65,6 +68,20 @@ public class LoggedUser {
      */
     public static void setDepartment(String aDepartment) {
         department = aDepartment;
+    }
+
+    /**
+     * @return the nic
+     */
+    public static String getNic() {
+        return nic;
+    }
+
+    /**
+     * @param aNic the nic to set
+     */
+    public static void setNic(String aNic) {
+        nic = aNic;
     }
     
 }
