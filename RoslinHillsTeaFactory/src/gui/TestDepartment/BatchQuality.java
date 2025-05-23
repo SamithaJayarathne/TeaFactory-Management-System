@@ -36,9 +36,6 @@ public class BatchQuality extends javax.swing.JPanel {
     public JTextField getjTextField3() {
         return jTextField3;
     }
-    
-    
-    
 
     private void loadQualityStatus() {
 
@@ -116,23 +113,23 @@ public class BatchQuality extends javax.swing.JPanel {
         }
 
     }
-    
-     private void design(){
-         
-         jTextField1.putClientProperty("JComponent.roundRect", true);
-         jTextField2.putClientProperty("JComponent.roundRect", true);
-         jTextField3.putClientProperty("JComponent.roundRect", true);
-         jTextField4.putClientProperty("JComponent.roundRect", true);
-         jTextField5.putClientProperty("JComponent.roundRect", true);
-         jComboBox3.putClientProperty("JComponent.roundRect", true);
-         jComboBox5.putClientProperty("JComponent.roundRect", true);
-         jButton2.putClientProperty("JButton.buttonType", "roundRect");
-         jButton3.putClientProperty("JButton.buttonType", "roundRect");
-         jButton5.putClientProperty("JButton.buttonType", "roundRect");
-         jButton6.putClientProperty("JButton.buttonType", "roundRect");
-         jButton7.putClientProperty("JButton.buttonType", "roundRect");
-         clearall.putClientProperty("JButton.buttonType", "roundRect");
-     }
+
+    private void design() {
+
+        jTextField1.putClientProperty("JComponent.roundRect", true);
+        jTextField2.putClientProperty("JComponent.roundRect", true);
+        jTextField3.putClientProperty("JComponent.roundRect", true);
+        jTextField4.putClientProperty("JComponent.roundRect", true);
+        jTextField5.putClientProperty("JComponent.roundRect", true);
+        jComboBox3.putClientProperty("JComponent.roundRect", true);
+        jComboBox5.putClientProperty("JComponent.roundRect", true);
+        jButton2.putClientProperty("JButton.buttonType", "roundRect");
+        jButton3.putClientProperty("JButton.buttonType", "roundRect");
+        jButton5.putClientProperty("JButton.buttonType", "roundRect");
+        jButton6.putClientProperty("JButton.buttonType", "roundRect");
+        jButton7.putClientProperty("JButton.buttonType", "roundRect");
+        clearall.putClientProperty("JButton.buttonType", "roundRect");
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -425,12 +422,12 @@ public class BatchQuality extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        String id = jTextField1.getText();
-        String batch = jTextField2.getText();
-        String employees = jTextField3.getText();
+        String id = jTextField1.getText().trim();
+        String batch = jTextField2.getText().trim();
+        String employees = jTextField3.getText().trim();
         Date date = jDateChooser1.getDate();
-        String grade = jTextField4.getText();
-        String taste = jTextField5.getText();
+        String grade = jTextField4.getText().trim();
+        String taste = jTextField5.getText().trim();
         String status = String.valueOf(jComboBox3.getSelectedItem());
         String action = String.valueOf(jComboBox5.getSelectedItem());
 
@@ -440,43 +437,43 @@ public class BatchQuality extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter your Batch", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (employees.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Employees", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please select a Date", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (grade.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Quality Grade", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (taste.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Taste Evaluation", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (status.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter Quality Status", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (action.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter Action Taken", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (status.equals("Select") || status.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select Quality Status", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (action.equals("Select") || action.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select Action Taken", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-
             try {
-
                 ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `quality_control` WHERE `id` = '" + id + "'");
 
                 if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Batch Quality already registerd", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Batch Quality already registered", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    
-//                    Date date1 = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                    MySQL.executeIUD("INSERT INTO `quality_control`(`id`,`date`,`quality_grade`,`taste_evaluation`,`employees_nic`,`tea_batch_id`,`quality_status_id`,`action_taken_id`)"
+                    MySQL.executeIUD("INSERT INTO `quality_control`(`id`,`date`,`quality_grade`,`taste_evaluation`,`employees_nic`,`tea_batch_id`,`quality_status_id`,`action_taken_id`) "
                             + "VALUES('" + id + "','" + sdf.format(date) + "','" + grade + "','" + taste + "','" + employees + "','" + batch + "','" + qualityStatusMap.get(status) + "','" + actionTakenMap.get(action) + "')");
 
                     reset();
                     loadBatchQuality();
-                    
+
                     JOptionPane.showMessageDialog(this, "Batch Quality Successfully Added", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed to save data. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         String id = jTextField1.getText();
         String batch = jTextField2.getText();
         String employees = jTextField3.getText();
@@ -505,7 +502,7 @@ public class BatchQuality extends javax.swing.JPanel {
             try {
 
                 ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `quality_control` WHERE `tea_batch_id` = '" + batch + "'");
-                
+
                 boolean canUpdate = false;
 
                 if (resultSet.next()) {
@@ -514,27 +511,27 @@ public class BatchQuality extends javax.swing.JPanel {
                     } else {
                         JOptionPane.showMessageDialog(this, "Batch Quality already registerd", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
-                    
+
                 } else {
                     canUpdate = true;
                 }
-                
+
                 if (canUpdate) {
-                    
+
                     Date date1 = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                    MySQL.executeIUD("UPDATE `quality_control` SET `tea_batch_id` = '"+batch+"',`employees_nic` = '"+employees+"',"
-                            + "`date` = '"+sdf.format(date)+"',`quality_grade` = '"+grade+"',`taste_evaluation` = '"+taste+"',"
-                            + "`quality_status_id` = '"+ qualityStatusMap.get(status) +"',`action_taken_id` = '"+actionTakenMap.get(action)+"'"
-                            + "WHERE `id` = '"+id+"'");
+                    MySQL.executeIUD("UPDATE `quality_control` SET `tea_batch_id` = '" + batch + "',`employees_nic` = '" + employees + "',"
+                            + "`date` = '" + sdf.format(date) + "',`quality_grade` = '" + grade + "',`taste_evaluation` = '" + taste + "',"
+                            + "`quality_status_id` = '" + qualityStatusMap.get(status) + "',`action_taken_id` = '" + actionTakenMap.get(action) + "'"
+                            + "WHERE `id` = '" + id + "'");
 
                     loadBatchQuality();
                     reset();
-                    
+
                     JOptionPane.showMessageDialog(this, "Batch Quality Successfully Update", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -542,21 +539,21 @@ public class BatchQuality extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
+
         jButton3.setEnabled(false);
-        
+
         int row = jTable1.getSelectedRow();
-        
+
         String id = String.valueOf(jTable1.getValueAt(row, 0));
         jTextField1.setText(id);
         jTextField1.setEditable(false);
-        
+
         String batch = String.valueOf(jTable1.getValueAt(row, 1));
         jTextField2.setText(batch);
-        
+
         String employees = String.valueOf(jTable1.getValueAt(row, 2));
         jTextField3.setText(employees);
-        
+
         String dateString = String.valueOf(jTable1.getValueAt(row, 3));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -565,38 +562,38 @@ public class BatchQuality extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         String grade = String.valueOf(jTable1.getValueAt(row, 4));
         jTextField4.setText(grade);
-        
+
         String taste = String.valueOf(jTable1.getValueAt(row, 5));
         jTextField5.setText(taste);
-        
+
         String status = String.valueOf(jTable1.getValueAt(row, 6));
         jComboBox3.setSelectedItem(status);
-        
+
         String action = String.valueOf(jTable1.getValueAt(row, 7));
         jComboBox5.setSelectedItem(action);
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        
+
         int row = jTable1.getSelectedRow();
-        
+
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Please Select a Batch to Delete", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-        
+
             try {
-                
+
                 String id = String.valueOf(jTable1.getValueAt(row, 0));
-                
-                MySQL.executeIUD("DELETE FROM `quality_control` WHERE `id` = '"+id+"'");
-                
+
+                MySQL.executeIUD("DELETE FROM `quality_control` WHERE `id` = '" + id + "'");
+
                 reset();
                 loadBatchQuality();
-                
+
                 JOptionPane.showMessageDialog(this, "Batch Quality Deleted Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
                 jButton3.setEnabled(true);
                 jTextField1.setEditable(true);
@@ -607,15 +604,15 @@ public class BatchQuality extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void clearallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearallActionPerformed
-        
+
         jTextField1.setEditable(true);
         jButton3.setEnabled(true);
-        
+
         reset();
     }//GEN-LAST:event_clearallActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        
+
         TeaBatchesForApsara ap = new TeaBatchesForApsara(new home(), true, this);
         ap.setVisible(true);
         ap.setBatches(ap);
@@ -658,7 +655,7 @@ public class BatchQuality extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 
-    private void reset(){
+    private void reset() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
@@ -667,9 +664,9 @@ public class BatchQuality extends javax.swing.JPanel {
         jTextField5.setText("");
         jComboBox3.setSelectedIndex(0);
         jComboBox5.setSelectedIndex(0);
-        
+
         jTable1.clearSelection();
-        
+
         jTextField1.setEnabled(true);
         jButton3.setEnabled(true);
     }
