@@ -576,10 +576,8 @@ HashMap<String, model.OrderItem> order_Map = new HashMap<>();
 
                         JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
 
-                        // Fill the report with data and parameters
                         JasperPrint jasperPrint = JasperFillManager.fillReport(path, param, dataSource);
 
-                        // View the report
                         JasperViewer.viewReport(jasperPrint, false);
                     }
 

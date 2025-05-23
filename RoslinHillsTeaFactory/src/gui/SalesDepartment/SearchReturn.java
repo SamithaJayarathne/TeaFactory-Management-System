@@ -163,9 +163,7 @@ boolean WhereAdded = false;
          HashMap<String, Object> param = new HashMap<>();
          JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
 
-                    // Fill the report with data and parameters
                     JasperPrint jasperPrint = JasperFillManager.fillReport(path, param, dataSource);
-                    // View the report
                     this.dispose();
                     JasperViewer.viewReport(jasperPrint, false);
         } catch (Exception e) {

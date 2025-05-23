@@ -48,7 +48,6 @@ public class DateSalesReport extends javax.swing.JDialog {
         jTextField3.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by Customer Nic");
 }
    private void loadCustomer2() {
-    // Start building the base query
     String query = "SELECT * FROM `sales` "
                  + "INNER JOIN `customer` ON `customer`.`nic` = `sales`.`customer_nic` "
                  + "INNER JOIN `payment_method` ON `payment_method`.`id` = `sales`.`payment_method_id`";
@@ -58,14 +57,13 @@ public class DateSalesReport extends javax.swing.JDialog {
     try {
         StringBuilder queryBuilder = new StringBuilder(query);
 
-        // Check if jTextField1 has a value
+
         if (!jTextField1.getText().trim().isEmpty()) {
             queryBuilder.append(whereAdded ? " AND" : " WHERE");
             queryBuilder.append(" `sales`.`sales_id` LIKE '%").append(jTextField1.getText().trim()).append("%'");
             whereAdded = true;
         }
 
-        // Date conditions
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         if (jDateChooser1.getDate() != null) {
@@ -82,18 +80,15 @@ public class DateSalesReport extends javax.swing.JDialog {
             whereAdded = true;
         }
 
-        // Check if jTextField3 has a value
         if (!jTextField3.getText().trim().isEmpty()) {
             queryBuilder.append(whereAdded ? " AND" : " WHERE");
             queryBuilder.append(" `customer`.`nic` LIKE '%").append(jTextField3.getText().trim()).append("%'");
         }
 
-        // Convert StringBuilder to String
         query = queryBuilder.toString();
 
         
 
-        // Execute Query
         ResultSet rs = MySQL.executeSearch(query);
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();

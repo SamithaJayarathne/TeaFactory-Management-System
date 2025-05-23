@@ -51,10 +51,10 @@ public class CancelOrder extends javax.swing.JPanel {
 
     private void CancelOrder(String column, String orderby) {
         try {
-            // Base query
+           
             query = "SELECT * FROM `order` WHERE `order_status_id` = '1'";
 
-            // Append conditions dynamically
+            
             if (!jTextField1.getText().trim().isEmpty()) {
                 if (!query.contains("WHERE")) {
                     query += " WHERE";
@@ -73,12 +73,10 @@ public class CancelOrder extends javax.swing.JPanel {
                 query += " `order`.`orderId` LIKE '%" + jTextField2.getText().trim() + "%'";
             }
 
-            // Define table columns
             String[] columnNames = {"Customer NIC", "Order ID", "Order Date", "Total Amount", "Cancel Order"};
             DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
-                    // Make all cells non-editable
                     return false;
                 }
             };
@@ -175,7 +173,6 @@ public class CancelOrder extends javax.swing.JPanel {
 
                                 MySQL.executeIUD("DELETE FROM `order` WHERE `orderId` = '" + orderId + "'");
 
-                                //MySQL.executeSearch()
                                 CancelOrder("customer_nic", "ASC");
                             } catch (Exception ex) {
 //                              

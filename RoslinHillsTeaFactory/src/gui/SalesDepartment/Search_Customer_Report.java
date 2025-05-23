@@ -70,7 +70,6 @@ public class Search_Customer_Report extends javax.swing.JDialog {
         boolean whereAdded = false;
         
         try {
-            // Check if jTextField1 has a value (avoiding null or empty checks)
             
             if (jTextField1.getText().trim() != null) {
                 if (!query.contains("WHERE")) {

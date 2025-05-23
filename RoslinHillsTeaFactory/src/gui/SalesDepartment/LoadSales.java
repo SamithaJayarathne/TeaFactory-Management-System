@@ -1,4 +1,3 @@
-
 package gui.SalesDepartment;
 
 import static gui.SalesDepartment.loadCustomer.query;
@@ -26,15 +25,12 @@ public class LoadSales extends javax.swing.JDialog {
     }
 
     private void loadSales() {
-        String query = "SELECT * FROM `sales` "
-                + "INNER JOIN `customer` ON `customer`.`nic` = `sales`.`customer_nic` "
-                + "INNER JOIN `payment_method` ON `payment_method`.`id` = `sales`.`payment_method_id` "
-                + "INNER JOIN `sales_item` ON `sales`.`sales_id` = `sales_item`.`sales_sales_id`";
+        String query = "SELECT * FROM `sales`INNER JOIN `customer` ON `customer`.`nic` = `sales`.`customer_nic`\n"
+                + "INNER JOIN `payment_method` ON `payment_method`.`id` = `sales`.`payment_method_id`";
 
         boolean whereAdded = false;
 
         try {
-            // Check if jTextField1 has a value (avoiding null or empty checks)
             if (jTextField1.getText().trim().length() > 0) {
                 if (!query.contains("WHERE")) {
                     query += " WHERE";
@@ -61,7 +57,7 @@ public class LoadSales extends javax.swing.JDialog {
 
             while (rs.next()) {
                 Vector<String> vector = new Vector<>();
-                vector.add(rs.getString("sales_item.id"));
+                
                 vector.add(rs.getString("sales.sales_id"));
                 vector.add(rs.getString("customer.nic"));
                 vector.add(rs.getString("customer.fname"));
@@ -91,11 +87,11 @@ public class LoadSales extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Sales Item ID", "Sales ID", "Customer Nic", "Customer Name", "Tootal Amount", "Payment Method"
+                "Sales ID", "Customer Nic", "Customer Name", "Tootal Amount", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -157,14 +153,14 @@ public class LoadSales extends javax.swing.JDialog {
         try {
             System.out.println("ok");
             int row = jTable1.getSelectedRow();
-            String orderid = String.valueOf(jTable1.getValueAt(row, 1));
+            String orderid = String.valueOf(jTable1.getValueAt(row, 0));
             ResultSet rs = MySQL.executeSearch("SELECT * FROM `sales_item` INNER JOIN `sales` ON `sales`.`sales_id` = `sales_item`.`sales_sales_id` "
                     + "INNER JOIN `product_stock` ON `product_stock`.`id` = `sales_item`.`product_stock_id` "
                     + "INNER JOIN `products` ON  `products`.`id` = `product_stock`.`products_id` WHERE `sales_item`.`sales_sales_id` = '" + orderid + "'");
-           
+
             DefaultTableModel model = (DefaultTableModel) RO.getjTable().getModel();
             model.setRowCount(0);
- System.out.println("ok3");
+            System.out.println("ok3");
             while (rs.next()) {
 
                 Vector vector = new Vector();
@@ -185,7 +181,7 @@ public class LoadSales extends javax.swing.JDialog {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-       loadSales();
+        loadSales();
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased

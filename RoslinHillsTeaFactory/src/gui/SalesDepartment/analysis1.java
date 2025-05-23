@@ -61,26 +61,24 @@ public class analysis1 extends javax.swing.JPanel {
             dataset.addValue(income, "Daily Income", saleDate);
         }
 
-        // Create the line chart
+        
         JFreeChart lineChart = ChartFactory.createLineChart(
-                "Daily Income Over Last 5 Days", // Title
-                "Date",                         // X-axis label
-                "Income (LKR)",                 // Y-axis label
-                dataset,                        // Dataset
+                "Daily Income Over Last 5 Days", 
+                "Date",                         
+                "Income (LKR)",                 
+                dataset,                       
                 PlotOrientation.VERTICAL,
-                false,                          // Legend
-                true,                           // Tooltips
-                false                           // URLs
+                false,                         
+                true,                           
+                false                        
         );
 
-        // Customize the plot
         CategoryPlot plot = lineChart.getCategoryPlot();
         plot.setBackgroundPaint(Color.WHITE);
         plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
         plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
         plot.setOutlineVisible(false);
 
-        // Customize renderer
         LineAndShapeRenderer renderer = new LineAndShapeRenderer();
         renderer.setSeriesPaint(0, new Color(59, 130, 246)); // Blue color
         renderer.setSeriesStroke(0, new BasicStroke(2.0f));
@@ -94,7 +92,6 @@ public class analysis1 extends javax.swing.JPanel {
         });
         plot.setRenderer(renderer);
 
-        // Customize title and axes
         lineChart.getTitle().setFont(new Font("SansSerif", Font.BOLD, 18));
         lineChart.getTitle().setPaint(Color.DARK_GRAY);
 
@@ -108,7 +105,6 @@ public class analysis1 extends javax.swing.JPanel {
         plot.getRangeAxis().setLabelPaint(Color.DARK_GRAY);
         plot.getRangeAxis().setTickLabelPaint(Color.DARK_GRAY);
 
-        // Create and add the chart panel
         ChartPanel chartPanel = new ChartPanel(lineChart);
         chartPanel.setPreferredSize(new Dimension(800, 600));
         chartPanel.setBackground(Color.WHITE);
@@ -137,41 +133,34 @@ public class analysis1 extends javax.swing.JPanel {
                 dataset.setValue(name, count);
             }
 
-            // Create a pie chart
             JFreeChart pieChart = ChartFactory.createPieChart(
-                    "Customer Count By Gender", // Chart title
-                    dataset, // Dataset
-                    true, // Include legend
-                    true, // Tooltips
-                    false // URLs
+                    "Customer Count By Gender", 
+                    dataset, 
+                    true, 
+                    true, 
+                    false 
             );
 
-            // Customize the pie chart
             PiePlot plot = (PiePlot) pieChart.getPlot();
-            plot.setBackgroundPaint(Color.WHITE); // Set plot background color
-            plot.setOutlineVisible(false); // Remove plot outline
+            plot.setBackgroundPaint(Color.WHITE); 
+            plot.setOutlineVisible(false); 
 
-            // Remove the border around the chart itself
-            pieChart.setBackgroundPaint(Color.WHITE); // Set chart background color
-            pieChart.setBorderVisible(false); // Remove chart border
+            pieChart.setBackgroundPaint(Color.WHITE); 
+            pieChart.setBorderVisible(false); 
 
-            // Set section colors (customize as needed)
-            plot.setSectionPaint("Male", new Color(76, 175, 80)); // Green
-            plot.setSectionPaint("Female", new Color(255, 87, 34)); // Deep Orange
+            plot.setSectionPaint("Male", new Color(76, 175, 80)); 
+            plot.setSectionPaint("Female", new Color(255, 87, 34)); 
 
-            // Customize label font and color
             plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
             plot.setLabelPaint(Color.DARK_GRAY);
             plot.setLabelBackgroundPaint(Color.WHITE);
             plot.setLabelShadowPaint(null);
             plot.setLabelOutlinePaint(null);
 
-            // Create a custom chart panel
             ChartPanel chartPanel = new ChartPanel(pieChart);
             chartPanel.setPreferredSize(new Dimension(500, 500));
             chartPanel.setBackground(Color.WHITE); // Set chart panel background color
 
-            // Clear and add the chart to the GUI panel (jPanel2)
             jPanel2.removeAll();
             jPanel2.add(chartPanel);
             jPanel2.validate();
@@ -183,7 +172,7 @@ public class analysis1 extends javax.swing.JPanel {
 
     private void loadCityByCustomer() {
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-    HashMap<String, Color> cityColors = new HashMap<>(); // Store colors for each city
+    HashMap<String, Color> cityColors = new HashMap<>(); 
 
     String query = "SELECT city.`name` AS city, COUNT(customer.nic) AS total FROM customer JOIN city ON customer.city_id = city.id GROUP BY city.`name`;";
 
@@ -196,7 +185,6 @@ public class analysis1 extends javax.swing.JPanel {
             int count = rs.getInt("total");
             dataset.addValue(count, "Customers", city);
 
-            // Assign a unique color to each city
             if (!cityColors.containsKey(city)) {
                 cityColors.put(city, getDynamicColor(colorIndex));
                 colorIndex++;

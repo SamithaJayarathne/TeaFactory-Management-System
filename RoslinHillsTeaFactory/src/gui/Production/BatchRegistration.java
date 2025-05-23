@@ -82,7 +82,7 @@ public class BatchRegistration extends javax.swing.JPanel {
                 String qty = rs.getString("qty");
                 Vector<String> vector = new Vector();
                 vector.add(String.valueOf(rs.getString("id")));
-                vector.add(qty + " " + unit);
+                vector.add(qty);
                 vector.add(rs.getString("added_date"));
                 vector.add(rs.getString("grades.name"));
 
@@ -94,7 +94,7 @@ public class BatchRegistration extends javax.swing.JPanel {
         }
 
     }
-    
+
     public static long generateUniqueBatchId() {
         Random random = new Random();
 
@@ -244,66 +244,64 @@ public class BatchRegistration extends javax.swing.JPanel {
 //            e.printStackTrace();
 //        }
 //    }
-    
-    
     private void loadCategoryChart() {
-    // Create dataset for the pie chart
-    DefaultPieDataset dataset = new DefaultPieDataset();
+        // Create dataset for the pie chart
+        DefaultPieDataset dataset = new DefaultPieDataset();
 
-    String query = "SELECT grades.name, SUM(tea_batch.qty_start) as total_qty "
-                 + "FROM tea_batch "
-                 + "INNER JOIN raw_materials_stock ON raw_materials_stock.id = tea_batch.raw_materials_stock_id "
-                 + "INNER JOIN grades ON grades.id = tea_batch.grades_id "
-                 + "GROUP BY grades.name";
+        String query = "SELECT grades.name, SUM(tea_batch.qty_start) as total_qty "
+                + "FROM tea_batch "
+                + "INNER JOIN raw_materials_stock ON raw_materials_stock.id = tea_batch.raw_materials_stock_id "
+                + "INNER JOIN grades ON grades.id = tea_batch.grades_id "
+                + "GROUP BY grades.name";
 
-    try {
-        ResultSet rs = MySQL.executeSearch(query);
+        try {
+            ResultSet rs = MySQL.executeSearch(query);
 
-        while (rs.next()) {
-            int totalQty = rs.getInt("total_qty");
-            String gradeName = rs.getString("name");
-            dataset.setValue(gradeName, totalQty);
+            while (rs.next()) {
+                int totalQty = rs.getInt("total_qty");
+                String gradeName = rs.getString("name");
+                dataset.setValue(gradeName, totalQty);
+            }
+
+            // Create pie chart
+            JFreeChart pieChart = ChartFactory.createPieChart(
+                    "Stock Distribution by Tea Grade", // Chart title
+                    dataset, // Dataset
+                    true, // Include legend
+                    true, // Tooltips
+                    false // URLs
+            );
+
+            // Customize the pie chart
+            PiePlot plot = (PiePlot) pieChart.getPlot();
+            plot.setSectionOutlinesVisible(false);
+            plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}: {1} ({2})"));
+
+            // Apply custom color scheme
+            Paint[] colors = {
+                new Color(79, 129, 189), // Blue
+                new Color(155, 187, 89), // Green
+                new Color(192, 80, 77), // Red
+                new Color(128, 100, 162), // Purple
+                new Color(247, 150, 70) // Orange
+            };
+            for (int i = 0; i < dataset.getItemCount(); i++) {
+                plot.setSectionPaint(dataset.getKey(i), colors[i % colors.length]);
+            }
+
+            // Add chart to panel
+            ChartPanel chartPanel = new ChartPanel(pieChart);
+            chartPanel.setPreferredSize(new Dimension(600, 400));
+
+            // Update GUI panel
+            jPanel1.removeAll();
+            jPanel1.add(chartPanel);
+            jPanel1.validate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // Create pie chart
-        JFreeChart pieChart = ChartFactory.createPieChart(
-            "Stock Distribution by Tea Grade", // Chart title
-            dataset, // Dataset
-            true, // Include legend
-            true, // Tooltips
-            false // URLs
-        );
-
-        // Customize the pie chart
-        PiePlot plot = (PiePlot) pieChart.getPlot();
-        plot.setSectionOutlinesVisible(false);
-        plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}: {1} ({2})"));
-        
-        // Apply custom color scheme
-        Paint[] colors = {
-            new Color(79, 129, 189),  // Blue
-            new Color(155, 187, 89),  // Green
-            new Color(192, 80, 77),   // Red
-            new Color(128, 100, 162), // Purple
-            new Color(247, 150, 70)   // Orange
-        };
-        for(int i=0; i<dataset.getItemCount(); i++){
-            plot.setSectionPaint(dataset.getKey(i), colors[i % colors.length]);
-        }
-
-        // Add chart to panel
-        ChartPanel chartPanel = new ChartPanel(pieChart);
-        chartPanel.setPreferredSize(new Dimension(600, 400));
-
-        // Update GUI panel
-        jPanel1.removeAll();
-        jPanel1.add(chartPanel);
-        jPanel1.validate();
-
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -540,47 +538,62 @@ public class BatchRegistration extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         int row = jTable1.getSelectedRow();
-        String batch_id = jTextField1.getText();
-        String quty = jTextField2.getText();
+        String batch_id = jTextField1.getText().trim();
+        String qutyText = jTextField2.getText().trim();
         String process = String.valueOf(jComboBox1.getSelectedItem());
         String machine = String.valueOf(jComboBox2.getSelectedItem());
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Select tea leaves Stock first", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (quty.isEmpty()) {
+        } else if (batch_id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Batch ID is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (qutyText.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Add Quantity", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Integer.parseInt(quty) > 250) {
-            JOptionPane.showMessageDialog(this, "Quantity should be less than 250", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Integer.parseInt(quty) % 50 != 0) {
-            JOptionPane.showMessageDialog(this, "Invalid, Quantity should be a Multiple of 50", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!qutyText.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Quantity must be a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (Integer.parseInt(qutyText) > 250) {
+            JOptionPane.showMessageDialog(this, "Quantity should be less than or equal to 250", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Integer.parseInt(qutyText) % 50 != 0) {
+            JOptionPane.showMessageDialog(this, "Invalid: Quantity should be a multiple of 50", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (jTable1.getValueAt(row, 1) == null) {
+            JOptionPane.showMessageDialog(this, "Selected stock does not have a quantity", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!jTable1.getValueAt(row, 1).toString().matches("[0-9.]+")) {
+            JOptionPane.showMessageDialog(this, "Stock quantity format is invalid", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (Double.parseDouble(jTable1.getValueAt(row, 1).toString()) < Integer.parseInt(qutyText)) {
+            JOptionPane.showMessageDialog(this, "Quantity is more than available stock", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-
             try {
+                int quty = Integer.parseInt(qutyText);
+                double exQty = Double.parseDouble(jTable1.getValueAt(row, 1).toString());
+
                 String raw_id = String.valueOf(jTable1.getValueAt(row, 0));
                 String grade = String.valueOf(jTable1.getValueAt(row, 3));
-                ResultSet res = MySQL.executeSearch("SELECT `qty` FROM `raw_materials_stock` WHERE `id` = '" + raw_id + "'");
 
+                ResultSet res = MySQL.executeSearch("SELECT `qty` FROM `raw_materials_stock` WHERE `id` = '" + raw_id + "'");
                 ResultSet rs = MySQL.executeSearch("SELECT * FROM `grades`");
 
                 while (rs.next()) {
                     gradeMap.put(rs.getString("name"), rs.getString("id"));
                 }
 
-                MySQL.executeIUD("INSERT INTO `tea_batch`(`id`,`production_date`,`qty_start`,`raw_materials_stock_id`,`grades_id`,`machine_id`,`production_status_id`)"
+                MySQL.executeIUD("INSERT INTO `tea_batch`(`id`,`production_date`,`qty_start`,`raw_materials_stock_id`,`grades_id`,`machine_id`,`production_status_id`) "
                         + "VALUES('" + batch_id + "','" + date + "','" + quty + "','" + raw_id + "','" + gradeMap.get(grade) + "','" + machineMap.get(machine) + "','" + processMap.get(process) + "')");
 
+                JOptionPane.showMessageDialog(this, "Success", "done", JOptionPane.INFORMATION_MESSAGE);
+
                 if (res.next()) {
-                    Double existing_stock = Double.valueOf(String.valueOf(res.getString("qty")));
-                    Double new_stock = existing_stock - Double.parseDouble(quty);
+                    double existing_stock = Double.parseDouble(res.getString("qty"));
+                    double new_stock = existing_stock - quty;
                     MySQL.executeIUD("UPDATE `raw_materials_stock` SET `qty` = '" + new_stock + "' WHERE `id` = '" + raw_id + "'");
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         }
+
         batchID();
         loadTeaBatch();
         loadRawMaterialStock();
@@ -590,7 +603,7 @@ public class BatchRegistration extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         try {
             InputStream path = this.getClass().getResourceAsStream("/reports/Production/batchReport.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -608,7 +621,7 @@ public class BatchRegistration extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -692,12 +705,12 @@ public class BatchRegistration extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-private void reset(){
+private void reset() {
 
-    jTextField2.setText("");
-    jComboBox1.setSelectedIndex(0);
-    jComboBox2.setSelectedIndex(0);
+        jTextField2.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
 
-}
-    
+    }
+
 }

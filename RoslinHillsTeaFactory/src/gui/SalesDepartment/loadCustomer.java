@@ -22,8 +22,8 @@ import model.MySQL;
  */
 public class loadCustomer extends javax.swing.JDialog {
 
-    private static Customer_Management Cm;  // Removed 'static'
-    private static OrderManagement Cm2;  // Removed 'static'
+    private static Customer_Management Cm;  
+    private static OrderManagement Cm2;  
 
 //public void setCustomer(Customer_Management Cm) {
 //    this.Cm = Cm;
@@ -45,7 +45,6 @@ public class loadCustomer extends javax.swing.JDialog {
     static String query;
 
     private void loadCustomer2(String column, String orderby) {
-        // Start building the base query
         query = "SELECT * FROM `customer` "
                 + "INNER JOIN `city` ON `customer`.`city_id` = `city`.`id` "
                 + "INNER JOIN `customer_status` ON `customer`.`customer_status_id` = `customer_status`.`id` "
@@ -54,7 +53,6 @@ public class loadCustomer extends javax.swing.JDialog {
         boolean whereAdded = false;
 
         try {
-            // Check if jTextField1 has a value (avoiding null or empty checks)
 
             if (jTextField1.getText().trim() != null) {
                 if (!query.contains("WHERE")) {
@@ -96,7 +94,7 @@ public class loadCustomer extends javax.swing.JDialog {
             if (jComboBox1.getSelectedItem() != null) {
 
                 if (whereAdded) {
-                    query += " AND `" + column + "` IS NOT NULL";  // You can add a filter if needed
+                    query += " AND `" + column + "` IS NOT NULL";  
                 }
                 query += " ORDER BY `" + column + "` " + orderby;
             }
@@ -349,6 +347,8 @@ public class loadCustomer extends javax.swing.JDialog {
                 Cm.getline2().setText(String.valueOf(jTable1.getValueAt(row, 7)));
                 Cm.getcity().setSelectedItem(String.valueOf(jTable1.getValueAt(row, 8)));
 
+                Cm.getRegisterbutton().setVisible(false);
+                
                 Cm.getnic().setEditable(false);
                 this.dispose();
 

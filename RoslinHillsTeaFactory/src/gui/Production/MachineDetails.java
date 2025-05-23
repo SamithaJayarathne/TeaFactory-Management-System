@@ -264,47 +264,58 @@ public class MachineDetails extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String id = jTextField1.getText();
-        String name = jTextField2.getText();
-        String details = jTextField4.getText();
+        String id = jTextField1.getText().trim();
+        String name = jTextField2.getText().trim();
+        String details = jTextField4.getText().trim();
         String process = String.valueOf(jComboBox1.getSelectedItem());
 
         try {
-
             if (id.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Enter a Machine ID", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!id.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Invalid Machine ID: Only positive integers are allowed", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Integer.parseInt(id) <= 0) {
+                JOptionPane.showMessageDialog(this, "Machine ID must be greater than 0", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Enter Machine Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (id.matches(".*[a-zA-Z].*")) {
-                JOptionPane.showMessageDialog(this, "This ID has Letters, The ID should be Integers", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!name.matches("[A-Za-z0-9 .,-]+")) {
+                JOptionPane.showMessageDialog(this, "Invalid characters in Machine Name", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (details.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Enter Machine Details", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!details.matches("[A-Za-z0-9 .,-]{10,}")) {
+                JOptionPane.showMessageDialog(this, "Machine Details must be at least 10 characters and valid", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (process.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Select The Machine Process", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (jDateChooser1.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "You Haven't Set Date", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
+                ResultSet rs = MySQL.executeSearch("SELECT `id` FROM `machine` WHERE `id` = '" + id + "'");
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(this, "This ID is Already Given", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    String date = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
 
-                if (jDateChooser1.getDate() == null) {
-                    JOptionPane.showMessageDialog(this, "You Haven't Set Date", "Warning", JOptionPane.WARNING_MESSAGE);
+                    MySQL.executeIUD("INSERT INTO `machine` (`id`,`name`,`dop`,`manufacturer_details`,`machine_status_id`,`production_status_id`) "
+                            + "VALUES ('" + id + "','" + name + "','" + date + "','" + details + "','3','" + processMap.get(process) + "')");
+
+                    JOptionPane.showMessageDialog(this, "Machine successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    resetMachineFields();
+                    loadTable();
                 }
-
-                ResultSet rs = MySQL.executeSearch("SELECT * FROM `machine` WHERE `id` = '" + id + "'");
-                while (rs.next()) {
-                    if (id.equals(rs.getString("id"))) {
-                        JOptionPane.showMessageDialog(this, "This ID is Already Given", "Warning", JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-
-                String date = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
-
-                MySQL.executeIUD("INSERT INTO `machine` (`id`,`name`,`dop`,`manufacturer_details`,`machine_status_id`,`production_status_id`) "
-                        + "VAlUES ('" + id + "','" + name + "','" + date + "','" + details + "','3','" + processMap.get(process) + "')");
-                loadTable();
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    private void resetMachineFields() {
+        jTextField1.setText(""); 
+        jTextField2.setText(""); 
+        jTextField4.setText(""); 
+        jComboBox1.setSelectedIndex(0); 
+        jDateChooser1.setDate(null); 
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         try {
@@ -334,8 +345,8 @@ public class MachineDetails extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-         try {
+
+        try {
             InputStream path = this.getClass().getResourceAsStream("/reports/Production/machineDetails.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
@@ -352,7 +363,7 @@ public class MachineDetails extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

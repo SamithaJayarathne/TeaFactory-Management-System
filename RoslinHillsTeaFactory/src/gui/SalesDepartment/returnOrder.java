@@ -50,7 +50,6 @@ public class returnOrder extends javax.swing.JPanel {
         boolean whereAdded = false;
         
         try {
-            // Check if jTextField1 has a value (avoiding null or empty checks)
 
             if (jTextField2.getText().trim().length() > 0) {
                 if (!query.contains("WHERE")) {

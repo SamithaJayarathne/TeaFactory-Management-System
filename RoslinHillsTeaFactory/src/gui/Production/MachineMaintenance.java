@@ -44,7 +44,7 @@ public class MachineMaintenance extends javax.swing.JPanel {
         loadCompletedMachines();
 
     }
-    
+
     private void loadRepairTable() {
 
         try {
@@ -446,15 +446,20 @@ public class MachineMaintenance extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         int row = jTable1.getSelectedRow();
-        String id = String.valueOf(jTable1.getValueAt(row, 0));
+        String id = row != -1 ? String.valueOf(jTable1.getValueAt(row, 0)) : "";
 
         try {
-            if (jTable1.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(this, "Select a Row to Schedule", "Warning", JOptionPane.WARNING_MESSAGE);
+            if (row == -1) {
+                JOptionPane.showMessageDialog(this, "Select a row to schedule", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Invalid machine ID selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!id.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Machine ID must be a positive number", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Integer.parseInt(id) <= 0) {
+                JOptionPane.showMessageDialog(this, "Machine ID must be greater than 0", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (jDateChooser1.getDate() == null) {
-                JOptionPane.showMessageDialog(this, "Please enter a Date to Schedule", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter a date to schedule", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
 
                 MySQL.executeIUD("UPDATE `machine` SET `machine_status_id`='4' WHERE `id` = '" + id + "'");
@@ -467,7 +472,9 @@ public class MachineMaintenance extends javax.swing.JPanel {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -477,7 +484,7 @@ public class MachineMaintenance extends javax.swing.JPanel {
         String details = jTextArea1.getText();
 
         try {
-            
+
             if (row == -1) {
                 JOptionPane.showMessageDialog(this, "Select a Row to Finalize Repair", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -485,9 +492,9 @@ public class MachineMaintenance extends javax.swing.JPanel {
             if (details.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter Details to Finalize Repair", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                
+
                 String id = String.valueOf(jTable5.getValueAt(row, 0));
-                
+
                 MySQL.executeIUD("UPDATE `machine_maintenance` SET `details`='" + details + "' WHERE `machine_id`='" + id + "'");
                 MySQL.executeIUD("UPDATE `machine` SET `machine_status_id`='3' WHERE `id`='" + id + "'");
 
@@ -545,7 +552,7 @@ public class MachineMaintenance extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Select a Start Date", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
+
             if (jDateChooser2.getDate() == null) {
                 JOptionPane.showMessageDialog(this, "Select a End Date", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -597,7 +604,7 @@ public class MachineMaintenance extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
         try {
             InputStream path = this.getClass().getResourceAsStream("/reports/Production/machine_maintenance.jasper");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -615,7 +622,7 @@ public class MachineMaintenance extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

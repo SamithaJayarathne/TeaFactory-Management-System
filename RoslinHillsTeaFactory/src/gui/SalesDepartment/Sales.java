@@ -43,14 +43,12 @@ private void design(){
          jButton1.putClientProperty("JButton.buttonType", "roundRect");
 }
    private void loadCustomer2() {
-        // Start building the base query
         query = "SELECT * FROM `sales` INNER JOIN `customer` ON `customer`.`nic` = `sales`.`customer_nic`"
                 + "INNER JOIN `payment_method` ON `payment_method`.`id` = `sales`.`payment_method_id`";
         
         boolean whereAdded = false;
         
         try {
-            // Check if jTextField1 has a value (avoiding null or empty checks)
             
             if (jTextField1.getText().trim() != null) {
                 if (!query.contains("WHERE")) {
