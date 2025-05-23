@@ -740,7 +740,16 @@ public class LoanManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyReleased
-        calculate();
+
+        String typedAmount = jTextField4.getText().trim();
+
+        if (typedAmount.matches("\\d+(\\.\\d{1,2})?")) {
+            calculate();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            jTextField4.setText("");
+        }
+
     }//GEN-LAST:event_jTextField4KeyReleased
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -761,7 +770,14 @@ public class LoanManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
-        calculate();
+        String rate = jTextField5.getText().trim();
+
+        if (rate.matches("\\d+(\\.\\d{1,2})?")) {
+            calculate();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter a valid rate.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            jTextField5.setText("");
+        }
     }//GEN-LAST:event_jTextField5KeyReleased
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

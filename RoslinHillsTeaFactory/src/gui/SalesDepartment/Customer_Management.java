@@ -522,7 +522,7 @@ public class Customer_Management extends javax.swing.JPanel {
                    
                     MySQL.executeIUD("INSERT INTO `notifications`(`title`,`date`,`departments_id`,`notification_status_id`)"
                             + "VALUES('Customer Registered','"+sdf.format(date)+"','3','1') ");
-                    JOptionPane.showMessageDialog(this, "Customer Register Sucessful", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "New customer registered - "+fname, "Sucess", JOptionPane.INFORMATION_MESSAGE);
                     reset();
                 }
             } catch (Exception e) {

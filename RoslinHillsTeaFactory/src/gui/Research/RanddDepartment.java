@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package gui.randd;
+package gui.Research;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,10 @@ public class RanddDepartment extends javax.swing.JPanel {
     public RanddDepartment() {
         initComponents();
         toggleButtonBachground();
-
+        ResearchDashboard rd = new ResearchDashboard();
+        jPanel10.removeAll();
+        jPanel10.add(rd);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
     }
 
     private void toggleButtonBachground() {
@@ -38,6 +41,9 @@ public class RanddDepartment extends javax.swing.JPanel {
         jToggleButton7.setContentAreaFilled(false);
         jToggleButton7.setOpaque(false);
         jToggleButton7.setBorderPainted(false);
+        jToggleButton8.setContentAreaFilled(false);
+        jToggleButton8.setOpaque(false);
+        jToggleButton8.setBorderPainted(false);
     }
 
     public JLabel getJlabel2() {
@@ -56,6 +62,7 @@ public class RanddDepartment extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jToggleButton2 = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
+        jToggleButton8 = new javax.swing.JToggleButton();
         jToggleButton4 = new javax.swing.JToggleButton();
         jToggleButton5 = new javax.swing.JToggleButton();
         jToggleButton6 = new javax.swing.JToggleButton();
@@ -64,6 +71,7 @@ public class RanddDepartment extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -123,6 +131,23 @@ public class RanddDepartment extends javax.swing.JPanel {
             }
         });
         jPanel3.add(jToggleButton3);
+
+        jToggleButton8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jToggleButton8.setText("EXPERIMENTS");
+        jToggleButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jToggleButton8MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jToggleButton8MouseExited(evt);
+            }
+        });
+        jToggleButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton8ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jToggleButton8);
 
         jToggleButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jToggleButton4.setText("RESEARCHERS");
@@ -205,6 +230,7 @@ public class RanddDepartment extends javax.swing.JPanel {
 
         jLabel9.setBackground(new java.awt.Color(0, 204, 51));
         jPanel9.add(jLabel9);
+        jPanel9.add(jLabel14);
         jPanel9.add(jLabel10);
         jPanel9.add(jLabel11);
         jPanel9.add(jLabel12);
@@ -224,7 +250,7 @@ public class RanddDepartment extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1014, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1183, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,13 +349,21 @@ public class RanddDepartment extends javax.swing.JPanel {
         jLabel12.setBorder(null);
         jLabel13.setOpaque(false);
         jLabel13.setBorder(null);
+        jLabel14.setOpaque(false);
+        jLabel14.setBorder(null);
 
         jToggleButton3.setSelected(false);
         jToggleButton4.setSelected(false);
         jToggleButton5.setSelected(false);
         jToggleButton6.setSelected(false);
         jToggleButton7.setSelected(false);
+        jToggleButton8.setSelected(false);
 
+        ResearchDashboard rd = new ResearchDashboard();
+        jPanel10.removeAll();
+        jPanel10.add(rd);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
+        
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
@@ -342,12 +376,15 @@ public class RanddDepartment extends javax.swing.JPanel {
         jLabel12.setOpaque(false);
         jLabel12.setBorder(null);jLabel13.setOpaque(false);
         jLabel13.setBorder(null);
+        jLabel14.setOpaque(false);
+        jLabel14.setBorder(null);
 
         jToggleButton2.setSelected(false);
         jToggleButton4.setSelected(false);
         jToggleButton5.setSelected(false);
         jToggleButton6.setSelected(false);
         jToggleButton7.setSelected(false);
+        jToggleButton8.setSelected(false);
 
         Projects pr = new Projects();
         jPanel10.removeAll();
@@ -366,12 +403,15 @@ public class RanddDepartment extends javax.swing.JPanel {
         jLabel12.setBorder(null);
         jLabel13.setOpaque(false);
         jLabel13.setBorder(null);
+        jLabel14.setOpaque(false);
+        jLabel14.setBorder(null);
 
         jToggleButton2.setSelected(false);
         jToggleButton3.setSelected(false);
         jToggleButton5.setSelected(false);
         jToggleButton6.setSelected(false);
         jToggleButton7.setSelected(false);
+        jToggleButton8.setSelected(false);
 
         // Where you create and add the panel:
         ResearcherManagement rm = new ResearcherManagement();
@@ -395,12 +435,15 @@ public class RanddDepartment extends javax.swing.JPanel {
         jLabel12.setBorder(null);
         jLabel13.setOpaque(false);
         jLabel13.setBorder(null);
+        jLabel14.setOpaque(false);
+        jLabel14.setBorder(null);
 
         jToggleButton3.setSelected(false);
         jToggleButton2.setSelected(false);
         jToggleButton4.setSelected(false);
         jToggleButton6.setSelected(false);
         jToggleButton7.setSelected(false);
+        jToggleButton8.setSelected(false);
 
         TeaBlends td = new TeaBlends();
         jPanel10.removeAll();
@@ -419,12 +462,15 @@ public class RanddDepartment extends javax.swing.JPanel {
         jLabel8.setBorder(null);
         jLabel13.setOpaque(false);
         jLabel13.setBorder(null);
+        jLabel14.setOpaque(false);
+        jLabel14.setBorder(null);
 
         jToggleButton3.setSelected(false);
         jToggleButton4.setSelected(false);
         jToggleButton5.setSelected(false);
         jToggleButton2.setSelected(false);
         jToggleButton7.setSelected(false);
+        jToggleButton8.setSelected(false);
 
         ResearchTeams rt = new ResearchTeams();
         jPanel10.removeAll();
@@ -444,12 +490,15 @@ public class RanddDepartment extends javax.swing.JPanel {
         jLabel8.setBorder(null);
         jLabel12.setOpaque(false);
         jLabel12.setBorder(null);
+        jLabel14.setOpaque(false);
+        jLabel14.setBorder(null);
 
         jToggleButton3.setSelected(false);
         jToggleButton4.setSelected(false);
         jToggleButton5.setSelected(false);
         jToggleButton2.setSelected(false);
         jToggleButton7.setSelected(false);
+        jToggleButton8.setSelected(false);
         
         jLabel13.setOpaque(true);
         jLabel13.setBackground(new Color(0, 102, 255));
@@ -477,12 +526,56 @@ public class RanddDepartment extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jToggleButton7ActionPerformed
 
+    private void jToggleButton8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton8MouseEntered
+        jLabel9.setOpaque(false);
+        jLabel9.setBorder(null);
+        jLabel10.setOpaque(false);
+        jLabel10.setBorder(null);
+        jLabel11.setOpaque(false);
+        jLabel11.setBorder(null);
+        jLabel8.setOpaque(false);
+        jLabel8.setBorder(null);
+        jLabel12.setOpaque(false);
+        jLabel12.setBorder(null);
+        jLabel13.setOpaque(false);
+        jLabel13.setBorder(null);
+
+        jToggleButton3.setSelected(false);
+        jToggleButton4.setSelected(false);
+        jToggleButton5.setSelected(false);
+        jToggleButton2.setSelected(false);
+        jToggleButton6.setSelected(false);
+        jToggleButton7.setSelected(false);
+        
+        jLabel14.setOpaque(true);
+        jLabel14.setBackground(new Color(0, 102, 255));
+        Border border = BorderFactory.createLineBorder(new Color(0, 102, 255), 1);
+        jLabel14 .setBorder(border);
+    }//GEN-LAST:event_jToggleButton8MouseEntered
+
+    private void jToggleButton8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton8MouseExited
+        if (jToggleButton8.isSelected()) {
+
+        } else {
+            jLabel14.setOpaque(false);
+            jLabel14.setBorder(null);
+        }
+    }//GEN-LAST:event_jToggleButton8MouseExited
+
+    private void jToggleButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton8ActionPerformed
+        Experiments ex = new Experiments();
+        jPanel10.removeAll();
+        jPanel10.add(ex);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
+    }//GEN-LAST:event_jToggleButton8ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -498,5 +591,6 @@ public class RanddDepartment extends javax.swing.JPanel {
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
     private javax.swing.JToggleButton jToggleButton7;
+    private javax.swing.JToggleButton jToggleButton8;
     // End of variables declaration//GEN-END:variables
 }

@@ -30,20 +30,20 @@ public class OrderItem extends javax.swing.JDialog {
         try {
             ResultSet rs = MySQL.executeSearch("SELECT * FROM `order_item` INNER JOIN `product_stock`"
                     + "ON `product_stock`.`id` = `order_item`.`product_stock_id` INNER JOIN `products`"
-                    + "ON `products`.`id` = `product_stock`.`products_id` WHERE `order_item`.`order_orderId` =  '"+this.orderId+"'");
+                    + "ON `products`.`id` = `product_stock`.`products_id` WHERE `order_item`.`order_orderId` =  '" + this.orderId + "'");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
             while (rs.next()) {
                 Vector vector = new Vector();
-                vector.add(rs.getString("order_item.id"));
+                vector.add(rs.getString("product_stock.id"));
                 vector.add(rs.getString("order_item.order_orderId"));
                 vector.add(rs.getString("products.title"));
                 vector.add(rs.getDouble("order_item.qty"));
                 vector.add(rs.getDouble("order_item.unit_price"));
                 vector.add(rs.getDouble("order_item.total"));
-                
+
                 model.addRow(vector);
             }
 
@@ -122,23 +122,35 @@ public class OrderItem extends javax.swing.JDialog {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.getSelectedRow();
         if (evt.getClickCount() == 2) {
-            
-            int confirm = JOptionPane.showConfirmDialog(null,"Do you want Remove this Order Item","Confirm Deletion",JOptionPane.YES_NO_OPTION);
-            
+
+            int confirm = JOptionPane.showConfirmDialog(null, "Do you want Remove this Order Item", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+
             if (confirm == JOptionPane.YES_OPTION) {
                 try {
-                 
-                    ResultSet rs = MySQL.executeSearch("SELECT * FROM `order_item` WHERE `order_orderId` = '"+this.orderId+"'");
-                    
-                    
-                         String id = String.valueOf(jTable1.getValueAt(row, 0));
-                    MySQL.executeIUD("DELETE FROM `order_item` WHERE `id` = '"+id+"'");
-                 
-                  
-                    JOptionPane.showMessageDialog(this,"Successful Remove Order Item","scuess",JOptionPane.INFORMATION_MESSAGE);
-                    
-                    
-                    
+
+                    ResultSet rs = MySQL.executeSearch("SELECT * FROM `order_item` WHERE `order_orderId` = '" + this.orderId + "'");
+
+                    String id = String.valueOf(jTable1.getValueAt(row, 0));
+                    String orderId = String.valueOf(jTable1.getValueAt(row, 1));
+
+                    ResultSet rs2 = MySQL.executeSearch(
+                            "SELECT * FROM `product_stock` "
+                            + "INNER JOIN `order_item` ON `product_stock`.`id` = `order_item`.`product_stock_id` "
+                            + "WHERE `order_item`.`order_orderId` = '" + orderId + "'"
+                    );
+
+                    if (rs2.next()) {
+                        System.out.println("ok qty");
+                        MySQL.executeIUD(
+                                "UPDATE `product_stock` SET `qty` = qty + " + rs2.getDouble("order_item.qty") + " WHERE `id` = '" + id + "'");
+                        
+
+                    }
+                    MySQL.executeIUD("DELETE FROM `order_item` WHERE `order_orderId` = '" + orderId+ "' AND `product_stock_id` = '"+id+"'");
+                    JOptionPane.showMessageDialog(this, "Deduct Quantity", "scuess", JOptionPane.INFORMATION_MESSAGE);
+
+                    JOptionPane.showMessageDialog(this, "Successful Remove Order Item", "scuess", JOptionPane.INFORMATION_MESSAGE);
+
                     loadOrderItem();
                 } catch (Exception e) {
                     e.printStackTrace();

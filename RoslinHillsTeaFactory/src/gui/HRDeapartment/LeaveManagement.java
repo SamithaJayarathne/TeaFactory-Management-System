@@ -31,8 +31,8 @@ public class LeaveManagement extends javax.swing.JPanel {
         loadPendingLeaves();
         tableCenter();
     }
-    
-     private void tableCenter() {
+
+    private void tableCenter() {
 
         // Custom renderer to center-align cells
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -445,37 +445,49 @@ public class LeaveManagement extends javax.swing.JPanel {
         Date start = jDateChooser1.getDate();
         Date end = jDateChooser2.getDate();
         int days = Integer.parseInt(jLabel6.getText());
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date today = new Date();
 
         LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate todayDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
-        if (daysBetween <= days) {
-
-            try {
-                // insert to leave table
-                MySQL.executeIUD("INSERT INTO `leaves` (`start_date`, `end_date`, `approvel_status_id`, `leave_types_id`, `employees_nic`) VALUES "
-                        + "('" + format.format(start) + "', '" + format.format(end) + "', '1', '" + leaveTypeMap.get(leaveType) + "', '" + nic + "')");
-
-                
-                //add notification
-                MySQL.executeIUD("INSERT INTO `notifications` (`title`, `date`, `departments_id`, `notification_status_id`) VALUES ('New leave request from an employee', '" + format2.format(today) + "', '1', '1')");
-
-                JOptionPane.showMessageDialog(this, "Applied Successfully", "", JOptionPane.INFORMATION_MESSAGE);
-                reset();
-                loadPendingLeaves();
-
-            } catch (Exception ex) {
-                Logger.getLogger(LeaveManagement.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-
+        if (startDate.isBefore(todayDate)) {
+            JOptionPane.showMessageDialog(this, "Start date cannot be in the past.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+
+        if (endDate.isBefore(startDate)) {
+            JOptionPane.showMessageDialog(this, "End date cannot be before start date.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (daysBetween > days) {
+            JOptionPane.showMessageDialog(this, "Selected leave period exceeds the available leave days.", "Limit Exceeded", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            
+            MySQL.executeIUD("INSERT INTO `leaves` (`start_date`, `end_date`, `approvel_status_id`, `leave_types_id`, `employees_nic`) VALUES "
+                    + "('" + format.format(start) + "', '" + format.format(end) + "', '1', '" + leaveTypeMap.get(leaveType) + "', '" + nic + "')");
+
+            
+            MySQL.executeIUD("INSERT INTO `notifications` (`title`, `date`, `departments_id`, `notification_status_id`) VALUES "
+                    + "('New leave request from an employee', '" + format2.format(today) + "', '1', '1')");
+
+            JOptionPane.showMessageDialog(this, "Applied Successfully", "", JOptionPane.INFORMATION_MESSAGE);
+            reset();
+            loadPendingLeaves();
+
+        } catch (Exception ex) {
+            Logger.getLogger(LeaveManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -490,7 +502,7 @@ public class LeaveManagement extends javax.swing.JPanel {
             String end = String.valueOf(jTable2.getValueAt(row, 3));
             String leaveType = String.valueOf(jTable2.getValueAt(row, 1));
             String nic = String.valueOf(jTable2.getValueAt(row, 0));
-            String name ="";
+            String name = "";
 
             ResultSet employeeRs;
             try {
@@ -508,7 +520,7 @@ public class LeaveManagement extends javax.swing.JPanel {
             map.put("name", name);
             map.put("nic", nic);
             map.put("leaveType", leaveType);
-            
+
             map.put("from", start);
             map.put("to", end);
 

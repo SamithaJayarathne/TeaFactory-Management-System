@@ -23,21 +23,21 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import gui.SalesDepartment.All_Order;
+
 /**
  *
  * @author Lenovo
  */
 public class Invoice extends javax.swing.JPanel {
 
-    
     public Invoice() {
         initComponents();
         design();
         load_Order("customer_nic", "ASC");
         loadPaymentMethod();
-       All_Order order = new All_Order();
-       order.tableCenter(jTable1, jLabel1);
-        
+        All_Order order = new All_Order();
+        order.tableCenter(jTable1, jLabel1);
+
     }
 
     private void design() {
@@ -51,12 +51,12 @@ public class Invoice extends javax.swing.JPanel {
         jTextField2.putClientProperty("JComponent.roundRect", true);
 
         jComboBox1.putClientProperty("JComponent.roundRect", true);
-        
+
         jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 25");
         jPanel2.putClientProperty(FlatClientProperties.STYLE, "arc: 25");
         jPanel3.putClientProperty(FlatClientProperties.STYLE, "arc: 25");
 
-         jButton1.putClientProperty("JButton.buttonType", "roundRect");
+        jButton1.putClientProperty("JButton.buttonType", "roundRect");
         jTextField2.setEditable(false);
         jFormattedTextField1.setEditable(false);
         jFormattedTextField2.setEditable(false);
@@ -79,7 +79,7 @@ public class Invoice extends javax.swing.JPanel {
                 } else {
                     query += " AND";
                 }
-                query += " `order`.`customer_nic` LIKE '%" + jTextField1.getText().trim() + "%'";
+                query += " `order`.`customer_nic` LIKE '%" + jTextField1.getText().trim() + "%' ";
                 whereadded = true;
             }
             if (jTextField1.getText().trim() != null) {
@@ -88,7 +88,7 @@ public class Invoice extends javax.swing.JPanel {
                 } else {
                     query += " AND";
                 }
-                query += " `order`.`orderId` LIKE '%" + jTextField1.getText().trim() + "%'";
+                query += " `order`.`orderId` LIKE '%" + jTextField1.getText().trim() + "%' ";
                 whereadded = true;
             }
 
@@ -453,7 +453,7 @@ HashMap<String, model.OrderItem> order_Map = new HashMap<>();
                     Vector vector = new Vector();
 
                     vector.add(rs.getString("order_item.order_orderId"));
-                    vector.add(rs.getString("products.id"));
+                    vector.add(rs.getString("product_stock.id"));
                     vector.add(rs.getString("products.title"));
                     vector.add(rs.getDouble("order_item.qty"));
                     vector.add(rs.getDouble("order_item.unit_price"));
@@ -502,11 +502,11 @@ HashMap<String, model.OrderItem> order_Map = new HashMap<>();
     private void jFormattedTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField5KeyReleased
 
         String pendingPayment = jFormattedTextField3.getText();
-        String payment = jFormattedTextField5.getText();
+        String payment2 = jFormattedTextField5.getText();
 
-        double balance = Double.parseDouble(pendingPayment) - Double.parseDouble(payment);
+        double balance = Double.parseDouble(pendingPayment) - Double.parseDouble(payment2);
         double newBalance = Math.abs(balance);
-        if (payment.trim().isEmpty()) {
+        if (payment2.trim().isEmpty()) {
             jFormattedTextField6.setText("");
         }
         jFormattedTextField6.setText(String.valueOf(newBalance));
@@ -515,108 +515,167 @@ HashMap<String, model.OrderItem> order_Map = new HashMap<>();
 
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (jFormattedTextField5.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter your Payment", "warning", JOptionPane.INFORMATION_MESSAGE);
-
+        if (jFormattedTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Total is Empty and Select the row", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        } else if (jFormattedTextField2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Advance Payment is Empty", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        } else if (jFormattedTextField3.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Pending Payment is Empty", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        } else if (jComboBox1.getSelectedItem().equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a Payment Method", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        } else if (jFormattedTextField5.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter your Payment", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        } else if (jFormattedTextField6.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Balance is Empty", "Warning", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            int Row = jTable1.getSelectedRow();
-            String InvoiceNo = jTextField2.getText();
-            String total = jFormattedTextField1.getText();
-            String Advance_Payment = jFormattedTextField2.getText();
-            String Pending_Payment = jFormattedTextField3.getText();
-            String payment = jFormattedTextField5.getText();
-            String balance = jFormattedTextField6.getText();
-            String payment_method = String.valueOf(jComboBox1.getSelectedItem());
-            String customerNic = String.valueOf(jTable1.getValueAt(Row, 0));
+            Double pendingPayment = Double.parseDouble(String.valueOf(jFormattedTextField3.getText()));
+            Double payment3 = Double.parseDouble(String.valueOf(jFormattedTextField5.getText()));
+            if (pendingPayment >= payment3) {
+                JOptionPane.showMessageDialog(this, "Please Enter valid Payment", "Warning", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                int Row1 = jTable1.getSelectedRow();
 
-            try {
-                ResultSet rs = MySQL.executeSearch("SELECT * FROM `customer` WHERE `nic` = '" + customerNic + "'");
-
-                if (rs.next()) {
-                    System.out.println("ok");
-                    InputStream path = this.getClass().getResourceAsStream("/reports/Sales/invoice_report7.jasper");
-
-                    String fname = rs.getString("fname");
-                    String lname = rs.getString("fname");
-                    String fullName = fname + lname;
-                    String line1 = rs.getString("line1");
-                    String line2 = rs.getString("line2");
-
-                    HashMap<String, Object> param = new HashMap<>();
-                    param.put("Parameter1", InvoiceNo);
-                    param.put("Parameter2", payment_method);
-                    param.put("Parameter3", fullName);
-                    param.put("Parameter4", line1);
-                    param.put("Parameter5", total);
-                    param.put("Parameter6", Advance_Payment);
-                    param.put("Parameter7", payment);
-                    param.put("Parameter8", balance);
-                    param.put("Parameter9", line2);
-                    param.put("Parameter10", Pending_Payment);
-
-                    JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
-
-                    // Fill the report with data and parameters
-                    JasperPrint jasperPrint = JasperFillManager.fillReport(path, param, dataSource);
-
-                    // View the report
-                    JasperViewer.viewReport(jasperPrint, false);
+                if (Row1 == -1) {
+                    JOptionPane.showMessageDialog(this, "Please select a row from the table", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                    return;
                 }
+                int Row = jTable1.getSelectedRow();
+                String InvoiceNo = jTextField2.getText();
+                String total = jFormattedTextField1.getText();
+                String Advance_Payment = jFormattedTextField2.getText();
+                String Pending_Payment = jFormattedTextField3.getText();
+                String payment = jFormattedTextField5.getText();
+                String balance = jFormattedTextField6.getText();
+                String payment_method = String.valueOf(jComboBox1.getSelectedItem());
+                String customerNic = String.valueOf(jTable1.getValueAt(Row, 0));
 
-                Date date = new Date();
+                try {
+                    ResultSet rs = MySQL.executeSearch("SELECT * FROM `customer` WHERE `nic` = '" + customerNic + "'");
 
-                int row = jTable1.getSelectedRow();
-                double total_amount = Double.parseDouble(String.valueOf(jTable1.getValueAt(row, 3)));
-                String nic = String.valueOf(jTable1.getValueAt(row, 0));
-                ResultSet rs2 = MySQL.executeSearch("SELECT * FROM `order` INNER JOIN `order_item` "
-                        + "ON `order_item`.`order_orderId` = `order`.`orderId` WHERE `orderId` = '" + jTable1.getValueAt(row, 1) + "'");
-                if (rs2.next()) {
-                    System.out.println("iNSERT SALE TABLE");
-                    String OrderID = String.valueOf(jTable1.getValueAt(row, 1));
-                    long randomNumber = System.currentTimeMillis();
-                    String SalesId = ("SID/ " + randomNumber);
-                    int PaymentMethod = rs2.getInt("order.payment_method_id");
-                    double qty = rs2.getDouble("order_item.qty");
-                    double unitprice = rs2.getDouble("order_item.unit_price");
-                    double OrderItemTotal = rs2.getDouble("order_item.total");
-                    String productId = rs2.getString("order_item.product_stock_id");
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    if (rs.next()) {
+                        System.out.println("ok");
+                        InputStream path = this.getClass().getResourceAsStream("/reports/Sales/invoice_report7.jasper");
 
-                    MySQL.executeIUD("UPDATE `order` SET `payment_status_id` = '2' AND `order_status_id` = '2'");
+                        String fname = rs.getString("fname");
+                        String lname = rs.getString("fname");
+                        String fullName = fname + lname;
+                        String line1 = rs.getString("line1");
+                        String line2 = rs.getString("line2");
+
+                        HashMap<String, Object> param = new HashMap<>();
+                        param.put("Parameter1", InvoiceNo);
+                        param.put("Parameter2", payment_method);
+                        param.put("Parameter3", fullName);
+                        param.put("Parameter4", line1);
+                        param.put("Parameter5", total);
+                        param.put("Parameter6", Advance_Payment);
+                        param.put("Parameter7", payment);
+                        param.put("Parameter8", balance);
+                        param.put("Parameter9", line2);
+                        param.put("Parameter10", Pending_Payment);
+
+                        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
+
+                        // Fill the report with data and parameters
+                        JasperPrint jasperPrint = JasperFillManager.fillReport(path, param, dataSource);
+
+                        // View the report
+                        JasperViewer.viewReport(jasperPrint, false);
+                    }
+
+                    Date date = new Date();
+
+                    int row = jTable1.getSelectedRow();
+                    double total_amount = Double.parseDouble(String.valueOf(jTable1.getValueAt(row, 3)));
+                    String nic = String.valueOf(jTable1.getValueAt(row, 0));
+                    ResultSet rs2 = MySQL.executeSearch("SELECT * FROM `order` INNER JOIN `order_item` "
+                            + "ON `order_item`.`order_orderId` = `order`.`orderId` WHERE `orderId` = '" + jTable1.getValueAt(row, 1) + "'");
+                    if (rs2.next()) {
+                        System.out.println("iNSERT SALE TABLE");
+                        String OrderID = String.valueOf(jTable1.getValueAt(row, 1));
+                        long randomNumber = System.currentTimeMillis();
+                        String SalesId = ("SID/ " + randomNumber);
+                        int PaymentMethod = rs2.getInt("order.payment_method_id");
+                        double qty = rs2.getDouble("order_item.qty");
+                        double unitprice = rs2.getDouble("order_item.unit_price");
+                        double OrderItemTotal = rs2.getDouble("order_item.total");
+                        String productId = rs2.getString("order_item.product_stock_id");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 //                    for (model.OrderItem orderItem : order_Map.values()) {
 //                          Double qty1 = orderItem.getQty();
 //                          Double unitPrice1 = orderItem.getUnitPrice();
 //                          Double total1 = orderItem.getTotal();
 //                          String productId1 = orderItem.getproductId();
-                    MySQL.executeIUD("INSERT INTO `sales`(`sales_id`,`date`,`total_amount`,`customer_nic`,`payment_method_id`)"
-                            + "VALUES('" + SalesId + "','" + sdf.format(date) + "','" + total_amount + "','" + nic + "','" + PaymentMethod + "')");
+                        MySQL.executeIUD("INSERT INTO `sales`(`sales_id`,`date`,`total_amount`,`customer_nic`,`payment_method_id`)"
+                                + "VALUES('" + SalesId + "','" + sdf.format(date) + "','" + total_amount + "','" + nic + "','" + PaymentMethod + "')");
 
-                    int row2 = jTable2.getRowCount();
-                    for (int i = 0; i < row2; i++) {
-                        String qty1 = String.valueOf(jTable2.getValueAt(i, 3));
-                        String unitPrice1 = String.valueOf(jTable2.getValueAt(i, 4));
-                        String total1 = String.valueOf(jTable2.getValueAt(i, 5));
-                        String productId1 = String.valueOf(jTable2.getValueAt(i, 1));
-                       
-                       MySQL.executeIUD("INSERT INTO `sales_item`(`qty`,`unit_price`,`total`,`sales_sales_id`,`product_stock_id`)"
-                             + "VALUES('" + Double.parseDouble(qty1) + "','" + Double.parseDouble(unitPrice1) + "','" + Double.parseDouble(total1) + "','" + SalesId + "','" + productId1 + "')");
-                    }
+//                     MySQL.executeIUD("UPDATE `order` SET `payment_status_id` = '2' AND `order_status_id` = '2'");
+                        int row2 = jTable2.getRowCount();
+                        for (int i = 0; i < row2; i++) {
+                            String qty1 = String.valueOf(jTable2.getValueAt(i, 3));
+                            String unitPrice1 = String.valueOf(jTable2.getValueAt(i, 4));
+                            String total1 = String.valueOf(jTable2.getValueAt(i, 5));
+                            String productId1 = String.valueOf(jTable2.getValueAt(i, 1));
+                            System.out.println(productId1);
+                            MySQL.executeIUD("INSERT INTO `sales_item`(`qty`,`unit_price`,`total`,`sales_sales_id`,`product_stock_id`)"
+                                    + "VALUES('" + Double.parseDouble(qty1) + "','" + Double.parseDouble(unitPrice1) + "','" + Double.parseDouble(total1) + "','" + SalesId + "','" + productId1 + "')");
+                        }
 
 //                      }
 //                    MySQL.executeIUD("DELETE FROM `advace` WHERE `order_orderId` = '"+OrderID+"'");
 //                    MySQL.executeIUD("DELETE FROM `order_item` WHERE `order_orderId` = '"+OrderID+"'");
 //                    MySQL.executeIUD("DELETE FROM `order` WHERE `orderId` = '"+OrderID+"'");
-                    MySQL.executeIUD("UPDATE `order` SET `order_status_id` = '2' WHERE `orderId` = '" + OrderID + "'");
-                    System.out.println("Updatesd Order");
-                    load_Order("customer_nic", "ASC");
+                        MySQL.executeIUD("UPDATE `order` SET `order_status_id` = '2' WHERE `orderId` = '" + OrderID + "'");
+                        System.out.println("Updatesd Order");
+                        load_Order("customer_nic", "ASC");
+                        reset();
+                        sendEmailToPdf();
 
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void sendEmailToPdf() {
+        try {
+            String nic;
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                nic = String.valueOf(jTable1.getValueAt(i, 0));
+                ResultSet rs = MySQL.executeSearch("SELECT `email` FROM `customer` WHERE `nic` = '" + nic + "'");
+
+                if (rs.next()) {
+                    String email = rs.getString("customer.email");
+
+                    if (email.isEmpty()) {
+                        System.out.println("have email");
+                    } else {
+                        System.out.println("Not have email");
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void reset() {
+        jTextField2.setText("");
+        jFormattedTextField1.setText("");
+        jFormattedTextField2.setText("");
+        jFormattedTextField3.setText("");
+        jFormattedTextField5.setText("");
+        jFormattedTextField6.setText("");
+        jComboBox1.setSelectedIndex(0);
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+    }
 
     private void InsertOrderItem() {
 

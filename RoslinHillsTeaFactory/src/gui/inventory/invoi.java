@@ -5,6 +5,7 @@
 package gui.inventory;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import gui.LoggedUser;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -284,6 +285,7 @@ public class invoi extends javax.swing.JPanel {
 
             // Prepare parameters for the report if any
             HashMap<String, Object> param = new HashMap<>();
+param.put("Parameter1",LoggedUser.getFname() + " " + LoggedUser.getLname() );
 
             // Create a JRDataSource from the table model
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());

@@ -4,6 +4,7 @@
  */
 package gui.SalesDepartment;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import static gui.SalesDepartment.All_Order.query;
 import gui.home;
 import java.awt.Choice;
@@ -40,14 +41,14 @@ public class returnOrder extends javax.swing.JPanel {
         design();
         returnOrder();
     }
-
+    
     private void returnOrder() {
         String query = "SELECT * FROM `return` INNER JOIN `sales_item` ON `sales_item`.`id` = `return`.`sales_item_id`"
                 + "INNER JOIN `product_stock` ON `product_stock`.`id` = `sales_item`.`product_stock_id`"
                 + "INNER JOIN `products` ON `products`.`id` = `product_stock`.`products_id` WHERE `return_status_id` = '3'";
-
+        
         boolean whereAdded = false;
-
+        
         try {
             // Check if jTextField1 has a value (avoiding null or empty checks)
 
@@ -60,12 +61,12 @@ public class returnOrder extends javax.swing.JPanel {
                 query += " `return`.`return_id` LIKE '%" + jTextField2.getText().trim() + "%'";
                 whereAdded = true;
             }
-
+            
             ResultSet rs = MySQL.executeSearch(query);
-
+            
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0);
-
+            
             while (rs.next()) {
                 Vector vector = new Vector();
                 vector.add(rs.getString("return.return_id"));
@@ -74,44 +75,46 @@ public class returnOrder extends javax.swing.JPanel {
                 vector.add(rs.getString("products.title"));
                 vector.add(rs.getDouble("return.qty_returned"));
                 vector.add(rs.getDouble("return.amount"));
-
+                
                 model.addRow(vector);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public JTable getjTable() {
         return jTable1;
     }
-
+    
     private void design() {
         jTextField3.setEditable(false);
         jFormattedTextField1.setEditable(false);
         jFormattedTextField2.setEditable(false);
         jFormattedTextField3.setEditable(false);
-
+        
+        jTextField2.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by Return Id");
+        
         JTableHeader header = jTable1.getTableHeader();
         header.setBackground(Color.decode("#9ac0fc"));
-
+        
         JTableHeader header2 = jTable2.getTableHeader();
         header2.setBackground(Color.decode("#9ac0fc"));
         
-         jTextField1.putClientProperty("JComponent.roundRect", true);
-         jTextField3.putClientProperty("JComponent.roundRect", true);
-         jFormattedTextField3.putClientProperty("JComponent.roundRect", true);
-         jTextField4.putClientProperty("JComponent.roundRect", true);
-         jFormattedTextField2.putClientProperty("JComponent.roundRect", true);
-         jTextArea1.putClientProperty("JComponent.roundRect", true);
-         jTextField2.putClientProperty("JComponent.roundRect", true);
-         
-         jButton1.putClientProperty("JButton.buttonType", "roundRect");
-         jButton2.putClientProperty("JButton.buttonType", "roundRect");
-         jButton3.putClientProperty("JButton.buttonType", "roundRect");
-         jButton4.putClientProperty("JButton.buttonType", "roundRect");
+        jTextField1.putClientProperty("JComponent.roundRect", true);
+        jTextField3.putClientProperty("JComponent.roundRect", true);
+        jFormattedTextField3.putClientProperty("JComponent.roundRect", true);
+        jTextField4.putClientProperty("JComponent.roundRect", true);
+        jFormattedTextField2.putClientProperty("JComponent.roundRect", true);
+        jTextArea1.putClientProperty("JComponent.roundRect", true);
+        jTextField2.putClientProperty("JComponent.roundRect", true);
+        
+        jButton1.putClientProperty("JButton.buttonType", "roundRect");
+        jButton2.putClientProperty("JButton.buttonType", "roundRect");
+        jButton3.putClientProperty("JButton.buttonType", "roundRect");
+        jButton4.putClientProperty("JButton.buttonType", "roundRect");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -423,14 +426,14 @@ public class returnOrder extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Random random = new Random();
-
+        
         int studentNumber = 10000000 + random.nextInt(90000000);
-
+        
         jTextField1.setText("RTN/" + studentNumber);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+        
         Order order = new Order();
         returnOrder RO = new returnOrder();
         home home = new home();
@@ -458,34 +461,34 @@ public class returnOrder extends javax.swing.JPanel {
         } else {
             Double tot = Double.parseDouble(quantity) * Double.parseDouble(unitPrice);
             jFormattedTextField2.setText(String.valueOf(tot));
-
+            
         }
     }//GEN-LAST:event_jTextField4KeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int row = jTable1.getSelectedRow();
-        String salesId = String.valueOf(jTable1.getValueAt(row, 1));
-        String item_id = String.valueOf(jTable1.getValueAt(row, 0));
-        String returnId = jTextField1.getText();
-        String productName = jTextField3.getText();
-        String qty = jTextField4.getText();
-        String Availableqty = jFormattedTextField1.getText();
-        String total = jFormattedTextField2.getText();
-        String reson = jTextArea1.getText();
+        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please Select Product", "warning", JOptionPane.WARNING_MESSAGE);
-
+            
         } else {
-
+            int row = jTable1.getSelectedRow();
+            String salesId = String.valueOf(jTable1.getValueAt(row, 1));
+            String item_id = String.valueOf(jTable1.getValueAt(row, 0));
+            String returnId = jTextField1.getText();
+            String productName = jTextField3.getText();
+            String qty = jTextField4.getText();
+            String Availableqty = jFormattedTextField1.getText();
+            String total = jFormattedTextField2.getText();
+            String reson = jTextArea1.getText();
             if (returnId.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Generate Return ID", "warning", JOptionPane.WARNING_MESSAGE);
             } else if (productName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Product Name is Empty", "warning", JOptionPane.WARNING_MESSAGE);
             } else if (qty.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter qty", "warning", JOptionPane.WARNING_MESSAGE);
-            } else if (Double.parseDouble(qty) < Double.parseDouble(Availableqty)) {
+            } else if (Double.parseDouble(qty) > Double.parseDouble(Availableqty)) {
                 JOptionPane.showMessageDialog(this, "Not Valid qty. Available quanytity is + '" + Availableqty + "'", "warning", JOptionPane.WARNING_MESSAGE);
             } else if (total.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Total is Empty", "warning", JOptionPane.WARNING_MESSAGE);
@@ -494,7 +497,7 @@ public class returnOrder extends javax.swing.JPanel {
             } else {
                 try {
                     ResultSet rs = MySQL.executeSearch("SELECT * FROM `return` WHERE `sales_item_id` = '" + item_id + "'");
-
+                    
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(this, "Return", "warning", JOptionPane.WARNING_MESSAGE);
                     } else {
@@ -504,11 +507,12 @@ public class returnOrder extends javax.swing.JPanel {
                                 + "VALUES('" + returnId + "','" + sdf.format(date) + "','" + qty + "','" + reson + "','" + total + "','3','" + item_id + "') ");
                         JOptionPane.showMessageDialog(this, "Return Request Send", "scuess", JOptionPane.INFORMATION_MESSAGE);
                         returnOrder();
+                        reset();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -519,25 +523,25 @@ public class returnOrder extends javax.swing.JPanel {
             int choice = JOptionPane.showOptionDialog(this, "Do You Want Approval Or Not Approval", "Aproval Dialog", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             int row = jTable2.getSelectedRow();
             String return_id = String.valueOf(jTable2.getValueAt(row, 0));
-
+            
             try {
                 if (choice == JOptionPane.YES_OPTION) {
-
+                    
                     JOptionPane.showMessageDialog(this, "Approve Succcesful", "sucess", JOptionPane.INFORMATION_MESSAGE);
                     MySQL.executeIUD("UPDATE `return` SET `return_status_id` = '1' WHERE `return_id` = '" + return_id + "'");
-
+                    
                     returnOrder();
                 } else if (choice == JOptionPane.NO_OPTION) {
                     System.out.println("ok2");
                     JOptionPane.showMessageDialog(this, "Not Approve Succcesful", "sucess", JOptionPane.INFORMATION_MESSAGE);
                     MySQL.executeIUD("UPDATE `return` SET `return_status_id` = '2' WHERE `return_id` = '" + return_id + "'");
-
+                    
                     returnOrder();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            
         }
     }//GEN-LAST:event_jTable2MouseClicked
 
@@ -580,4 +584,16 @@ public class returnOrder extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
+
+    private void reset() {
+        jTextField1.setText("");
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        jTextField3.setText("");
+        jFormattedTextField3.setText("");
+        jTextField4.setText("");
+        jFormattedTextField1.setText("");
+        jFormattedTextField2.setText("");
+        jTextArea1.setText("");
+    }
 }

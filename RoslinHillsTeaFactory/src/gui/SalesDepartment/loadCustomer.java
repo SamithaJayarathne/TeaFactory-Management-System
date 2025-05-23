@@ -21,7 +21,7 @@ import model.MySQL;
  * @author Lenovo
  */
 public class loadCustomer extends javax.swing.JDialog {
-    
+
     private static Customer_Management Cm;  // Removed 'static'
     private static OrderManagement Cm2;  // Removed 'static'
 
@@ -33,29 +33,29 @@ public class loadCustomer extends javax.swing.JDialog {
         initComponents();
         design();
         loadCustomer2("fname", "ASC");
-        
+
         if (jpanel instanceof Customer_Management) {
-        this.Cm = (Customer_Management) jpanel;
+            this.Cm = (Customer_Management) jpanel;
         }
         if (jpanel instanceof OrderManagement) {
-            
-        this.Cm2 = (OrderManagement) jpanel;
+
+            this.Cm2 = (OrderManagement) jpanel;
         }
     }
     static String query;
-    
+
     private void loadCustomer2(String column, String orderby) {
         // Start building the base query
         query = "SELECT * FROM `customer` "
                 + "INNER JOIN `city` ON `customer`.`city_id` = `city`.`id` "
                 + "INNER JOIN `customer_status` ON `customer`.`customer_status_id` = `customer_status`.`id` "
                 + "INNER JOIN `gender` ON `customer`.`gender_id` = `gender`.`id`";
-        
+
         boolean whereAdded = false;
-        
+
         try {
             // Check if jTextField1 has a value (avoiding null or empty checks)
-            
+
             if (jTextField1.getText().trim() != null) {
                 if (!query.contains("WHERE")) {
                     query += " WHERE";
@@ -92,55 +92,55 @@ public class loadCustomer extends javax.swing.JDialog {
                 query += " `customer`.`mobile` LIKE '%" + jTextField3.getText().trim() + "%'";
                 whereAdded = true;
             }
-            
+
             if (jComboBox1.getSelectedItem() != null) {
-                
+
                 if (whereAdded) {
                     query += " AND `" + column + "` IS NOT NULL";  // You can add a filter if needed
                 }
                 query += " ORDER BY `" + column + "` " + orderby;
             }
-            
+
             ResultSet rs = MySQL.executeSearch(query);
-            
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
-            
+
             while (rs.next()) {
                 Vector<String> vector = new Vector<>();
-                vector.add(rs.getString("customer.fname"));                
-                vector.add(rs.getString("customer.lname"));                
-                vector.add(rs.getString("customer.nic"));                
-                vector.add(rs.getString("customer.email"));                
-                vector.add(rs.getString("customer.mobile"));                
-                vector.add(rs.getString("customer.registered_date"));                
-                vector.add(rs.getString("customer.line1"));                
-                vector.add(rs.getString("customer.line2"));                
-                vector.add(rs.getString("city.name"));                
-                vector.add(rs.getString("gender.name"));                
-                vector.add(rs.getString("customer_status.status"));                
-                
+                vector.add(rs.getString("customer.fname"));
+                vector.add(rs.getString("customer.lname"));
+                vector.add(rs.getString("customer.nic"));
+                vector.add(rs.getString("customer.email"));
+                vector.add(rs.getString("customer.mobile"));
+                vector.add(rs.getString("customer.registered_date"));
+                vector.add(rs.getString("customer.line1"));
+                vector.add(rs.getString("customer.line2"));
+                vector.add(rs.getString("city.name"));
+                vector.add(rs.getString("gender.name"));
+                vector.add(rs.getString("customer_status.status"));
+
                 model.addRow(vector);
             }
         } catch (Exception ex) {
             Logger.getLogger(loadCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void design() {
         jComboBox1.putClientProperty("JComponent.roundRect", true);
-        
+
         jTextField1.putClientProperty("JComponent.roundRect", true);
         jTextField2.putClientProperty("JComponent.roundRect", true);
         jTextField3.putClientProperty("JComponent.roundRect", true);
         jTextField4.putClientProperty("JComponent.roundRect", true);
         jButton2.putClientProperty("JButton.buttonType", "roundRect");
-        
+
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by First Name");
         jTextField4.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by Last Name");
         jTextField2.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by NIC");
         jTextField3.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by Mobile");
-        
+
         Icon icon = new ImageIcon("src/resources/Search.png");
         jTextField1.putClientProperty("JTextField.trailingIcon", icon);
         Icon icon2 = new ImageIcon("src/resources/Search.png");
@@ -150,7 +150,7 @@ public class loadCustomer extends javax.swing.JDialog {
         Icon icon4 = new ImageIcon("src/resources/Search.png");
         jTextField4.putClientProperty("JTextField.trailingIcon", icon4);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -289,7 +289,7 @@ public class loadCustomer extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,7 +300,7 @@ public class loadCustomer extends javax.swing.JDialog {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(13, Short.MAX_VALUE))
         );
@@ -334,49 +334,55 @@ public class loadCustomer extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
-            int row = jTable1.getSelectedRow();
-            if (Cm != null) {
-            
-        if (evt.getClickCount() == 2) {
-            Cm.getfname().setText(String.valueOf(jTable1.getValueAt(row, 0)));
-            Cm.getlname().setText(String.valueOf(jTable1.getValueAt(row, 1)));
-            Cm.getnic().setText(String.valueOf(jTable1.getValueAt(row, 2)));
-            Cm.getmobile().setText(String.valueOf(jTable1.getValueAt(row, 4)));
-            Cm.getgender().setSelectedItem(String.valueOf(jTable1.getValueAt(row, 9)));
-            Cm.getstatus().setSelectedItem(String.valueOf(jTable1.getValueAt(row, 10)));
-            Cm.getline1().setText(String.valueOf(jTable1.getValueAt(row, 6)));
-            Cm.getline2().setText(String.valueOf(jTable1.getValueAt(row, 7)));
-            Cm.getcity().setSelectedItem(String.valueOf(jTable1.getValueAt(row, 8)));
-            
-            Cm.getnic().setEditable(false);
-            this.dispose();
-            
+
+        int row = jTable1.getSelectedRow();
+        if (Cm != null) {
+
+            if (evt.getClickCount() == 2) {
+                Cm.getfname().setText(String.valueOf(jTable1.getValueAt(row, 0)));
+                Cm.getlname().setText(String.valueOf(jTable1.getValueAt(row, 1)));
+                Cm.getnic().setText(String.valueOf(jTable1.getValueAt(row, 2)));
+                Cm.getmobile().setText(String.valueOf(jTable1.getValueAt(row, 4)));
+                Cm.getgender().setSelectedItem(String.valueOf(jTable1.getValueAt(row, 9)));
+                Cm.getstatus().setSelectedItem(String.valueOf(jTable1.getValueAt(row, 10)));
+                Cm.getline1().setText(String.valueOf(jTable1.getValueAt(row, 6)));
+                Cm.getline2().setText(String.valueOf(jTable1.getValueAt(row, 7)));
+                Cm.getcity().setSelectedItem(String.valueOf(jTable1.getValueAt(row, 8)));
+
+                Cm.getnic().setEditable(false);
+                this.dispose();
+
+                long randomNumber = System.currentTimeMillis();
+                if (Cm2 != null) {
+                    Cm2.getCustomerNic().setText(String.valueOf(jTable1.getValueAt(row, 2)));
+                    Cm2.getOrderId().setText("OD/" + randomNumber);
+                    this.dispose();
+                } else {
+                    System.out.println("CM2 is Null");
+                }
+
+                String email = String.valueOf(jTable1.getValueAt(row, 3));
+
+            }
         }
-        }
-        
-        
-        
+
         if (evt.getClickCount() == 3) {
-       long randomNumber = System.currentTimeMillis();
-        if(Cm2 != null){
-        Cm2.getCustomerNic().setText(String.valueOf(jTable1.getValueAt(row, 2)));
-        Cm2.getOrderId().setText("OD/" + randomNumber);
-            this.dispose();
-        }else{
-            System.out.println("CM2 is Null");
+//            long randomNumber = System.currentTimeMillis();
+//            if (Cm2 != null) {
+//                Cm2.getCustomerNic().setText(String.valueOf(jTable1.getValueAt(row, 2)));
+//                Cm2.getOrderId().setText("OD/" + randomNumber);
+//                this.dispose();
+//            } else {
+//                System.out.println("CM2 is Null");
+//            }
+//
+//            String email = String.valueOf(jTable1.getValueAt(row, 3));
+
         }
-        
-       String email = String.valueOf(jTable1.getValueAt(row, 3));
-       
-       
-       
-        }
-     
+
     }//GEN-LAST:event_jTable1MouseClicked
 
-    
-    
+
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
         loadCustomer2("fname", "ASC");
     }//GEN-LAST:event_jTextField2KeyReleased

@@ -2,21 +2,16 @@ package gui;
 
 import gui.HRDeapartment.HRDepartment;
 
-import com.formdev.flatlaf.IntelliJTheme;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import gui.HRDeapartment.Attendance;
 import gui.HRDeapartment.Employees;
 import gui.HRDeapartment.LeaveManagement;
 import gui.Production.ProductionDepartment;
-import gui.SalesDepartment.SalesDepartment;
-import gui.SalesDepartment.SalesDepartment2;
 import gui.SalesDepartment.SalesDepartmentNew;
 import gui.TestDepartment.QualityControlDepartment;
-import gui.TestDepartment.QulityDashboard;
 import gui.backup.BackupAndRestore;
 import gui.finance.FinanceDashboard;
 import gui.inventory.inventory_dash;
-import gui.randd.RanddDepartment;
+import gui.Research.RanddDepartment;
 
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -73,7 +68,7 @@ public class home extends javax.swing.JFrame {
     private void setUserRestrictions() {
         String department = LoggedUser.getDepartment();
 
-        JLabel[] labels = {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel9};
+        JLabel[] labels = {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel9, jLabel13};
 
         for (JLabel label : labels) {
             label.setEnabled(false);
@@ -103,6 +98,7 @@ public class home extends javax.swing.JFrame {
                 jLabel6.setEnabled(true);
                 break;
             case "Research & Development":
+                jLabel13.setEnabled(true);
                 break;
 
         }
@@ -433,8 +429,8 @@ public class home extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 19)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sideBackup.png"))); // NOI18N
-        jLabel13.setText("Backup & Restore");
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sideResearch (2).png"))); // NOI18N
+        jLabel13.setText("Research & Dev.");
         jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel13.setIconTextGap(20);
         jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -488,11 +484,11 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
@@ -758,7 +754,7 @@ public class home extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
-        Notifications noti = new Notifications(this, true);
+        NotificationsNew noti = new NotificationsNew(this, true);
         noti.setVisible(true);
     }//GEN-LAST:event_jLabel15MouseClicked
 

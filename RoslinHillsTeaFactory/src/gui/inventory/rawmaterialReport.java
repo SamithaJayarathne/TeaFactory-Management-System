@@ -4,6 +4,7 @@
  */
 package gui.inventory;
 
+import gui.LoggedUser;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -42,27 +43,25 @@ public class rawmaterialReport extends javax.swing.JPanel {
     }
     
   private void rawmaterial() {
-        try {
+    try {
+        ResultSet resultSet = model.MySQL.executeSearch(
+            "SELECT * FROM raw_materials INNER JOIN material_type ON raw_materials.material_type_id = material_type.id "
+        );
 
-            ResultSet resultSet = model.MySQL.executeSearch("SELECT * FROM `raw_materials` INNER JOIN `material_type` ON raw_materials.material_type_id = material_type.id ");
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
 
-            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-            model.setRowCount(0);
-
-            while (resultSet.next()) {
-
-                Vector<String> vector = new Vector<>();
-
-                vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("name"));
-                vector.add(resultSet.getString("material_type.name"));
-
-                model.addRow(vector);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (resultSet.next()) {
+            Vector<String> vector = new Vector<>();
+            vector.add(resultSet.getString("material_id"));
+            vector.add(resultSet.getString("raw_materials.name"));
+            vector.add(resultSet.getString("material_type.name"));
+            model.addRow(vector);
         }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 
 
     /**
@@ -212,6 +211,8 @@ public class rawmaterialReport extends javax.swing.JPanel {
 
             // Prepare parameters for the report if any
             HashMap<String, Object> param = new HashMap<>();
+            param.put("Parameter1",LoggedUser.getFname() + " " + LoggedUser.getLname() );
+
 
             // Create a JRDataSource from the table model
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());

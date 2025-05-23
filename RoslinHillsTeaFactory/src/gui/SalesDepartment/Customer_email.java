@@ -54,6 +54,8 @@ public class Customer_email extends javax.swing.JDialog {
     }
 
     private void design() {
+                jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by Customer Nic");
+
         jTextField2.putClientProperty("JComponent.roundRect", true);
         jTextField3.putClientProperty("JComponent.roundRect", true);
         jTextField1.putClientProperty("JComponent.roundRect", true);
@@ -91,7 +93,15 @@ public class Customer_email extends javax.swing.JDialog {
             new String [] {
                 "NIC", "First Name", "Last Name", "Email"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);

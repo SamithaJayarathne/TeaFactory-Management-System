@@ -1,0 +1,11 @@
+gui.randd.ResearcherManagement$3
+gui.randd.ResearcherManagement$4
+gui.randd.ResearcherManagement$5
+gui.randd.ResearcherManagement$6
+gui.randd.ResearcherManagement
+gui.randd.ResearcherManagement$1
+gui.randd.ResearcherManagement$2
+gui.randd.ResearcherManagement$7
+gui.randd.ResearcherManagement$8
+gui.randd.ResearcherManagement$9
+gui.randd.ResearcherManagement$10

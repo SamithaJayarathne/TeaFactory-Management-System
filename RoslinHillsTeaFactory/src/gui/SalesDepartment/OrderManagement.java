@@ -5,6 +5,7 @@
 package gui.SalesDepartment;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.sun.mail.util.MailConnectException;
 import gui.home;
 import java.awt.TextField;
 import java.sql.ResultSet;
@@ -41,12 +42,15 @@ public class OrderManagement extends javax.swing.JPanel {
 
     HashMap<String, Object> productdetails_Map = new HashMap<>();
 
+    public static OrderManagement om = new OrderManagement();
+
     private void Product(Product product) {
         this.product = product;
     }
-    HashMap<String, OrderItem> order_Map = new HashMap<>();
+    HashMap<String, OrderItem> order_Map;
 
-//    public Order OR;
+    OrderItem orderItem;
+
     public OrderManagement() {
         initComponents();
         design();
@@ -67,6 +71,15 @@ public class OrderManagement extends javax.swing.JPanel {
     }
 
     String id2 = id;
+    DefaultTableModel model;
+
+    private void reset() {
+        model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        this.orderItem = null;
+        order_Map = null;
+
+    }
 
     private void design() {
 
@@ -98,7 +111,7 @@ public class OrderManagement extends javax.swing.JPanel {
     double total;
 
     private void loadTable() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
         total = 0;
@@ -501,56 +514,80 @@ public class OrderManagement extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         home home = new home();
+        if (jTextField1.getText().isEmpty()) {
+
 //        OrderManagement order = new OrderManagement();
-        loadCustomer customer2 = new loadCustomer(home, true, this);
-        customer2.setVisible(true);
+            order_Map = new HashMap<>();
+            OrderCustomer customer2 = new OrderCustomer(home, true, this);
+            customer2.setVisible(true);
+        } else {
+            int response = JOptionPane.showConfirmDialog(this, "Do you want to change the customer?", "confirmation", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                reset();
+                order_Map = new HashMap<>();
+//        OrderManagement order = new OrderManagement();
+                loadCustomer customer2 = new loadCustomer(home, true, this);
+                customer2.setVisible(true);
+            }
+
+        }
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
+
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
 
-        String orderId = jTextField5.getText();
-        String customerNic = jTextField1.getText();
-        String productId = jTextField4.getText();
-        String productName = jTextField2.getText();
-        String productCategory = jTextField3.getText();
-        String qtyText = jFormattedTextField2.getText();
-        String availableQtyText = jFormattedTextField1.getText();
-        String unitPriceText = jFormattedTextField4.getText();
+        String orderId = jTextField5.getText().trim();
+        String customerNic = jTextField1.getText().trim();
+        String productId = jTextField4.getText().trim();
+        String productName = jTextField2.getText().trim();
+        String productCategory = jTextField3.getText().trim();
+        String qtyText = jFormattedTextField2.getText().trim();
+        String availableQtyText = jFormattedTextField1.getText().trim();
+        String unitPriceText = jFormattedTextField4.getText().trim();
 
-// --- Basic Validations ---
         if (orderId.isEmpty() || customerNic.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "OrderId or Customer NIC is Empty", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Order ID or Customer NIC is empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (productName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Select Product", "Error", JOptionPane.ERROR_MESSAGE);
+        if (productName.isEmpty() || productId.isEmpty() || productCategory.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a product.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (qtyText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Quantity", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter quantity.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (availableQtyText.isEmpty() || unitPriceText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Available quantity or unit price is missing.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-
-        double qty;
-        double availableQty;
-        double unitPrice;
+        double qty, availableQty, unitPrice;
 
         try {
             qty = Double.parseDouble(qtyText);
             availableQty = Double.parseDouble(availableQtyText);
             unitPrice = Double.parseDouble(unitPriceText);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Invalid number format in quantity or price", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid number format in quantity or price.", "Parse Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (qty <= 0) {
+            JOptionPane.showMessageDialog(this, "Quantity must be greater than zero.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (qty > availableQty) {
+            JOptionPane.showMessageDialog(this, "Quantity exceeds available stock.", "Stock Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
 
-        if (qty > availableQty || qty <= 0) {
-            JOptionPane.showMessageDialog(this, "Enter Valid Quantity", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        if (order_Map == null) {
+            order_Map = new HashMap<>(); 
         }
-
 
         OrderItem existingItem = order_Map.get(productId);
 
@@ -558,29 +595,28 @@ public class OrderManagement extends javax.swing.JPanel {
             if (existingItem.getUnitPrice() == unitPrice) {
                 double newQty = existingItem.getQty() + qty;
                 if (newQty > availableQty) {
-                    JOptionPane.showMessageDialog(this, "Total quantity exceeds available stock", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Total quantity exceeds available stock.", "Stock Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 existingItem.setQty(newQty);
             } else {
-                JOptionPane.showMessageDialog(this, "Order item already exists with a different unit price", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Product already added with a different unit price.", "Price Mismatch", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } else {
-            OrderItem orderItem = new OrderItem();
+            orderItem = new OrderItem();
             orderItem.setOrderId(orderId);
             orderItem.setCustomerNic(customerNic);
             orderItem.setQty(qty);
-            orderItem.setproductId(productId);
+            orderItem.setproductId(productId); 
             orderItem.setProductName(productName);
             orderItem.setProductCategory(productCategory);
             orderItem.setUnitPrice(unitPrice);
             order_Map.put(productId, orderItem);
         }
 
-// --- Reload Table After Adding/Updating ---
-        loadTable();
 
+        loadTable(); 
 
     }//GEN-LAST:event_jButton7ActionPerformed
     public void diductqty() {
@@ -631,7 +667,7 @@ public class OrderManagement extends javax.swing.JPanel {
     }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        diductqty();
+
         String orderId = jTextField5.getText();
 
         String total = jFormattedTextField3.getText();
@@ -717,7 +753,8 @@ public class OrderManagement extends javax.swing.JPanel {
                 System.out.println("NOT HAVE EMAIL");
 
             }
-
+        } catch (MailConnectException mc) {
+            JOptionPane.showMessageDialog(this, "Email Not Sent", "error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             Logger.getLogger(OrderManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -747,7 +784,7 @@ public class OrderManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-
+        reset();
     }//GEN-LAST:event_jButton6ActionPerformed
 
 

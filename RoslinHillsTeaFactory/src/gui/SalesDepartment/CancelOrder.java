@@ -43,14 +43,16 @@ public class CancelOrder extends javax.swing.JPanel {
         setupTableClickListener();
         design();
     }
-private void design(){
- jTextField1.putClientProperty("JComponent.roundRect", true);
- jTextField2.putClientProperty("JComponent.roundRect", true);
-}
+
+    private void design() {
+        jTextField1.putClientProperty("JComponent.roundRect", true);
+        jTextField2.putClientProperty("JComponent.roundRect", true);
+    }
+
     private void CancelOrder(String column, String orderby) {
         try {
             // Base query
-            query = "SELECT * FROM `order`";
+            query = "SELECT * FROM `order` WHERE `order_status_id` = '1'";
 
             // Append conditions dynamically
             if (!jTextField1.getText().trim().isEmpty()) {
@@ -82,10 +84,8 @@ private void design(){
             };
             jTable1.setModel(model);
 
-        
             ResultSet rs = MySQL.executeSearch(query);
 
-          
             while (rs.next()) {
                 Vector<Object> vector = new Vector<>();
                 vector.add(rs.getString("customer_nic"));
@@ -93,26 +93,22 @@ private void design(){
                 vector.add(rs.getDate("order_date"));
                 vector.add(rs.getDouble("total_amount"));
 
-             
-                String imagePath = "src/resources/square_14034319.png"; 
+                String imagePath = "src/resources/square_14034319.png";
                 ImageIcon imageIcon = new ImageIcon(imagePath);
                 vector.add(imageIcon);
 
                 model.addRow(vector);
             }
 
-          
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-          
             for (int i = 0; i < jTable1.getColumnCount(); i++) {
                 if (i != 4) {
                     jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
                 }
             }
 
-           
             int imageColumnIndex = 4;
             jTable1.getColumnModel().getColumn(imageColumnIndex).setCellRenderer(new DefaultTableCellRenderer() {
                 @Override
@@ -128,7 +124,6 @@ private void design(){
                 }
             });
 
-        
             jTable1.setRowHeight(50);
 
         } catch (Exception e) {
@@ -146,45 +141,57 @@ private void design(){
                 int row = jTable1.rowAtPoint(e.getPoint());
                 int column = jTable1.columnAtPoint(e.getPoint());
 
-               
                 if (column == 4) {
                     Object value = jTable1.getValueAt(row, column);
                     if (value instanceof ImageIcon) {
-                     
-                        int confirm = JOptionPane.showConfirmDialog( null,"Do you want to Cancel the Order?","Confirm Deletion",JOptionPane.YES_NO_OPTION
+
+                        int confirm = JOptionPane.showConfirmDialog(null, "Do you want to Cancel the Order?", "Confirm Deletion", JOptionPane.YES_NO_OPTION
                         );
 
                         if (confirm == JOptionPane.YES_OPTION) {
-                            // Remove the row
+
                             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                             String orderId = String.valueOf(jTable1.getValueAt(row, 1));
-                            
+
                             try {
-                                
-                                  MySQL.executeIUD("DELETE  FROM `advance` WHERE `order_orderId` = '"+orderId+"'");
-                                   MySQL.executeIUD("DELETE  FROM `order_item` WHERE `order_orderId` = '"+orderId+"'");
-                                
-                                   MySQL.executeIUD("DELETE FROM `order` WHERE `orderId` = '"+orderId+"'");
-                              
+                                int row1 = jTable1.getSelectedRow();
+                                //String orderID = String.valueOf(jTable1.getValueAt(row1, 1));
+                                ResultSet rs = MySQL.executeSearch("SELECT * FROM `order_item` WHERE order_item.order_orderId = '" + orderId + "'");
+
+                                while (rs.next()) {
+
+                                    ResultSet rs2 = MySQL.executeSearch("SELECT * FROM `product_stock` INNER JOIN `order_item` ON product_stock.id = order_item.product_stock_id  WHERE order_item.order_orderId = '"+orderId+"'");
+
+                                    while (rs2.next()) {
+                                        MySQL.executeIUD("UPDATE `product_stock` SET `qty` = `qty` + " + rs.getDouble("qty"));
+                                       
+                                    }
+
+                                }
+                                JOptionPane.showMessageDialog(null, "Deduct quantity", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                                MySQL.executeIUD("DELETE  FROM `advance` WHERE `order_orderId` = '" + orderId + "'");
+                                MySQL.executeIUD("DELETE  FROM `order_item` WHERE `order_orderId` = '" + orderId + "'");
+
+                                MySQL.executeIUD("DELETE FROM `order` WHERE `orderId` = '" + orderId + "'");
+
+                                //MySQL.executeSearch()
                                 CancelOrder("customer_nic", "ASC");
                             } catch (Exception ex) {
 //                              
                                 ex.printStackTrace();
                             }
-                       
-                                
-                            
-                           
+
                             // Optional: Display a success message
-                            JOptionPane.showMessageDialog(null,"Order Cancel successfully!","Success",JOptionPane.INFORMATION_MESSAGE
+                            JOptionPane.showMessageDialog(null, "Order Cancel successfully!", "Success", JOptionPane.INFORMATION_MESSAGE
                             );
                         }
                     }
                 }
-                }
-            
+            }
+
         });
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -335,14 +342,14 @@ private void design(){
     }//GEN-LAST:event_jTextField2KeyReleased
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       int row = jTable1.getSelectedRow();
+        int row = jTable1.getSelectedRow();
         if (evt.getClickCount() == 2) {
             String orderId = String.valueOf(jTable1.getValueAt(row, 1));
             home home = new home();
             CancelOrder order2 = new CancelOrder();
-             Order order = new Order();
-        OrderItem payment = new OrderItem(home, true,orderId);
-        payment.setVisible(true);
+            Order order = new Order();
+            OrderItem payment = new OrderItem(home, true, orderId);
+            payment.setVisible(true);
         }
 
     }//GEN-LAST:event_jTable1MouseClicked

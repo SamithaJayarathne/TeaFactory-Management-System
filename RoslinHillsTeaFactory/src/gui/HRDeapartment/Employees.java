@@ -666,6 +666,9 @@ public class Employees extends javax.swing.JPanel {
         } else if (!basicSalary.matches("-?\\d+(\\.\\d+)?")) {
             JOptionPane.showMessageDialog(this, "Enter a valid salary", "", JOptionPane.WARNING_MESSAGE);
 
+        } else if (Double.parseDouble(basicSalary) < 0) {
+            JOptionPane.showMessageDialog(this, "Enter a valid salary", "", JOptionPane.WARNING_MESSAGE);
+
         } else {
 
             Date date = new Date();
@@ -703,7 +706,9 @@ public class Employees extends javax.swing.JPanel {
 
                     reset();
 
-                    MySQL.executeIUD("INSERT INTO `notifications` (`title`, `date`, `departments_id`, `notification_status_id`) VALUES ('New Employee Registered', '" + format2.format(date) + "', '1', '1')");
+                    String query = "INSERT INTO notifications (title, date, departments_id, notification_status_id) "
+                            + "VALUES ('New Employee Registered - " + fname + "', '" + format2.format(date) + "', '1', '1')";
+                    MySQL.executeIUD(query);
 
                 }
 
@@ -770,6 +775,9 @@ public class Employees extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Enter a basic salary for this employee", "", JOptionPane.WARNING_MESSAGE);
 
         } else if (!basicSalary.matches("-?\\d+(\\.\\d+)?")) {
+            JOptionPane.showMessageDialog(this, "Enter a valid salary", "", JOptionPane.WARNING_MESSAGE);
+
+        } else if (Double.parseDouble(basicSalary) < 0) {
             JOptionPane.showMessageDialog(this, "Enter a valid salary", "", JOptionPane.WARNING_MESSAGE);
 
         } else {

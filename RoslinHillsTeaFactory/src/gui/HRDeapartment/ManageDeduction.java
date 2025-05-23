@@ -52,7 +52,7 @@ public class ManageDeduction extends javax.swing.JDialog {
                 }
 
             }
-            
+
             jLabel17.setText(countAbsent + " Days");
             jLabel11.setText(countLate + " Days");
 
@@ -74,6 +74,9 @@ public class ManageDeduction extends javax.swing.JDialog {
         jFormattedTextField2.setText("");
         jFormattedTextField3.setText("");
         jFormattedTextField4.setText("");
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
 
     }
 
@@ -506,7 +509,7 @@ public class ManageDeduction extends javax.swing.JDialog {
                     jTextField5.setForeground(Color.green);
 
                 }
-                
+
                 loadLateAttendance();
 
             }
@@ -518,15 +521,36 @@ public class ManageDeduction extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jFormattedTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyReleased
-        calculateTotal();
+        String typedAmount = jFormattedTextField1.getText().trim();
+
+        if (typedAmount.matches("\\d+(\\.\\d{1,2})?")) {
+            calculateTotal();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            jFormattedTextField1.setText("");
+        }
     }//GEN-LAST:event_jFormattedTextField1KeyReleased
 
     private void jFormattedTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField2KeyReleased
-        calculateTotal();
+        String typedAmount = jFormattedTextField2.getText().trim();
+
+        if (typedAmount.matches("\\d+(\\.\\d{1,2})?")) {
+            calculateTotal();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            jFormattedTextField2.setText("");
+        }
     }//GEN-LAST:event_jFormattedTextField2KeyReleased
 
     private void jFormattedTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField3KeyReleased
-        calculateTotal();
+        String typedAmount = jFormattedTextField3.getText().trim();
+
+        if (typedAmount.matches("\\d+(\\.\\d{1,2})?")) {
+            calculateTotal();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            jFormattedTextField3.setText("");
+        }
     }//GEN-LAST:event_jFormattedTextField3KeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -572,6 +596,9 @@ public class ManageDeduction extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Deductions have been successfully applied.", "", JOptionPane.INFORMATION_MESSAGE);
 
                 loadPayroll(nic);
+                clear();
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
 
             } catch (Exception ex) {
                 Logger.getLogger(ManageDeduction.class.getName()).log(Level.SEVERE, null, ex);

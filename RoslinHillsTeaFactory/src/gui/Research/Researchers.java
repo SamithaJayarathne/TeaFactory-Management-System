@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package gui.randd;
+package gui.Research;
 
 import java.sql.ResultSet;
 import java.text.ParseException;
@@ -46,7 +46,7 @@ public class Researchers extends javax.swing.JDialog {
 
         try {
 
-            ResultSet rs = MySQL.executeSearch("SELECT * FROM `employees` WHERE `employee_type_id` = '3'");
+            ResultSet rs = MySQL.executeSearch("SELECT * FROM `employees` WHERE `employee_type_id` = '4'");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);

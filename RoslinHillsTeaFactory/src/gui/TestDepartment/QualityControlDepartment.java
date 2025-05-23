@@ -10,6 +10,7 @@ public class QualityControlDepartment extends javax.swing.JPanel {
 
     public QualityControlDepartment() {
         initComponents();
+        
         QulityDashboard qd = new QulityDashboard();
         jPanel10.removeAll();
         jPanel10.add(qd);
@@ -135,6 +136,9 @@ public class QualityControlDepartment extends javax.swing.JPanel {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("SCHEDULING");
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel6MouseEntered(evt);
             }
@@ -307,6 +311,13 @@ public class QualityControlDepartment extends javax.swing.JPanel {
         jPanel10.add(fb);
         SwingUtilities.updateComponentTreeUI(jPanel10);
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        Scheduling sche = new Scheduling();
+        jPanel10.removeAll();
+        jPanel10.add(sche);
+        SwingUtilities.updateComponentTreeUI(jPanel10);
+    }//GEN-LAST:event_jLabel6MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
