@@ -55,10 +55,10 @@ public class grn extends javax.swing.JPanel {
         jTextField3.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
         jTextField4.putClientProperty("JComponent.roundRect", true);
         jTextField4.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
-        jButton8.putClientProperty("JButton.buttonType", "roundRect");
+        jButton6.putClientProperty("JButton.buttonType", "roundRect");
         jButton7.putClientProperty("JButton.buttonType", "roundRect");
         jButton9.putClientProperty("JButton.buttonType", "roundRect");
-        jButton8.putClientProperty("JButton.buttonType", "roundRect");
+        jButton6.putClientProperty("JButton.buttonType", "roundRect");
 
         jTextField3.setText(LoggedUser.getNic());
 
@@ -66,8 +66,8 @@ public class grn extends javax.swing.JPanel {
 
     private String generateUUIDInvoiceID() {
         String id = "INV-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        jLabel17.setText(id); // Set the text
-        return id; // Return the ID
+        jLabel17.setText(id); 
+        return id; 
     }
 
     private void ammount() {
@@ -141,9 +141,9 @@ public class grn extends javax.swing.JPanel {
     }
 
     public void sendEmail(String workerEmail, String supplierEmail, String pdfPath) {
-        String host = "smtp.gmail.com"; // Correct SMTP server for Gmail
+        String host = "smtp.gmail.com"; 
         String username = "sahanb942@gmail.com";
-        String password = "wkzv ekbz fbtw hyun"; // Replace with a generated App Password
+        String password = "wkzv ekbz fbtw hyun"; 
         String email = jLabel19.getText();
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
@@ -163,11 +163,11 @@ public class grn extends javax.swing.JPanel {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("Inventory Report");
 
-            // Email body
+         
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText("Please find the attached inventory report.");
 
-            // Attach PDF
+            
             MimeBodyPart attachmentPart = new MimeBodyPart();
             attachmentPart.attachFile(new File(pdfPath));
 
@@ -177,7 +177,7 @@ public class grn extends javax.swing.JPanel {
 
             message.setContent(multipart);
 
-            // Send email
+           
             Transport.send(message);
             System.out.println("Email Sent Successfully!");
         } catch (Exception e) {
@@ -233,6 +233,7 @@ public class grn extends javax.swing.JPanel {
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -269,6 +270,20 @@ public class grn extends javax.swing.JPanel {
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(0, 0, 0));
+        jButton6.setText("SET");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -428,25 +443,30 @@ public class grn extends javax.swing.JPanel {
                         .addGap(167, 167, 167))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(64, 64, 64)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel12)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel18))
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel19)))
+                                .addGap(16, 16, 16)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addGap(64, 64, 64)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel12)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel18))
+                                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel19)))))
                         .addGap(104, 104, 104))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(144, 144, 144)
@@ -504,9 +524,79 @@ public class grn extends javax.swing.JPanel {
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int spinnerIntValue = (int) jSpinner1.getValue();
+        String material = String.valueOf(jComboBox2.getSelectedItem());
+        String raw = material; // Just using one variable is enough
+        String worker = jTextField3.getText().trim();
+        String suppliern = jLabel12.getText();
+
+        String id = jLabel17.getText();
+        String contact = jLabel11.getText();
+        String pp = jLabel16.getText(); 
+        String nic = jLabel18.getText();
+
+      
+        if (worker.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter worker", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (raw.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select raw material", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (spinnerIntValue <= 0) {
+            JOptionPane.showMessageDialog(this, "Please set a valid quantity", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+      
+        Object rawMaterialIdObj = loadrawmaterial.get(raw);
+        if (rawMaterialIdObj == null) {
+            JOptionPane.showMessageDialog(this, "Selected raw material is invalid", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String rawMaterialId = String.valueOf(rawMaterialIdObj);
+
+        try {
+           
+            ResultSet resultSet = model.MySQL.executeSearch(
+                    "SELECT * FROM supplier_order_items "
+                    + "INNER JOIN raw_materials ON supplier_order_items.raw_materials_material_id = raw_materials.material_id "
+                    + "INNER JOIN supplier_orders ON supplier_order_items.supplier_orders_id = supplier_orders.id "
+                    + "INNER JOIN payment_status ON supplier_orders.payment_status_id = payment_status.id "
+                    + "INNER JOIN suppliers ON supplier_orders.suppliers_nic = suppliers.nic "
+                    + "WHERE supplier_orders.id = '" + id + "'"
+            );
+
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "This ID is already used", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+           
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date currentDate = new Date();
+
+            JOptionPane.showMessageDialog(this, "Success", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            generateUUIDInvoiceID();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
@@ -533,15 +623,16 @@ public class grn extends javax.swing.JPanel {
         int spinnerIntValue = (int) jSpinner1.getValue();
 
         String material = String.valueOf(jComboBox2.getSelectedItem());
-        String raw = material; // Just using one variable is enough
+        String raw = material; 
         String worker = jTextField3.getText().trim();
         String suppliern = jLabel12.getText();
 
         String id = jLabel17.getText();
-
-        String pp = jTextField4.getText(); // Assuming this is a numeric string like price or total
+        String contact = jLabel11.getText();
+        String pp = jTextField4.getText(); 
         String nic = jLabel18.getText();
         String Raw = String.valueOf(jComboBox2.getSelectedItem());
+        String total = jLabel16.getText();
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date currentDate = new Date();
@@ -555,7 +646,15 @@ public class grn extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please select raw material", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (spinnerIntValue < 1) {
             JOptionPane.showMessageDialog(this, "Please set a valid quantity", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
+        }
+        /* elseif(selectedDate == null) {
+            JOptionPane.showMessageDialog(null, "Please select a date!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        }else if (selectedDate.before(currentDate)) {
+        JOptionPane.showMessageDialog(null, "Selected date cannot be in the past!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } else if (selectedDate.after(maxAllowedDate)) {
+        JOptionPane.showMessageDialog(null, "Selected date cannot be more than 1 month ahead!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+    }else*/
+        {
             try {
                 model.MySQL.executeIUD(
                         "INSERT INTO grn(`id`, `date`, `total_amount`, `suppliers_nic`, `employees_nic`) "
@@ -673,6 +772,7 @@ public class grn extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;

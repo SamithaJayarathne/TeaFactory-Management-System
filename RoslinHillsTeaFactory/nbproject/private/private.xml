@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Java%20Institute/Final%20Project/Repo/TeaFactory-Management-System/RoslinHillsTeaFactory/src/gui/inventory/grn.java</file>
-            <file>file:/D:/Java%20Institute/Final%20Project/Repo/TeaFactory-Management-System/RoslinHillsTeaFactory/src/gui/inventory/managerReports.java</file>
+            <file>file:/D:/Java%20Institute/Final%20Project/Repo/TeaFactory-Management-System/RoslinHillsTeaFactory/src/gui/HRDeapartment/ManageDeduction.java</file>
+            <file>file:/D:/Java%20Institute/Final%20Project/Repo/TeaFactory-Management-System/RoslinHillsTeaFactory/src/gui/HRDeapartment/UpdateEmployeeSalary.java</file>
+            <file>file:/D:/Java%20Institute/Final%20Project/Repo/TeaFactory-Management-System/RoslinHillsTeaFactory/src/gui/HRDeapartment/ManageAllowance.java</file>
         </group>
     </open-files>
 </project-private>

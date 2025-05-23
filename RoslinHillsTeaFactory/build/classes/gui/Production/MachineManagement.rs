@@ -1,0 +1,3 @@
+Production.MachineManagement
+Production.MachineManagement$1
+Production.MachineManagement$2

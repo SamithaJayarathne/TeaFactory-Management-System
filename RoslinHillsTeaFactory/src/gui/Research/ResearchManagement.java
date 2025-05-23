@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package gui.randd;
+package gui.Research;
 
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -198,7 +198,7 @@ public class ResearchManagement extends javax.swing.JPanel {
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(596, Short.MAX_VALUE)
+                .addContainerGap(562, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(484, 484, 484))
         );

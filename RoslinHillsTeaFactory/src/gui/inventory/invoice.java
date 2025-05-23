@@ -5,6 +5,7 @@
 package gui.inventory;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import gui.LoggedUser;
 import gui.inventory.supplier;
 import java.io.InputStream;
 import java.sql.ResultSet;
@@ -301,6 +302,7 @@ public class invoice extends javax.swing.JDialog {
 
             // Prepare parameters for the report if any
             HashMap<String, Object> param = new HashMap<>();
+param.put("Parameter1",LoggedUser.getFname() + " " + LoggedUser.getLname() );
 
             // Create a JRDataSource from the table model
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());

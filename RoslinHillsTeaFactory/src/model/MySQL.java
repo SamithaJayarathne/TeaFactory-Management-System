@@ -12,7 +12,7 @@ public class MySQL {
     
         if(connection == null){
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/newteafactorydb", "root", "mr3175SAM@");
         }
         
     }

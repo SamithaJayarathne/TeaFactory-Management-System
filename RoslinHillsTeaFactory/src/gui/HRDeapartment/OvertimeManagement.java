@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL;
 import java.sql.Time;
+import java.time.ZoneId;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
@@ -130,6 +131,7 @@ public class OvertimeManagement extends javax.swing.JPanel {
         jButton3.putClientProperty("JButton.buttonType", "roundRect");
         jButton4.putClientProperty("JButton.buttonType", "roundRect");
         jButton5.putClientProperty("JButton.buttonType", "roundRect");
+        jButton6.putClientProperty("JButton.buttonType", "roundRect");
 
     }
 
@@ -162,20 +164,17 @@ public class OvertimeManagement extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         timePicker1.setDisplayText(jFormattedTextField1);
 
         timePicker2.setDisplayText(jFormattedTextField2);
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("REQUEST OVERTIME");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 91, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel2.setText("EMPLOYEE NIC : ");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 166, 125, 35));
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -188,27 +187,20 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 jTextField1KeyReleased(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 167, 270, 35));
 
         jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 226, 270, 36));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel3.setText("EMPLOYEE NAME : ");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 226, -1, 36));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel4.setText("DATE :");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 287, 125, 35));
-        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 287, 270, 35));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel5.setText("START :");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 347, 125, 35));
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        jPanel1.add(jFormattedTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 348, 177, 35));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("SET TIME");
@@ -217,11 +209,9 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(397, 348, 87, 36));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel6.setText("END :");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 409, 125, 35));
 
         jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         jFormattedTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -234,7 +224,6 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 jFormattedTextField2KeyReleased(evt);
             }
         });
-        jPanel1.add(jFormattedTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 410, 177, 35));
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setText("SET TIME");
@@ -243,17 +232,14 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(397, 410, 87, 36));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel7.setText("HOURS :");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 473, 125, 35));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("0");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 471, 270, 35));
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setText("REQUEST");
@@ -262,7 +248,6 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 533, 413, 35));
 
         jButton4.setBackground(new java.awt.Color(251, 97, 7));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -273,7 +258,6 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 593, 413, 35));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setText("PENDING OVERTIME REQUESTS");
@@ -320,8 +304,6 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(577, 91, -1, -1));
-
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton5.setText("HISTORY");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -329,7 +311,119 @@ public class OvertimeManagement extends javax.swing.JPanel {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(945, 593, 285, 35));
+
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton6.setText("Calculate hours");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(12, 12, 12)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jButton6))
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(93, 93, 93)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(461, 461, 461)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(24, 24, 24)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(25, 25, 25)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(358, 358, 358)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -344,7 +438,7 @@ public class OvertimeManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
@@ -372,80 +466,82 @@ public class OvertimeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
         timePicker2.showPopup(this, 200, 100);
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        String nic = jTextField1.getText();
-        String name = jTextField2.getText();
-
-        String start = jFormattedTextField1.getText();
-        String end = jFormattedTextField2.getText();
-
+        String nic = jTextField1.getText().trim();
+        String name = jTextField2.getText().trim();
+        String start = jFormattedTextField1.getText().trim();
+        String end = jFormattedTextField2.getText().trim();
         Date date = jDateChooser1.getDate();
 
         SimpleDateFormat format = new SimpleDateFormat("h:mm a");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
 
-        try {
+        if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter employee NIC", "", JOptionPane.WARNING_MESSAGE);
+        } else if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please select a date", "", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                // Validate and compare times
+                Date parsedStart = format.parse(start);
+                Date parsedEnd = format.parse(end);
 
-            // calculate hours
-            Date parsedStart = format.parse(start);
-            Date parsedEnd = format.parse(end);
-
-            Time startTime = new Time(parsedStart.getTime());
-            Time endTime = new Time(parsedEnd.getTime());
-
-            long hoursMili = endTime.getTime() - startTime.getTime();
-
-            long diffInHours = hoursMili / (1000 * 60 * 60);
-            long diffInMinutes = (hoursMili / (1000 * 60)) % 60;
-
-            String overtimeHours = diffInHours + "." + diffInMinutes;
-
-            jLabel8.setText(overtimeHours);
-
-            // validation
-            ResultSet employeeRs = MySQL.executeSearch("SELECT * FROM `employees` WHERE `nic`='" + nic + "'");
-
-            if (employeeRs.next()) {
-
-                if (nic.isEmpty()) {
-
-                    JOptionPane.showMessageDialog(this, "Please enter employee NIC", "", JOptionPane.WARNING_MESSAGE);
-
-                } else if (date.toString().isEmpty()) {
-
-                    JOptionPane.showMessageDialog(this, "Please enter a date", "", JOptionPane.WARNING_MESSAGE);
-
-                } else if (parsedStart.after(parsedEnd)) {
-
+                if (parsedStart.after(parsedEnd)) {
                     JOptionPane.showMessageDialog(this, "Please check the entered times!", "", JOptionPane.WARNING_MESSAGE);
-
-                } else {
-
-                    MySQL.executeIUD("INSERT INTO `overtime` (`date`, `start`, `end`, `working_hours`, `approvel_status_id`, "
-                            + "`employees_nic`) VALUES('" + format2.format(date) + "', '" + startTime + "', '" + endTime + "', "
-                            + "'" + Double.parseDouble(overtimeHours) + "', '1', '" + nic + "')");
-
-                    JOptionPane.showMessageDialog(this, "Requested Successfully", "", JOptionPane.INFORMATION_MESSAGE);
-                    loadPendingRequests();
-                    reset();
-
+                    return;
                 }
 
-            } else {
+                // Check if date is in the past
+                LocalDate selectedDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate today = LocalDate.now();
 
-                JOptionPane.showMessageDialog(this, "No employee found with this nic. Please check the nic and try again", "", JOptionPane.WARNING_MESSAGE);
+                if (selectedDate.isBefore(today)) {
+                    JOptionPane.showMessageDialog(this, "Selected date cannot be in the past!", "", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
+                // Check if NIC exists
+                ResultSet employeeRs = MySQL.executeSearch("SELECT * FROM `employees` WHERE `nic`='" + nic + "'");
+                if (!employeeRs.next()) {
+                    JOptionPane.showMessageDialog(this, "Employee NIC not found!", "", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Calculate overtime hours
+                Time startTime = new Time(parsedStart.getTime());
+                Time endTime = new Time(parsedEnd.getTime());
+
+                long hoursMili = endTime.getTime() - startTime.getTime();
+                long diffInHours = hoursMili / (1000 * 60 * 60);
+                long diffInMinutes = (hoursMili / (1000 * 60)) % 60;
+
+                String overtimeHours = diffInHours + "." + diffInMinutes;
+                jLabel8.setText(overtimeHours);
+
+                // Insert into DB
+                MySQL.executeIUD("INSERT INTO `overtime` (`date`, `start`, `end`, `working_hours`, `approvel_status_id`, `employees_nic`) "
+                        + "VALUES('" + format2.format(date) + "', '" + startTime + "', '" + endTime + "', '"
+                        + Double.parseDouble(overtimeHours) + "', '1', '" + nic + "')");
+
+                JOptionPane.showMessageDialog(this, "Requested Successfully", "", JOptionPane.INFORMATION_MESSAGE);
+                loadPendingRequests();
+                reset();
+
+            } catch (ParseException ex) {
+                Logger.getLogger(OvertimeManagement.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Invalid time format!", "", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                Logger.getLogger(OvertimeManagement.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Something went wrong!", "", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (ParseException ex) {
-            Logger.getLogger(OvertimeManagement.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(OvertimeManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
-
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -462,24 +558,23 @@ public class OvertimeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jFormattedTextField2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       OvertimeView dlg = new OvertimeView(new home(), true, this);
-       dlg.setVisible(true);
+        OvertimeView dlg = new OvertimeView(new home(), true, this);
+        dlg.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       
 
-        if(evt.getClickCount() == 2){
-            
+        if (evt.getClickCount() == 2) {
+
             int row = jTable1.getSelectedRow();
-        
+
             String recordId = String.valueOf(jTable1.getValueAt(row, 0));
             String nic = String.valueOf(jTable1.getValueAt(row, 1));
             String date = String.valueOf(jTable1.getValueAt(row, 2));
             String start = String.valueOf(jTable1.getValueAt(row, 3));
             String end = String.valueOf(jTable1.getValueAt(row, 4));
             String hours = String.valueOf(jTable1.getValueAt(row, 5));
-            
+
             HashMap<String, String> map = new HashMap<>();
             map.put("id", recordId);
             map.put("nic", nic);
@@ -487,14 +582,46 @@ public class OvertimeManagement extends javax.swing.JPanel {
             map.put("start", start);
             map.put("end", end);
             map.put("hours", hours);
-            
+
             ApproveOvertime dlg = new ApproveOvertime(new home(), true, this, map);
             dlg.setVisible(true);
 
-        
         }
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String start = jFormattedTextField1.getText();
+        String end = jFormattedTextField2.getText();
+
+        Date date = jDateChooser1.getDate();
+
+        SimpleDateFormat format = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+
+        // calculate hours
+        Date parsedStart;
+        try {
+            parsedStart = format.parse(start);
+
+            Date parsedEnd = format.parse(end);
+
+            Time startTime = new Time(parsedStart.getTime());
+            Time endTime = new Time(parsedEnd.getTime());
+
+            long hoursMili = endTime.getTime() - startTime.getTime();
+
+            long diffInHours = hoursMili / (1000 * 60 * 60);
+            long diffInMinutes = (hoursMili / (1000 * 60)) % 60;
+
+            String overtimeHours = diffInHours + "." + diffInMinutes;
+
+            jLabel8.setText(overtimeHours);
+
+        } catch (ParseException ex) {
+            Logger.getLogger(OvertimeManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -503,6 +630,7 @@ public class OvertimeManagement extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;

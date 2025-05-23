@@ -76,6 +76,7 @@
                     </LineBorder>
                   </Border>
                   <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                  <Color PropertyName="color" blue="ff" green="33" red="0" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -130,6 +131,7 @@
                     </LineBorder>
                   </Border>
                   <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                  <Color PropertyName="color" blue="0" green="cc" red="33" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -187,6 +189,7 @@
                     </LineBorder>
                   </Border>
                   <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                  <Color PropertyName="color" blue="cc" green="0" red="99" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -237,6 +240,7 @@
                     </LineBorder>
                   </Border>
                   <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                  <Color PropertyName="color" blue="0" green="66" red="cc" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -284,7 +288,7 @@
                     </LineBorder>
                   </Border>
                   <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
-                  <Color PropertyName="color" blue="0" green="0" red="0" type="rgb"/>
+                  <Color PropertyName="color" blue="99" green="99" red="0" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -341,6 +345,7 @@
                     </LineBorder>
                   </Border>
                   <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                  <Color PropertyName="color" blue="33" green="0" red="ff" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>

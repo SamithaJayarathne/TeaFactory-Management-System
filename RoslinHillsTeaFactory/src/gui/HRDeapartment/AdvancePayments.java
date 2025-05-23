@@ -24,7 +24,7 @@ public class AdvancePayments extends javax.swing.JPanel {
         loadPendingReq();
         tableCenter();
     }
-    
+
     private void tableCenter() {
 
         // Custom renderer to center-align cells
@@ -458,6 +458,12 @@ public class AdvancePayments extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "Please enter amount for request", "", JOptionPane.WARNING_MESSAGE);
 
+        } else if (!amount.matches("-?\\d+(\\.\\d+)?")) {
+            JOptionPane.showMessageDialog(this, "Enter a valid amount to apply", "", JOptionPane.WARNING_MESSAGE);
+
+        }else if (Double.parseDouble(amount) < 0) {
+            JOptionPane.showMessageDialog(this, "You added invalid amount. Please check again", "", JOptionPane.WARNING_MESSAGE);
+
         } else {
 
             Date today = new Date();
@@ -499,12 +505,11 @@ public class AdvancePayments extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
 
             int row = jTable2.getSelectedRow();
-            
+
             String nic = String.valueOf(jTable2.getValueAt(row, 0));
             String date = String.valueOf(jTable2.getValueAt(row, 1));
             String amount = String.valueOf(jTable2.getValueAt(row, 2));
             String name = "";
-            
 
             ResultSet employeeRs;
             try {
@@ -523,13 +528,12 @@ public class AdvancePayments extends javax.swing.JPanel {
             map.put("nic", nic);
             map.put("date", date);
             map.put("amount", amount);
-            
 
             ApproveAdvances dlg = new ApproveAdvances(new home(), true, map);
             dlg.setVisible(true);
 
         }
-        
+
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

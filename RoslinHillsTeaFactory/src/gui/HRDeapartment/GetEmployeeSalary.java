@@ -1,6 +1,7 @@
 package gui.HRDeapartment;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import java.io.File;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -8,12 +9,24 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.MySQL;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
@@ -629,7 +642,24 @@ public class GetEmployeeSalary extends javax.swing.JDialog {
                     JasperPrint report = JasperFillManager.fillReport(reportStream, params, dataSource);
 
                     JasperViewer.viewReport(report, false);
-//                    JasperPrintManager.printReport(report, true);
+                    JasperPrintManager.printReport(report, true);
+
+                    // Export report to PDF
+                    String pdfPath = jTextField2.getText() + " - Payslip.pdf";
+                    JasperExportManager.exportReportToPdfFile(report, pdfPath);
+
+                    if (employeeRs.getInt("employees.employee_type_id") == 2 || employeeRs.getInt("employees.employee_type_id") == 3 ) {
+
+                        ResultSet emailRs = MySQL.executeSearch("SELECT * FROM `users` WHERE `employees_nic`='" + jTextField1.getText() + "'");
+
+                        if (emailRs.next()) {
+                            sendEmail(emailRs.getString("email"), pdfPath);
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Cannot find an email.", "", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
 
                     clear();
 
@@ -641,6 +671,51 @@ public class GetEmployeeSalary extends javax.swing.JDialog {
             Logger.getLogger(GetEmployeeSalary.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+    public void sendEmail(String supplierEmail, String pdfPath) {
+        final String senderEmail = "jayarathnesamitha2003@gmail.com";
+        final String appPassword = "lutzchuboizjsqrl"; // Use a Gmail App Password
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, appPassword);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(senderEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(supplierEmail));
+            message.setSubject("Payslip for "+jTextField2.getText());
+
+            // Email body
+            MimeBodyPart bodyPart = new MimeBodyPart();
+            bodyPart.setText("Please find the attached payslip");
+
+            // Attachment
+            MimeBodyPart attachmentPart = new MimeBodyPart();
+            attachmentPart.attachFile(new File(pdfPath));
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(bodyPart);
+            multipart.addBodyPart(attachmentPart);
+
+            message.setContent(multipart);
+
+            Transport.send(message);
+            System.out.println("Email sent successfully to " + supplierEmail);
+            JOptionPane.showMessageDialog(null, "Email sent.", "", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to send email.");
+        }
+    }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         clear();

@@ -2,6 +2,7 @@ package gui;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.IntelliJTheme;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class FirstWindow extends javax.swing.JFrame {
@@ -9,6 +10,8 @@ public class FirstWindow extends javax.swing.JFrame {
     public FirstWindow() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ImageIcon icon = new ImageIcon(FirstWindow.class.getResource("/resources/icon4.png"));
+        this.setIconImage(icon.getImage());
     }
 
     private static SelectedDepartmentForSignin department = new SelectedDepartmentForSignin();

@@ -418,11 +418,25 @@ public class UpdateEmployeeSalary extends javax.swing.JDialog {
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
-        // TODO add your handling code here:
+         String typedAmount = jTextField5.getText().trim();
+
+        if (typedAmount.matches("\\d+(\\.\\d{1,2})?")) {
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            jTextField5.setText("");
+        }
     }//GEN-LAST:event_jTextField5KeyReleased
 
     private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
-        // TODO add your handling code here:
+       String typedAmount = jTextField6.getText().trim();
+
+        if (typedAmount.matches("\\d+(\\.\\d{1,2})?")) {
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            jTextField6.setText("");
+        }
     }//GEN-LAST:event_jTextField6KeyReleased
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed

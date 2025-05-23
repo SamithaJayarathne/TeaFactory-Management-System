@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package gui.SalesDepartment;
+import com.formdev.flatlaf.FlatClientProperties;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +18,7 @@ public class ReturnRequstApproval extends javax.swing.JDialog {
         initComponents();
         laodReturnOrder();
          jTextField1.putClientProperty("JComponent.roundRect", true);
+          jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search by Return ID");
     }
 private String query;
 boolean WhereAdded = false;

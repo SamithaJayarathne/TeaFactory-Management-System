@@ -20,54 +20,52 @@ import gui.SalesDepartment.OrderManagement;
 import javax.swing.table.DefaultTableModel;
 
 public class AdvacePayment extends javax.swing.JDialog {
-    
+
     HashMap<String, Integer> orderStatus_Map = new HashMap<>();
     HashMap<String, Integer> paymentStatus_Map = new HashMap<>();
     HashMap<String, Integer> paymentMethod_Map = new HashMap<>();
-    
+
     private static OrderManagement AP2;
     private static OrderManagement AP;
-    
+
     public AdvacePayment(java.awt.Frame parent, boolean modal, JPanel jpanel) {
-        
+
         super(parent, modal);
         initComponents();
-       
+
         loadPaymentMethod();
         loadPaymentStatus();
         design();
-        
+
         if (jpanel instanceof OrderManagement) {
-            
+
             this.AP = (OrderManagement) jpanel;
         }
-        
+
         if (jpanel instanceof OrderManagement) {
             this.AP2 = (OrderManagement) jpanel;
         }
-        
+
     }
-    
+
     private void design() {
-        
+
         jFormattedTextField1.putClientProperty("JComponent.roundRect", true);
-        
+
         jComboBox2.putClientProperty("JComponent.roundRect", true);
         jComboBox3.putClientProperty("JComponent.roundRect", true);
-        
+
         jButton1.putClientProperty("JButton.buttonType", "roundRect");
-        
+
         jButton3.putClientProperty("JButton.buttonType", "roundRect");
-        
+
     }
-    
-    
-    
+
     private void loadPaymentMethod() {
-        
+
         try {
             ResultSet rs = MySQL.executeSearch("SELECT * FROM `payment_method`");
-            
+
             Vector vector = new Vector();
             vector.add("Select");
             while (rs.next()) {
@@ -80,12 +78,12 @@ public class AdvacePayment extends javax.swing.JDialog {
             Logger.getLogger(Customer_Management.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void loadPaymentStatus() {
-        
+
         try {
             ResultSet rs = MySQL.executeSearch("SELECT * FROM `payment_status`");
-            
+
             Vector vector = new Vector();
             vector.add("Select");
             while (rs.next()) {
@@ -98,7 +96,7 @@ public class AdvacePayment extends javax.swing.JDialog {
             Logger.getLogger(Customer_Management.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -244,8 +242,7 @@ public class AdvacePayment extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        OrderManagement om = new OrderManagement();
-        om.diductqty();
+
         String orderId = AP.getOrderId().getText();
 
 //        Double tot = AP.getTot();
@@ -253,54 +250,55 @@ public class AdvacePayment extends javax.swing.JDialog {
         System.out.println(nic);
         String qty = AP.getqty().getText();
         String unit_price = AP.getUnitPrice().getText();
-        
+
         String stock_id = AP.getID().getText();
         String total = AP.getTotal().getText();
         String advancePayment = jFormattedTextField1.getText();
         String PaymentStatus = String.valueOf(jComboBox2.getSelectedItem());
-       
+
         String PaymentMethod = String.valueOf(jComboBox3.getSelectedItem());
-        
+
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if (advancePayment.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Enter Advance Payment", "Error", JOptionPane.ERROR_MESSAGE);
-       
-        } else if (PaymentStatus.isEmpty()) {
+        if (jComboBox2.getSelectedItem().equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please Select Order Status", "Error", JOptionPane.ERROR_MESSAGE);
-        
+
+        } else if (jComboBox3.getSelectedItem().equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Payment Method", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (advancePayment.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Advance Payment", "Error", JOptionPane.ERROR_MESSAGE);
+
         } else {
             try {
                 System.out.println("ok");
-                
+
                 double total1 = Double.parseDouble(AP.getTotal().getText());
                 double Payment = Double.parseDouble(jFormattedTextField1.getText());
                 double balance = Double.parseDouble(AP.getTotal().getText()) - Payment;
                 if (Payment <= total1) {
-                    
+
                     MySQL.executeIUD("INSERT INTO `order`(`orderId`,`order_date`,`total_amount`,`customer_nic`,`order_status_id`,`payment_status_id`,`payment_method_id`)"
                             + "VALUES('" + orderId + "','" + sdf.format(date) + "','" + total + "','" + nic + "','1','" + paymentStatus_Map.get(PaymentStatus) + "','" + paymentMethod_Map.get(PaymentMethod) + "')");
                     AP2.laodOrderItem();
-                    
+
                     MySQL.executeIUD("INSERT INTO `advance`(`payment`,`date`,`balance`,`payment_status_id`,`payment_method_id`,`order_orderId`)"
                             + "VALUES('" + advancePayment + "','" + sdf.format(date) + "','" + balance + "','" + paymentStatus_Map.get(PaymentStatus) + "','" + paymentMethod_Map.get(PaymentMethod) + "','" + orderId + "')");
                     JOptionPane.showMessageDialog(this, "Successful Addded", "Sucess", JOptionPane.INFORMATION_MESSAGE);
-                    
-                    
+                    AP.diductqty();
                     this.dispose();
-                     reset();
+                    reset();
                 } else {
-                    
-                   JOptionPane.showMessageDialog(this, "Advance payment is Invalid", "warning", JOptionPane.WARNING_MESSAGE);
-                 
+
+                    JOptionPane.showMessageDialog(this, "Advance payment is Invalid", "warning", JOptionPane.WARNING_MESSAGE);
+
                 }
-               
-                
+
             } catch (Exception ex) {
                 Logger.getLogger(AdvacePayment.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
