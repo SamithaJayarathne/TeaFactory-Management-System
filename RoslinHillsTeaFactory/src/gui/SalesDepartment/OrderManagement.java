@@ -229,7 +229,7 @@ public class OrderManagement extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)));
 
-        jTextField1.setFont(new java.awt.Font("0KDBOLIDDA", 1, 14)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel3.setText("CUSTOMER NIC");
@@ -247,7 +247,7 @@ public class OrderManagement extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel1.setText("PRODUCT NAME");
 
-        jTextField2.setFont(new java.awt.Font("0KDBOLIDDA", 1, 14)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel6.setText("PRODUCT CATEGORY");
@@ -309,6 +309,7 @@ public class OrderManagement extends javax.swing.JPanel {
         jLabel7.setText("UNIT PRICE");
 
         jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jFormattedTextField2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel8.setText("QUANTITY");
@@ -322,6 +323,8 @@ public class OrderManagement extends javax.swing.JPanel {
                 jButton7ActionPerformed(evt);
             }
         });
+
+        jFormattedTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel4.setText("ID");
 
@@ -340,9 +343,10 @@ public class OrderManagement extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel2.setText("ORDER ID");
 
-        jTextField5.setFont(new java.awt.Font("0KDBOLIDDA", 1, 14)); // NOI18N
+        jTextField5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

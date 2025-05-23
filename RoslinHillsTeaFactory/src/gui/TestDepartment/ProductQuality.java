@@ -18,7 +18,7 @@ public class ProductQuality extends javax.swing.JPanel {
 
     private static HashMap<String, String> qualityStatusMap = new HashMap<>();
     private static HashMap<String, String> actionTakenMap = new HashMap<>();
-    
+
     public ProductQuality() {
         initComponents();
         loadQualityStatus();
@@ -26,7 +26,7 @@ public class ProductQuality extends javax.swing.JPanel {
         loadProductQuality();
         design();
     }
-    
+
     private void loadQualityStatus() {
 
         try {
@@ -68,7 +68,7 @@ public class ProductQuality extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     private void loadProductQuality() {
 
         try {
@@ -103,23 +103,23 @@ public class ProductQuality extends javax.swing.JPanel {
         }
 
     }
-    
-     private void design(){
-         
-         jTextField1.putClientProperty("JComponent.roundRect", true);
-         jTextField2.putClientProperty("JComponent.roundRect", true);
-         jTextField3.putClientProperty("JComponent.roundRect", true);
-         jTextField4.putClientProperty("JComponent.roundRect", true);
-         jComboBox3.putClientProperty("JComponent.roundRect", true);
-         jComboBox5.putClientProperty("JComponent.roundRect", true);
-         jButton5.putClientProperty("JButton.buttonType", "roundRect");
-         jButton6.putClientProperty("JButton.buttonType", "roundRect");
-         jButton7.putClientProperty("JButton.buttonType", "roundRect");
-         addButton.putClientProperty("JButton.buttonType", "roundRect");
-         updateButton.putClientProperty("JButton.buttonType", "roundRect");
-         clearall.putClientProperty("JButton.buttonType", "roundRect");
-         deleteButton.putClientProperty("JButton.buttonType", "roundRect");
-     }
+
+    private void design() {
+
+        jTextField1.putClientProperty("JComponent.roundRect", true);
+        jTextField2.putClientProperty("JComponent.roundRect", true);
+        jTextField3.putClientProperty("JComponent.roundRect", true);
+        jTextField4.putClientProperty("JComponent.roundRect", true);
+        jComboBox3.putClientProperty("JComponent.roundRect", true);
+        jComboBox5.putClientProperty("JComponent.roundRect", true);
+        jButton5.putClientProperty("JButton.buttonType", "roundRect");
+        jButton6.putClientProperty("JButton.buttonType", "roundRect");
+        jButton7.putClientProperty("JButton.buttonType", "roundRect");
+        addButton.putClientProperty("JButton.buttonType", "roundRect");
+        updateButton.putClientProperty("JButton.buttonType", "roundRect");
+        clearall.putClientProperty("JButton.buttonType", "roundRect");
+        deleteButton.putClientProperty("JButton.buttonType", "roundRect");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -406,7 +406,7 @@ public class ProductQuality extends javax.swing.JPanel {
         String id = String.valueOf(jTable1.getValueAt(row, 0));
         jTextField1.setText(id);
         jTextField1.setEditable(false);
-        
+
         String dateString = String.valueOf(jTable1.getValueAt(row, 1));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -435,11 +435,11 @@ public class ProductQuality extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
-        String id = jTextField1.getText();
-        String batch = jTextField2.getText();
-        String employees = jTextField3.getText();
+        String id = jTextField1.getText().trim();
+        String batch = jTextField2.getText().trim();
+        String employees = jTextField3.getText().trim();
         Date date = jDateChooser1.getDate();
-        String stock = jTextField4.getText();
+        String stock = jTextField4.getText().trim();
         String status = String.valueOf(jComboBox3.getSelectedItem());
         String action = String.valueOf(jComboBox5.getSelectedItem());
 
@@ -449,37 +449,37 @@ public class ProductQuality extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter your Batch", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (employees.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Employees", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please select a Date", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (stock.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Product Stock", "Warning", JOptionPane.WARNING_MESSAGE);
-        }  else if (status.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter Quality Status", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (action.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter Action Taken", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (status.equals("Select") || status.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select Quality Status", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (action.equals("Select") || action.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select Action Taken", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-
             try {
-
                 ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `product_quality` WHERE `id` = '" + id + "'");
 
                 if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Product Quality already registerd", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Product Quality already registered", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
-
-                    //                    Date date1 = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                    MySQL.executeIUD("INSERT INTO `product_quality`(`id`,`date`,`product_stock_id`,`employees_nic`,`quality_control_id`,`quality_status_id`,`action_taken_id`)"
-                        + "VALUES('" + id + "','" + sdf.format(date) + "','" + stock + "','" + employees + "','" + batch + "','" + qualityStatusMap.get(status) + "','" + actionTakenMap.get(action) + "')");
+                    MySQL.executeIUD("INSERT INTO `product_quality`(`id`,`date`,`product_stock_id`,`employees_nic`,`quality_control_id`,`quality_status_id`,`action_taken_id`) "
+                            + "VALUES('" + id + "','" + sdf.format(date) + "','" + stock + "','" + employees + "','" + batch + "','" + qualityStatusMap.get(status) + "','" + actionTakenMap.get(action) + "')");
 
                     reset();
                     loadProductQuality();
-                    
+
                     JOptionPane.showMessageDialog(this, "Product Quality Successfully Added", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed to save data. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
@@ -528,14 +528,14 @@ public class ProductQuality extends javax.swing.JPanel {
                     Date date1 = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                    MySQL.executeIUD("UPDATE `product_quality` SET `quality_control_id` = '"+batch+"',`employees_nic` = '"+employees+"',"
-                        + "`date` = '"+sdf.format(date)+"',`product_stock_id` = '"+stock+"',"
-                        + "`quality_status_id` = '"+ qualityStatusMap.get(status) +"',`action_taken_id` = '"+actionTakenMap.get(action)+"'"
-                        + "WHERE `id` = '"+id+"'");
+                    MySQL.executeIUD("UPDATE `product_quality` SET `quality_control_id` = '" + batch + "',`employees_nic` = '" + employees + "',"
+                            + "`date` = '" + sdf.format(date) + "',`product_stock_id` = '" + stock + "',"
+                            + "`quality_status_id` = '" + qualityStatusMap.get(status) + "',`action_taken_id` = '" + actionTakenMap.get(action) + "'"
+                            + "WHERE `id` = '" + id + "'");
 
                     loadProductQuality();
                     reset();
-                    
+
                     JOptionPane.showMessageDialog(this, "Product Quality Successfully Update", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
 
@@ -564,7 +564,7 @@ public class ProductQuality extends javax.swing.JPanel {
 
                 String id = String.valueOf(jTable1.getValueAt(row, 0));
 
-                MySQL.executeIUD("DELETE FROM `product_quality` WHERE `id` = '"+id+"'");
+                MySQL.executeIUD("DELETE FROM `product_quality` WHERE `id` = '" + id + "'");
 
                 reset();
                 loadProductQuality();
@@ -608,7 +608,7 @@ public class ProductQuality extends javax.swing.JPanel {
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 
-    private void reset(){
+    private void reset() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
@@ -616,9 +616,9 @@ public class ProductQuality extends javax.swing.JPanel {
         jTextField4.setText("");
         jComboBox3.setSelectedIndex(0);
         jComboBox5.setSelectedIndex(0);
-        
+
         jTable1.clearSelection();
-        
+
         jTextField1.setEnabled(true);
     }
 
