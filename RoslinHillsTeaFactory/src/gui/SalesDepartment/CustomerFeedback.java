@@ -62,7 +62,6 @@ public class CustomerFeedback extends javax.swing.JPanel {
     }
 
     private void feedbackDesign() {
-        //Feedback Star
         jLabel6.setText("\u2605");
         jLabel6.setFont(new Font("SansSerif", Font.PLAIN, 50));
         jLabel7.setText("\u2605");
@@ -74,7 +73,6 @@ public class CustomerFeedback extends javax.swing.JPanel {
         jLabel10.setText("\u2605");
         jLabel10.setFont(new Font("SansSerif", Font.PLAIN, 50));
 
-        //Feedback Face
         jLabel14.setText("\uD83D\uDE0A");
         jLabel14.setFont(new Font("SansSerif", Font.PLAIN, 35));
         jLabel15.setText("\uD83D\uDE10");
@@ -416,9 +414,8 @@ public class CustomerFeedback extends javax.swing.JPanel {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

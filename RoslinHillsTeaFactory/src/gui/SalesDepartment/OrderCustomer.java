@@ -60,7 +60,6 @@ public class OrderCustomer extends javax.swing.JDialog {
     static String query;
 
     private void loadCustomer2(String column, String orderby) {
-        // Start building the base query
         query = "SELECT * FROM `customer` "
                 + "INNER JOIN `city` ON `customer`.`city_id` = `city`.`id` "
                 + "INNER JOIN `customer_status` ON `customer`.`customer_status_id` = `customer_status`.`id` "
@@ -69,7 +68,6 @@ public class OrderCustomer extends javax.swing.JDialog {
         boolean whereAdded = false;
 
         try {
-            // Check if jTextField1 has a value (avoiding null or empty checks)
 
             if (jTextField1.getText().trim() != null) {
                 if (!query.contains("WHERE")) {

@@ -88,7 +88,7 @@ public class ManageProducts extends javax.swing.JPanel {
         }
 
     }
- 
+
     private void productStock() {
 
         try {
@@ -358,80 +358,89 @@ public class ManageProducts extends javax.swing.JPanel {
 
         if (id.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Product ID", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (id.matches(".*[a-zA-Z].*")) {
-            JOptionPane.showMessageDialog(this, "This ID has Letters, The ID should be Integers", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (pro_name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter Product Description", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (pro_des.isEmpty()) {
+        } else if (!id.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Product ID should be a positive number without letters or symbols", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Integer.parseInt(id) <= 0) {
+            JOptionPane.showMessageDialog(this, "Product ID must be greater than 0", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (pro_name.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter Product Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (pro_des.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Product Description", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (pro_category.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please select Product Category", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-
             try {
-
                 ResultSet rs = MySQL.executeSearch("SELECT * FROM `products` WHERE `id` = '" + id + "'");
-                while (rs.next()) {
-                    if (id.equals(rs.getString("id"))) {
-                        JOptionPane.showMessageDialog(this, "This ID is Already Given", "Warning", JOptionPane.WARNING_MESSAGE);
-                    }
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(this, "This ID is already used", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
 
                 ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `products` WHERE `title` = '" + pro_name + "' AND `product_category_id` = '" + productcatMap.get(pro_category) + "'");
-
                 if (resultSet.next()) {
                     JOptionPane.showMessageDialog(this, "Product already added", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    MySQL.executeIUD("INSERT INTO `products`(`id`,`title`,`description`,`product_category_id`) VALUES('" + id + "','" + pro_name + "','" + pro_des + "','" + productcatMap.get(pro_category) + "')");
-
-                    JOptionPane.showMessageDialog(this, "New product added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    return;
                 }
+
+                MySQL.executeIUD("INSERT INTO `products`(`id`,`title`,`description`,`product_category_id`) "
+                        + "VALUES('" + id + "','" + pro_name + "','" + pro_des + "','" + productcatMap.get(pro_category) + "')");
+
+                JOptionPane.showMessageDialog(this, "New product added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                 loadProducts();
                 reset();
 
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        String pro_name = jTextField2.getText();
-        String pro_des = jTextArea1.getText();
+        String pro_name = jTextField2.getText().trim();
+        String pro_des = jTextArea1.getText().trim();
         String pro_category = String.valueOf(jComboBox1.getSelectedItem());
 
         if (jTable1.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Please Select a Row to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a row to update", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (pro_name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter Product ID", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter Product Name", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (pro_des.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter Product Description", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (pro_category.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please select Product Category", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-
             try {
+                int row = jTable1.getSelectedRow();
+                String selectedId = String.valueOf(jTable1.getValueAt(row, 0));
 
-                ResultSet resultSet = MySQL.executeSearch("SELECT * FROM `products` WHERE `title` = '" + pro_name + "' AND `description` = '" + pro_des + "'");
+                // Check if the new values are identical to an existing product
+                ResultSet resultSet = MySQL.executeSearch(
+                        "SELECT * FROM `products` WHERE `title` = '" + pro_name
+                        + "' AND `description` = '" + pro_des + "' AND `product_category_id` = '" + productcatMap.get(pro_category) + "'"
+                );
 
                 if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Change Name or Description to update", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Change the Name, Description, or Category to update", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    int row = jTable1.getSelectedRow();
-                    MySQL.executeIUD("UPDATE `products` SET `title` = '" + pro_name + "' , `description` ='" + pro_des + "' "
-                            + "WHERE `id` = '" + String.valueOf(jTable1.getValueAt(row, 0)) + "'");
-                    JOptionPane.showMessageDialog(this, "Product Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    MySQL.executeIUD("UPDATE `products` SET `title` = '" + pro_name + "', `description` = '" + pro_des + "', "
+                            + "`product_category_id` = '" + productcatMap.get(pro_category) + "' "
+                            + "WHERE `id` = '" + selectedId + "'");
+
+                    JOptionPane.showMessageDialog(this, "Product updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadProducts();
+                    reset();
                 }
-                loadProducts();
-                reset();
 
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Update failed: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         }
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

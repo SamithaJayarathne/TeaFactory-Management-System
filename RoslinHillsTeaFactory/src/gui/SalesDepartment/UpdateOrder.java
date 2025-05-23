@@ -579,25 +579,21 @@ public class UpdateOrder extends javax.swing.JPanel {
             return;
         }
 
-// ✅ NEW VALIDATION: Prevent negative or zero quantity
         if (qty <= 0) {
             JOptionPane.showMessageDialog(this, "Quantity must be a positive number", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-// Check quantity against available stock
         if (qty > availableQty) {
             JOptionPane.showMessageDialog(this, "Enter a valid quantity (less than or equal to available stock)", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-// Check if the same product with the same price already exists in the map
         OrderItem existingItem = order_Map.get(productId);
         if (existingItem != null) {
             if (existingItem.getUnitPrice() == unitPrice) {
                 double newQty = existingItem.getQty() + qty;
 
-                // ✅ Also validate updated total quantity against available
                 if (newQty > availableQty) {
                     JOptionPane.showMessageDialog(this, "Total quantity exceeds available stock", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -611,7 +607,6 @@ public class UpdateOrder extends javax.swing.JPanel {
             return;
         }
 
-// If not already in the map, create and add
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderId(orderId);
         orderItem.setCustomerNic(customernic);
@@ -653,7 +648,6 @@ public class UpdateOrder extends javax.swing.JPanel {
 
         for (OrderItem orderItem : order_Map.values()) {
             try {
-                // Check if the order exists
                 ResultSet rs = MySQL.executeSearch("SELECT * FROM `order` WHERE orderId = '" + orderId + "'");
 
                 if (rs.next()) {
@@ -700,7 +694,6 @@ public class UpdateOrder extends javax.swing.JPanel {
             }
         }
 
-// Refresh the order list
         load_Order("orderId", "ASC");
 
 

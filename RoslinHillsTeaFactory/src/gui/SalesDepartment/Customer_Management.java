@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -52,8 +53,8 @@ public class Customer_Management extends javax.swing.JPanel {
         jButton3.putClientProperty("JComponent.roundRect", true);
         jButton4.putClientProperty("JComponent.roundRect", true);
         jButton5.putClientProperty("JComponent.roundRect", true);
-        
-          jButton1.putClientProperty("JButton.buttonType", "roundRect");
+
+        jButton1.putClientProperty("JButton.buttonType", "roundRect");
         jButton3.putClientProperty("JButton.buttonType", "roundRect");
         jButton2.putClientProperty("JButton.buttonType", "roundRect");
         jButton4.putClientProperty("JButton.buttonType", "roundRect");
@@ -61,34 +62,46 @@ public class Customer_Management extends javax.swing.JPanel {
 
     }
 
-    public JTextField getfname(){
-    return jTextField1;
+    public JButton getRegisterbutton() {
+        return jButton1;
     }
-    public JTextField getlname(){
-    return jTextField2;
+
+    public JTextField getfname() {
+        return jTextField1;
     }
-    public JTextField getnic(){
-    return jTextField4;
+
+    public JTextField getlname() {
+        return jTextField2;
     }
-    public JTextField getmobile(){
-    return jTextField6;
+
+    public JTextField getnic() {
+        return jTextField4;
     }
-    public JComboBox getgender(){
-    return jComboBox4;
+
+    public JTextField getmobile() {
+        return jTextField6;
     }
-    public JComboBox getstatus(){
-    return jComboBox3;
+
+    public JComboBox getgender() {
+        return jComboBox4;
     }
-    public JTextField getline1(){
-    return jTextField3;
+
+    public JComboBox getstatus() {
+        return jComboBox3;
     }
-    public JTextField getline2(){
-    return jTextField5;
+
+    public JTextField getline1() {
+        return jTextField3;
     }
-    
-    public JComboBox getcity(){
-    return jComboBox1;
+
+    public JTextField getline2() {
+        return jTextField5;
     }
+
+    public JComboBox getcity() {
+        return jComboBox1;
+    }
+
     private void loadGender() {
 
         try {
@@ -508,7 +521,7 @@ public class Customer_Management extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please select City", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-            ResultSet rs = MySQL.executeSearch("SELECT * FROM `customer` WHERE `nic` = '"+nic+"' OR `mobile` = '"+mobile+"'");
+                ResultSet rs = MySQL.executeSearch("SELECT * FROM `customer` WHERE `nic` = '" + nic + "' OR `mobile` = '" + mobile + "'");
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(this, "Customer is Already Exists", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
@@ -519,10 +532,10 @@ public class Customer_Management extends javax.swing.JPanel {
                     MySQL.executeIUD("INSERT INTO `customer`(`nic`,`fname`,`lname`,`mobile`,`registered_date`,`line1`,`line2`,`city_id`,`customer_status_id`,`gender_id`)"
                             + "VALUES('" + nic + "','" + fname + "','" + lname + "','" + mobile + "','" + sdf.format(date) + "','" + line1 + "','" + line2 + "',"
                             + "'" + city_Map.get(city) + "','" + Customer_status_Map.get(status) + "','" + gender_map.get(gender) + "')");
-                   
+
                     MySQL.executeIUD("INSERT INTO `notifications`(`title`,`date`,`departments_id`,`notification_status_id`)"
-                            + "VALUES('Customer Registered','"+sdf.format(date)+"','3','1') ");
-                    JOptionPane.showMessageDialog(this, "New customer registered - "+fname, "Sucess", JOptionPane.INFORMATION_MESSAGE);
+                            + "VALUES('Customer Registered','" + sdf.format(date) + "','3','1') ");
+                    JOptionPane.showMessageDialog(this, "New customer registered - " + fname, "Sucess", JOptionPane.INFORMATION_MESSAGE);
                     reset();
                 }
             } catch (Exception e) {
@@ -534,16 +547,16 @@ public class Customer_Management extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         home home = new home();
         Customer_Management customer_management = new Customer_Management();
-        loadCustomer customer = new loadCustomer(home, true,this);
+        loadCustomer customer = new loadCustomer(home, true, this);
         customer.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String fname = jTextField1.getText();
         String lname = jTextField2.getText();
         String mobile = jTextField6.getText();
-         String nic = jTextField4.getText();
+        String nic = jTextField4.getText();
         String gender = String.valueOf(jComboBox4.getSelectedItem());
         String status = String.valueOf(jComboBox3.getSelectedItem());
         String line1 = jTextField3.getText();
@@ -568,19 +581,20 @@ public class Customer_Management extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please select City", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-                 Date date = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    
-              MySQL.executeIUD("UPDATE `customer` SET `fname` = '"+fname+"',`lname` = '"+lname+"',"
-                      + "`mobile` = '"+mobile+"',`gender_id` = '"+gender_map.get(gender)+"',`customer_status_id` = '"+Customer_status_Map.get(status)+"',"
-                              + "`line1` = '"+line1+"',`line2` = '"+line2+"',`city_id` = '"+city_Map.get(city)+"' WHERE `nic` = '"+nic+"'");
-              
-                  MySQL.executeIUD("INSERT INTO `notifications`(`title`,`date`,`departments_id`,`notification_status_id`)"
-                            + "VALUES('Customer Registered','"+sdf.format(date)+"','3','1') ");
-              JOptionPane.showMessageDialog(this, "Customer Details Update Sucessful", "Sucess", JOptionPane.INFORMATION_MESSAGE);
-              jTextField4.setEditable(true);
-              jTextField1.grabFocus();
-              reset();
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                MySQL.executeIUD("UPDATE `customer` SET `fname` = '" + fname + "',`lname` = '" + lname + "',"
+                        + "`mobile` = '" + mobile + "',`gender_id` = '" + gender_map.get(gender) + "',`customer_status_id` = '" + Customer_status_Map.get(status) + "',"
+                        + "`line1` = '" + line1 + "',`line2` = '" + line2 + "',`city_id` = '" + city_Map.get(city) + "' WHERE `nic` = '" + nic + "'");
+
+                MySQL.executeIUD("INSERT INTO `notifications`(`title`,`date`,`departments_id`,`notification_status_id`)"
+                        + "VALUES('Customer Registered','" + sdf.format(date) + "','3','1') ");
+                JOptionPane.showMessageDialog(this, "Customer Details Update Sucessful", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+                jTextField4.setEditable(true);
+                jTextField1.grabFocus();
+                jButton1.setVisible(true);
+                reset();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -588,11 +602,11 @@ public class Customer_Management extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-       jTextField2.grabFocus();
+        jTextField2.grabFocus();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-       jTextField4.grabFocus();
+        jTextField4.grabFocus();
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -600,11 +614,11 @@ public class Customer_Management extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-jComboBox4.grabFocus();        // TODO add your handling code here:
+        jComboBox4.grabFocus();        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-       jComboBox3.grabFocus();
+        jComboBox3.grabFocus();
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
@@ -616,7 +630,7 @@ jComboBox4.grabFocus();        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-       jComboBox1.grabFocus();
+        jComboBox1.grabFocus();
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -626,7 +640,6 @@ jComboBox4.grabFocus();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -657,16 +670,16 @@ jComboBox4.grabFocus();        // TODO add your handling code here:
     // End of variables declaration//GEN-END:variables
 
     private void reset() {
-      jTextField1.setText(" ");
-         jTextField2.setText(" ");
+        jTextField1.setText(" ");
+        jTextField2.setText(" ");
         jTextField6.setText(" ");
-         jTextField4.setText(" ");
+        jTextField4.setText(" ");
         jComboBox4.setSelectedIndex(0);
-       jComboBox3.setSelectedIndex(0);
-      jTextField3.setText(" ");
+        jComboBox3.setSelectedIndex(0);
+        jTextField3.setText(" ");
         jTextField5.setText(" ");
-       jComboBox1.setSelectedIndex(0);
-       jTextField1.grabFocus();
+        jComboBox1.setSelectedIndex(0);
+        jTextField1.grabFocus();
 
     }
 }

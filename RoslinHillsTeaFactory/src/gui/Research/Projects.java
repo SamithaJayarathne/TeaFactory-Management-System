@@ -377,31 +377,35 @@ public class Projects extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
         String title = jTextField1.getText();
         String description = jTextArea1.getText();
         String status = jComboBox1.getSelectedItem().toString();
 
+// Validate Title
         if (title.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Title cannot be empty", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+// Validate Description
         if (description.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Description cannot be empty", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+// Validate Status Selection
         if (status.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Select Status", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+// Validate Dates
         if (dateStart.getDate() == null || dateEnd.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Please select both dates", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+// Validate Date Order
         if (dateEnd.getDate().before(dateStart.getDate())) {
             JOptionPane.showMessageDialog(this, "End date must be after start date", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
@@ -413,6 +417,7 @@ public class Projects extends javax.swing.JPanel {
             String endDate = sdf.format(dateEnd.getDate());
             int statusId = statusMap.get(jComboBox1.getSelectedItem().toString());
 
+            // Insert project into database
             MySQL.executeIUD("INSERT INTO rs_projects (title, description, s_date, end_date, rs_status_id) "
                     + "VALUES ('" + title + "','" + description + "','" + startDate + "','" + endDate + "'," + statusId + ")");
 
@@ -422,6 +427,7 @@ public class Projects extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error saving project: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -508,7 +514,7 @@ public class Projects extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
+
         try {
             InputStream path = this.getClass().getResourceAsStream("/reports/R&D/projects.jasper");
             if (path == null) {
@@ -530,7 +536,7 @@ public class Projects extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
 

@@ -322,28 +322,22 @@ public class DatabaseReport extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Connection connection = null;
         try {
-            // Get the report file path
             InputStream path = this.getClass().getResourceAsStream("/reports/Sales/Customer_report.jasper");
             if (path == null) {
                 throw new IllegalArgumentException("Report file not found at the specified path.");
             }
 
-            // Create an empty parameter map
             HashMap<String, Object> parameters = new HashMap<>();
 
-            // Establish database connection
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/teafactorydb", "root", "mr3175SAM@");
 
-            // Fill the report
             JasperPrint report = JasperFillManager.fillReport(path, parameters, connection);
 
-            // View the report
             JasperViewer.viewReport(report, false);
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // Ensure the connection is closed
             if (connection != null) {
                 try {
                     connection.close();

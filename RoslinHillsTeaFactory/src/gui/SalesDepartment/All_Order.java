@@ -67,7 +67,7 @@ public class All_Order extends javax.swing.JPanel {
             if (jComboBox1.getSelectedItem() != null) {
 
                 if (whereadded) {
-                    query += " AND `" + column + "` IS NOT NULL";  // You can add a filter if needed
+                    query += " AND `" + column + "` IS NOT NULL";  
                 }
                 query += " ORDER BY `" + column + "` " + orderby;
             }

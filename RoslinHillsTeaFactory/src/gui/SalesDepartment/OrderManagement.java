@@ -91,6 +91,7 @@ public class OrderManagement extends javax.swing.JPanel {
         jTextField3.putClientProperty("JComponent.roundRect", true);
         jTextField5.putClientProperty("JComponent.roundRect", true);
         jTextField4.putClientProperty("JComponent.roundRect", true);
+        jFormattedTextField3.putClientProperty("JComponent.roundRect", true);
 
         jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 25");
         jButton3.putClientProperty("JButton.buttonType", "roundRect");
@@ -135,6 +136,8 @@ public class OrderManagement extends javax.swing.JPanel {
 
     }
 
+    
+    
     public JTextField getProductName() {
         return jTextField2;
 
@@ -219,13 +222,14 @@ public class OrderManagement extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1250, 585));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)));
+
+        jTextField1.setFont(new java.awt.Font("0KDBOLIDDA", 1, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel3.setText("CUSTOMER NIC");
@@ -243,10 +247,12 @@ public class OrderManagement extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel1.setText("PRODUCT NAME");
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("0KDBOLIDDA", 1, 14)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel6.setText("PRODUCT CATEGORY");
+
+        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 204), 1, true));
@@ -319,6 +325,8 @@ public class OrderManagement extends javax.swing.JPanel {
 
         jLabel4.setText("ID");
 
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
         jButton5.setBackground(new java.awt.Color(153, 0, 204));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
@@ -331,6 +339,8 @@ public class OrderManagement extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel2.setText("ORDER ID");
+
+        jTextField5.setFont(new java.awt.Font("0KDBOLIDDA", 1, 14)); // NOI18N
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
@@ -442,13 +452,6 @@ public class OrderManagement extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/back_17216000 (1).png"))); // NOI18N
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Place Order");
@@ -460,9 +463,7 @@ public class OrderManagement extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 515, Short.MAX_VALUE)
+                .addContainerGap(553, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addGap(539, 539, 539)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -471,10 +472,6 @@ public class OrderManagement extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -516,7 +513,6 @@ public class OrderManagement extends javax.swing.JPanel {
         home home = new home();
         if (jTextField1.getText().isEmpty()) {
 
-//        OrderManagement order = new OrderManagement();
             order_Map = new HashMap<>();
             OrderCustomer customer2 = new OrderCustomer(home, true, this);
             customer2.setVisible(true);
@@ -525,7 +521,6 @@ public class OrderManagement extends javax.swing.JPanel {
             if (response == JOptionPane.YES_OPTION) {
                 reset();
                 order_Map = new HashMap<>();
-//        OrderManagement order = new OrderManagement();
                 loadCustomer customer2 = new loadCustomer(home, true, this);
                 customer2.setVisible(true);
             }
@@ -677,7 +672,6 @@ public class OrderManagement extends javax.swing.JPanel {
 
 //         System.out.println(percentageAdvance);
         }
-        //email Sending
         String customerNic = jTextField1.getText();
         Double finalTotal = Double.parseDouble(total);
         Double percentageAdvance = (finalTotal / 100) * 30;
@@ -697,7 +691,7 @@ public class OrderManagement extends javax.swing.JPanel {
                     String to2 = "kavindarashmika508@gmail.com";
                     String host = "smtp.gmail.com";
                     final String username = to2;
-                    final String password = "qplg semu alwa ouae"; // Use an App Password if you're using Gmail
+                    final String password = "qplg semu alwa ouae"; 
 
                     Properties properties = new Properties();
                     properties.put("mail.smtp.auth", "true");
@@ -773,16 +767,6 @@ public class OrderManagement extends javax.swing.JPanel {
 
     public void backFunction() {
     }
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        OrderManagement OM = new OrderManagement();
-
-        OM.remove(this); // Remove panel
-        OM.revalidate();          // Refresh layout
-        OM.repaint();
-
-
-    }//GEN-LAST:event_jLabel5MouseClicked
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         reset();
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -804,7 +788,6 @@ public class OrderManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
