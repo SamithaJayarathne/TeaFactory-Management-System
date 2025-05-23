@@ -13,24 +13,24 @@ import model.MySQL;
  *
  * @author Kavindu Anupama
  */
-public class SelectEmployees extends javax.swing.JDialog {
+public class SelectEmployees2 extends javax.swing.JDialog {
 
     private String query;
     private static BatchQuality TeaBatch;
     private static ProductQuality productQuality;
-    private SelectEmployees batch;
+    private SelectEmployees2 batch;
 
-    public void setBatches(SelectEmployees batch) {
+    public void setBatches(SelectEmployees2 batch) {
         this.batch = batch;
     }
     
     
 
-    public SelectEmployees(java.awt.Frame parent, boolean modal, JPanel jpanel) {
+    public SelectEmployees2(java.awt.Frame parent, boolean modal, JPanel jpanel) {
         super(parent, modal);
         initComponents();
-        SelectEmployees.TeaBatch = (BatchQuality) jpanel;
-//        SelectEmployees.productQuality = (ProductQuality) jpanel;
+        
+        SelectEmployees2.productQuality = (ProductQuality) jpanel;
 
         loadBatches();
     }
@@ -166,14 +166,20 @@ public class SelectEmployees extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectEmployees2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectEmployees2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectEmployees2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectEmployees2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
         //</editor-fold>
 
         //</editor-fold>

@@ -13,23 +13,22 @@ import model.MySQL;
  *
  * @author Kavindu Anupama
  */
-public class SelectEmployees extends javax.swing.JDialog {
+public class SelectBatchQuality extends javax.swing.JDialog {
 
-    private String process, query;
-    private SelectEmployees batch;
+    private String query;
     private static BatchQuality TeaBatch;
-    private static Rolling TeaBatch2;
-    private static Oxidation TeaBatch3;
-    private static Drying TeaBatch4;
+    private static ProductQuality productQuality;
+    private SelectBatchQuality batch;
 
-    public void setBatches(SelectEmployees batch) {
+    public void setBatches(SelectBatchQuality batch) {
         this.batch = batch;
     }
 
-    public SelectEmployees(java.awt.Frame parent, boolean modal, JPanel jpanel) {
+    public SelectBatchQuality(java.awt.Frame parent, boolean modal, JPanel jpanel) {
         super(parent, modal);
         initComponents();
-        this.TeaBatch = (BatchQuality) jpanel;
+        SelectBatchQuality.productQuality = (ProductQuality) jpanel;
+//        SelectEmployees.productQuality = (ProductQuality) jpanel;
 
         loadBatches();
     }
@@ -38,7 +37,7 @@ public class SelectEmployees extends javax.swing.JDialog {
 
         try {
 
-            query = "SELECT * FROM employees INNER JOIN gender ON gender.id=employees.gender_id WHERE employees.departments_id = '6';";
+            query = "SELECT * FROM quality_control";
 
             ResultSet rs = MySQL.executeSearch(query);
 
@@ -56,11 +55,11 @@ public class SelectEmployees extends javax.swing.JDialog {
 
             while (rs.next()) {
                 Vector<String> vector = new Vector();
-                vector.add(rs.getString("employees.nic"));
-                vector.add(rs.getString("employees.fname"));
-                vector.add(rs.getString("employees.lname"));
-                vector.add(rs.getString("employees.job_title"));
-                vector.add(rs.getString("gender.name"));
+                vector.add(rs.getString("id"));
+                vector.add(rs.getString("date"));
+                vector.add(rs.getString("quality_grade"));
+                vector.add(rs.getString("taste_evaluation"));
+                vector.add(rs.getString("tea_batch_id"));
 
                 model.addRow(vector);
             }
@@ -85,7 +84,7 @@ public class SelectEmployees extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Employee NIC", "First  Name", "Last  Name", "Job Title", "Gender"
+                "ID", "Date", "Quality grade", "Taste evaluation", "Tea Batch ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -136,9 +135,10 @@ public class SelectEmployees extends javax.swing.JDialog {
         int row = jTable5.getSelectedRow();
 
         if (evt.getClickCount() == 2) {
-            if (TeaBatch != null) {
-                TeaBatch.getjTextField3().setText(String.valueOf(jTable5.getValueAt(row, 0)));
+            if (productQuality != null) {
+                productQuality.getjTextField2().setText(String.valueOf(jTable5.getValueAt(row, 0)));
                 this.dispose();
+
             }
         }
 
@@ -161,20 +161,22 @@ public class SelectEmployees extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectBatchQuality.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectBatchQuality.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectBatchQuality.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SelectEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectBatchQuality.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         //</editor-fold>
-
         //</editor-fold>
-
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
