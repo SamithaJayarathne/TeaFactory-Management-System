@@ -37,6 +37,8 @@ public class NotificationsNew extends javax.swing.JDialog {
             if (!LoggedUser.getDepartment().equals("Administrator")) {
                 query += "AND departments.name = '" + LoggedUser.getDepartment() + "' ";
             }
+            
+            query+="ORDER BY notifications.date DESC";
 
             ResultSet rs = MySQL.executeSearch(query);
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();

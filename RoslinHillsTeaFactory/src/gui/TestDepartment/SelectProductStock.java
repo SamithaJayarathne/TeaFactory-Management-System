@@ -13,23 +13,22 @@ import model.MySQL;
  *
  * @author Kavindu Anupama
  */
-public class TeaBatchesForApsara extends javax.swing.JDialog {
+public class SelectProductStock extends javax.swing.JDialog {
 
-    private String process, query;
-    private TeaBatchesForApsara batch;
+    private String query;
     private static BatchQuality TeaBatch;
-    private static Rolling TeaBatch2;
-    private static Oxidation TeaBatch3;
-    private static Drying TeaBatch4;
+    private static ProductQuality productQuality;
+    private SelectProductStock batch;
 
-    public void setBatches(TeaBatchesForApsara batch) {
+    public void setBatches(SelectProductStock batch) {
         this.batch = batch;
     }
 
-    public TeaBatchesForApsara(java.awt.Frame parent, boolean modal, JPanel jpanel) {
+    public SelectProductStock(java.awt.Frame parent, boolean modal, JPanel jpanel) {
         super(parent, modal);
         initComponents();
-        this.TeaBatch = (BatchQuality) jpanel;
+        SelectProductStock.productQuality = (ProductQuality) jpanel;
+//        SelectEmployees.productQuality = (ProductQuality) jpanel;
 
         loadBatches();
     }
@@ -38,9 +37,7 @@ public class TeaBatchesForApsara extends javax.swing.JDialog {
 
         try {
 
-            query = "SELECT * FROM `tea_batch` "
-                    + "INNER JOIN `grades` ON `tea_batch`.`grades_id` = `grades`.`id` "
-                    + "INNER JOIN `production_status` ON `tea_batch`.`production_status_id` = `production_status`.`id` ";
+            query = "SELECT * FROM product_stock INNER JOIN products ON products.id=product_stock.products_id";
 
             ResultSet rs = MySQL.executeSearch(query);
 
@@ -58,11 +55,12 @@ public class TeaBatchesForApsara extends javax.swing.JDialog {
 
             while (rs.next()) {
                 Vector<String> vector = new Vector();
-                vector.add(rs.getString("id"));
-                vector.add(rs.getString("production_date"));
-                vector.add(rs.getString("qty_start"));
-                vector.add(rs.getString("grades.name"));
-                vector.add(rs.getString("production_status.name"));
+                vector.add(rs.getString("product_stock.id"));
+                vector.add(rs.getString("products.title"));
+                vector.add(rs.getString("product_stock.price"));
+                vector.add(rs.getString("product_stock.qty"));
+                vector.add(rs.getString("product_stock.mfd"));
+                vector.add(rs.getString("product_stock.exp"));
 
                 model.addRow(vector);
             }
@@ -87,11 +85,11 @@ public class TeaBatchesForApsara extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Batch ID", "Produced Date", "Quantity", "Grade", "Undergoing Process"
+                "ID", "Title", "Price", "Quantity", "MFD", "EXP"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -110,6 +108,7 @@ public class TeaBatchesForApsara extends javax.swing.JDialog {
             jTable5.getColumnModel().getColumn(2).setResizable(false);
             jTable5.getColumnModel().getColumn(3).setResizable(false);
             jTable5.getColumnModel().getColumn(4).setResizable(false);
+            jTable5.getColumnModel().getColumn(5).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -118,7 +117,7 @@ public class TeaBatchesForApsara extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -138,9 +137,10 @@ public class TeaBatchesForApsara extends javax.swing.JDialog {
         int row = jTable5.getSelectedRow();
 
         if (evt.getClickCount() == 2) {
-            if (TeaBatch != null) {
-                TeaBatch.getjTextField2().setText(String.valueOf(jTable5.getValueAt(row, 0)));
+            if (productQuality != null) {
+                productQuality.getjTextField4().setText(String.valueOf(jTable5.getValueAt(row, 0)));
                 this.dispose();
+
             }
         }
 
@@ -163,16 +163,32 @@ public class TeaBatchesForApsara extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TeaBatchesForApsara.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectProductStock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TeaBatchesForApsara.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectProductStock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TeaBatchesForApsara.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectProductStock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TeaBatchesForApsara.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectProductStock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        //</editor-fold>
+
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */

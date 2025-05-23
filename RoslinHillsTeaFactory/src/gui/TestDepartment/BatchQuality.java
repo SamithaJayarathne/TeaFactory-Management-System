@@ -622,6 +622,8 @@ public class BatchQuality extends javax.swing.JPanel {
         SelectEmployees ap = new SelectEmployees(new home(), true, this);
         ap.setVisible(true);
         ap.setBatches(ap);
+
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
 

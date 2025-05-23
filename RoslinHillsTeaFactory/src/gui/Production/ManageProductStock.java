@@ -146,7 +146,7 @@ public class ManageProductStock extends javax.swing.JPanel {
             ResultSet rs = MySQL.executeSearch("SELECT * FROM `raw_materials_stock` "
                     + "INNER JOIN `raw_materials` ON `raw_materials_stock`.`raw_materials_material_id`=`raw_materials`.`material_id` "
                     + "INNER JOIN `material_type` ON `raw_materials`.`material_type_id`=`material_type`.`id` "
-                    + "WHERE `grades_id` IS NULL ORDER BY `raw_materials`.`material_id` ASC");
+                    + "ORDER BY `raw_materials`.`material_id` ASC");
 
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0);
